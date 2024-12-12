@@ -1,0 +1,49 @@
+body{
+    background-image: url("../img/paper_bg.jpg");
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    height: 50%;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.faj-container{
+    padding: 2rem;
+    transform: scale(100%);
+    transition: 0.7s ease;
+}
+
+.faj-container:hover{
+    padding: 2rem;
+    transform: scale(105%);
+    transition: 0.7s ease;
+}
+
+.faj-img{
+    border-radius: 1rem;
+    width: 100%;
+}
+
+.cim{
+    text-align: center;
+    font-size: larger;
+}
+
+.leiras{
+    text-align: center;
+    line-height: 1.2;
+    font-size: medium;
+}
+
+hr{
+    height: 2px;
+    width: 100%;
+    background-color: #333;
+    border: none;
+}
