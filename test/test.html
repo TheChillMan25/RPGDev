@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+    <link rel="icon" href="../img/icon.png" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="test.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Modern+Antiqua&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="navbar">
+      <div id="navbar-mobile">
+        <a class="index-link" href="../index.html"
+          ><img src="../img/logo.png" alt="Index oldalra"
+        /></a>
+        <p id="m-author">Ágas és Bogas</p>
+        <div id="mobile-menu">
+          <img src="../img/mobile_menu.png" alt="Menü" />
+          <div id="mobile-menu-container">
+            <a class="navbar-link" href="fajok.html"><span>Fajok</span></a>
+            <a class="navbar-link" href="fajok.html"><span>Szerepek</span></a>
+            <a class="navbar-link" href="test.html"><span>Térkép</span></a>
+          </div>
+        </div>
+      </div>
+      <div id="navbar-links">
+        <a class="index-link" href="../index.html"
+          ><img src="../img/logo.png" alt="Index oldalra"
+        /></a>
+        <a class="navbar-link" href="fajok.html">Fajok</a>
+        <a class="navbar-link" href="fajok.html">Szerepek</a>
+        <a class="navbar-link" href="test.html">Térkép</a>
+      </div>
+      <p id="author">Ágas és Bogas</p>
+    </div>
+    <div class="page">
+      <div id="infoText">
+        A térképen a területekre kattintva el tudod olvasni azok leírását.
+      </div>
+      <div id="imageContainer">
+        <img
+          src="../img/map_test.jpg"
+          usemap="#pelda-map"
+          id="test-map-img"
+          alt="Példa Térkép"
+        />
+        <map name="pelda-map">
+          <area
+            target=""
+            alt="Elso terulet"
+            title="Elso terulet"
+            data-target="infoDiv"
+            href="#"
+            coords="191,295,286,444,301,543,239,566,273,653,383,688,344,807,391,905,498,883,539,934,625,846,747,931,802,800,790,741,844,678,837,575,800,490,702,317,671,366,590,288,498,270,461,320,405,346,354,349,337,320,286,324,245,326"
+            shape="poly"
+          />
+          <area
+            target=""
+            alt="Masodik terulet"
+            title="Masodik terulet"
+            data-target="infoDiv2"
+            href="#"
+            coords="844,479,892,277,968,207,1049,221,1078,158,1004,165,954,140,958,114,1083,107,1102,135,1163,109,1095,11,1049,29,990,16,942,45,902,85,785,18,717,45,585,48,549,92,552,181,630,183,723,231,773,242,732,317,767,402"
+            shape="poly"
+          />
+          <area
+            target=""
+            alt="Harmadik terulet"
+            title="Harmadik terulet"
+            data-target="infoDiv3"
+            href="#"
+            coords="895,600,908,669,934,678,944,711,924,732,901,730,888,756,895,796,862,817,839,774,869,739,883,691,879,621"
+            shape="poly"
+          />
+          <area
+            target=""
+            alt="Negyedik terulet"
+            title="Negyedik terulet"
+            data-target="infoDiv4"
+            href=""
+            coords="1010,248,1130,341,1297,244,1515,307,1561,344,1565,444,1614,507,1702,558,1690,873,1643,861,1621,773,1521,765,1539,856,1497,894,1443,765,1398,756,1302,831,1281,805,1307,749,1183,739,1205,660,1173,643,988,685,925,615,903,322"
+            shape="poly"
+          />
+        </map>
+      </div>
+
+      <div class="info" id="infoDiv">
+        <img src="../img/folyokoz_tmp.jpg" alt="Folyóköz" />
+        <div class="text-container">
+          <p class="cim">Elso terulet</p>
+          <hr />
+          <p class="leiras">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt
+            non nulla sapiente dolore. Qui veritatis quis voluptas? Eaque
+            veritatis ipsa, reprehenderit consequatur assumenda rerum iusto
+            laboriosam dolorum eveniet fugiat hic?
+          </p>
+        </div>
+      </div>
+
+      <div class="info" id="infoDiv2">
+        <img src="../img/folyokoz_tmp.jpg" alt="Folyóköz" />
+        <div class="text-container">
+          <p class="cim">Masodik terulet</p>
+          <hr />
+          <p class="leiras">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt
+            non nulla sapiente dolore. Qui veritatis quis voluptas? Eaque
+            veritatis ipsa, reprehenderit consequatur assumenda rerum iusto
+            laboriosam dolorum eveniet fugiat hic?
+          </p>
+        </div>
+      </div>
+
+      <div class="info" id="infoDiv3">
+        <img src="../img/folyokoz_tmp.jpg" alt="Folyóköz" />
+        <div class="text-container">
+          <p class="cim">Harmadik terulet</p>
+          <hr />
+          <p class="leiras">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt
+            non nulla sapiente dolore. Qui veritatis quis voluptas? Eaque
+            veritatis ipsa, reprehenderit consequatur assumenda rerum iusto
+            laboriosam dolorum eveniet fugiat hic?
+          </p>
+        </div>
+      </div>
+
+      <div class="info" id="infoDiv4">
+        <img src="../img/folyokoz_tmp.jpg" alt="Folyóköz" />
+        <div class="text-container">
+          <p class="cim">Negyedik terulet</p>
+          <hr />
+          <p class="leiras">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt
+            non nulla sapiente dolore. Qui veritatis quis voluptas? Eaque
+            veritatis ipsa, reprehenderit consequatur assumenda rerum iusto
+            laboriosam dolorum eveniet fugiat hic?
+          </p>
+        </div>
+      </div>
+    </div>
+    <script src="../js/mobile-navbar.js"></script>
+    <script src="test.js"></script>
+  </body>
+</html>
