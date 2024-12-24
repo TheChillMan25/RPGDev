@@ -1,6 +1,5 @@
 body {
   background-image: url(../img/paper_bg.jpg);
-  height: 98vh;
 }
 
 .page {
@@ -11,6 +10,7 @@ body {
 }
 
 #imageContainer {
+  justify-content: center;
   max-width: 70%;
   z-index: 1;
 }
