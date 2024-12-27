@@ -4,27 +4,25 @@ function showDescription(event) {
   event.preventDefault(); //Link alapértelmezett műküdésének megakadályozása
   const targetDivId = this.dataset.target;
   const targetDiv = document.getElementById(targetDivId);
+  const infoContainer = document.getElementById("info-container");
 
-  //maximális magasságot állítok be a leírásokra, se le nem lóg túl a képernyőn, se a navbar alá nem csúszik be
-  const navbar = document.getElementsByClassName("navbar")[0];
-  const newHeight = 100 - (navbar.offsetHeight / window.innerHeight) * 100;
-
-  //Ellenőrzés a leírások láthatóságára
-  if (targetDiv.classList.contains("visible")) {
-    //Ha ugyan arra a leírásra kattintunk, akkor elrejtjük
-    targetDiv.classList.remove("visible");
-  } else {
-    //Különben minden mást is elrejtünk, majd utólag megjelenítjük azt, ami kell
-    document.querySelectorAll(".info").forEach((div) => {
-      div.classList.remove("visible");
-    });
-    //Megjelenítjük azt ami kell
-    targetDiv.classList.add("visible");
-    if (window.innerWidth >= 768) {
-      targetDiv.style.height = newHeight + "vh";
-    }
-  }
+  //Különben minden mást is elrejtünk, majd utólag megjelenítjük azt, ami kell
+  document.querySelectorAll(".info").forEach((div) => {
+    div.classList.remove("visible");
+  });
+  //Megjelenítjük azt ami kell
+  infoContainer.style.display = "flex";
+  targetDiv.classList.add("visible");
 }
+
+function closeDescription() {
+  const infoContainer = document.getElementById("info-container");
+  infoContainer.style.display = "none";
+}
+
+document
+  .getElementById("info-container")
+  .addEventListener("click", closeDescription);
 
 document.querySelectorAll('map[name="pelda-map"] area').forEach((area) => {
   area.addEventListener("click", showDescription);

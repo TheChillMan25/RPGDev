@@ -6,7 +6,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .index-text {
@@ -16,7 +15,7 @@ body {
   flex-direction: column;
   justify-content: center;
   color: whitesmoke;
-  text-shadow: 0.13rem 0.13rem 0.13rem black;
+  text-shadow: 0.15rem 0.15rem 0.15rem black;
   font-size: x-large;
 }
 

@@ -1,75 +1,70 @@
-body{
-    background-image: url(../img/paper_bg.jpg);
+body {
+  background-image: url(../img/paper_bg.jpg);
 }
 
-.page{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    padding-top: 5rem;
+.page {
+  flex-direction: column;
+  justify-content: start;
 }
 
-.faj-container{
-    margin: .3rem 0rem;
-    height: 33%;
-    width: 100%;
-    display: flex;
-    align-items: center;
+.faj-container {
+  margin: 0.3rem 0rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
-.faj-img-container{
-    padding: 2rem;
-    height: 100%;
-    width: 20%;
+.faj-img-container {
+  padding: 2rem;
+  height: 100%;
+  width: 20%;
 }
 
-.faj-img{
-    width: 100%;
-    border-radius: 1rem;
+.faj-img {
+  width: 100%;
+  border-radius: 1rem;
 }
 
-.faj-txt{
-    display: flex;
-    flex-direction: column;
-    padding: .5rem;
-    height: 100%;
-    width: 70%;
+.faj-txt {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  height: 100%;
+  width: 70%;
 }
 
-.nep-nev{
-    margin: 0;
-    font-size: xx-large;
+.nep-nev {
+  margin: 0;
+  font-size: xx-large;
 }
 
-hr{
-    height: 2px;
-    width: 100%;
-    background-color: #333;
-    border: none;
+hr {
+  height: 2px;
+  width: 100%;
+  background-color: #333;
+  border: none;
 }
 
-.leiras{
-    line-height: 1.8;
-    font-size: larger;
+.leiras {
+  line-height: 1.8;
+  font-size: larger;
 }
 
 @media (max-width: 768px) {
-    .faj-container{
-        flex-direction: column;
-    }
+  .faj-container {
+    flex-direction: column;
+  }
 
-    .faj-img-container{
-        display: flex;
-        justify-content: center;
-        padding: 2rem;
-        height: 20rem;
-        width: 60%;
-    }
+  .faj-img-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    height: 20rem;
+    width: 60%;
+  }
 
-    #faj-img{
-        width: auto;
-        height: 100%;
-    }
-
+  #faj-img {
+    width: auto;
+    height: 100%;
+  }
 }
