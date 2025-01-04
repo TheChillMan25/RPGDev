@@ -28,7 +28,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 100;
+  z-index: 99;
 }
 
 #navbar-mobile {
@@ -98,20 +98,12 @@ body {
   display: none;
 }
 
-@media screen and (orientation: portrait) {
-  .navbar {
-    display: flex;
-  }
-
+@media screen and (orientation: portrait) and (max-width: 768px) {
   #navbar-mobile {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-
-  .index-link img {
-    max-width: 4rem;
   }
 
   .navbar-link {
@@ -124,27 +116,34 @@ body {
     display: none;
   }
 
-  #mobile-menu img {
-    height: 3rem;
+  #mobile-menu {
+    margin-right: 1rem;
   }
 
   #mobile-menu-container {
-    opacity: 0;
-    height: 10rem;
-    width: 10rem;
-    position: absolute;
-    top: 4rem;
-    right: 0%;
     display: none;
-    flex-direction: column;
-    background-color: #333;
-    justify-content: center;
+    justify-content: end;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    background-color: transparent;
     z-index: 100;
   }
 
   #mobile-menu-container.visible {
     display: flex;
-    opacity: 1;
+  }
+
+  #mobile-link-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 4rem;
+    background-color: #333;
+    width: 10rem;
+    height: 10rem;
   }
 
   .faj-csoport-link {
@@ -161,4 +160,7 @@ body {
   #author {
     display: none;
   }
+}
+
+@media screen and (orientation: landscape) and (max-height: 768px) {
 }

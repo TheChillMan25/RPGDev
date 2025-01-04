@@ -1,21 +1,39 @@
 body {
   background-image: url(../img/paper_bg.jpg);
 }
+
+#szerep-lista-m {
+  display: none;
+}
+
 #link-container {
+  display: flex;
   height: 100%;
-  width: 20%;
+  width: fit-content;
   background-color: #444;
 }
+
 #leiras-container {
   display: flex;
   justify-content: center;
   height: 100%;
   flex-grow: 1;
-  overflow: auto;
+  overflow-y: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#leiras-container::-webkit-scrollbar {
+  display: none;
 }
 
 li {
   list-style: none;
+}
+
+.doktrina {
+  list-style-type: decimal;
 }
 
 hr {
@@ -45,6 +63,7 @@ a {
 }
 
 .leiras {
+  display: none;
   max-height: 100%;
   width: 80%;
   flex-direction: column;
@@ -54,70 +73,85 @@ a {
   font-size: larger;
 }
 
-#vadaszok-klanja-leiras {
-  display: none;
-}
-
-#vadaszok-klanja-leiras.visible {
-  display: block;
-}
-
-#fajzatolok-leiras {
-  display: none;
-}
-
-#fajzatolok-leiras.visible {
-  display: block;
-}
-
-#boszorkanyvadaszok-leiras {
-  display: none;
-}
-
-#boszorkanyvadaszok-leiras.visible {
-  display: flex;
-}
-
-.doktrina {
-  list-style-type: decimal;
-}
-
-#homokjarok-leiras {
-  display: none;
-}
-
-#homokjarok-leiras.visible {
-  display: flex;
-}
-
-#rendek-leiras {
-  display: none;
-}
-
-#rendek-leiras.visible {
-  display: flex;
-}
-
-#korus-leiras {
-  display: none;
-}
-
-#korus-leiras.visible {
-  display: flex;
-}
-
-@media (max-width: 768px) {
+@media screen and (orientation: portrait) and (max-width: 768px) {
   #link-container {
     display: none;
+    position: absolute;
+    top: 4rem;
+    left: 0;
+  }
+
+  ul {
+    padding-inline-start: 0.3rem;
+  }
+
+  #szerep-lista-m {
+    display: flex;
+    position: absolute;
+    top: 4rem;
+    left: 0;
+    width: 2rem;
+    height: 3rem;
+  }
+
+  #szerep-lista {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    width: 2rem;
+    height: 3rem;
+    border-radius: 0rem 0rem 0.5rem 0rem;
+  }
+
+  #lista-toggle {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 4rem);
   }
 }
 
-@media (max-height: 768px) {
+@media screen and (orientation: landscape) and (max-height: 768px) {
   ul {
-    padding-inline-start: 1rem;
+    padding-inline-start: 0.3rem;
   }
 
   #link-container {
-    width: 30%;
+    display: none;
+    position: absolute;
+    top: 4rem;
+    left: 0;
+    height: calc(100% - 4rem);
+  }
+
+  #szerep-lista-m {
+    display: flex;
+    position: absolute;
+    top: 4rem;
+    left: 0;
+    width: 2rem;
+    height: 3rem;
+  }
+
+  #szerep-lista {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    width: 2rem;
+    height: 3rem;
+    border-radius: 0rem 0rem 0.5rem 0rem;
+  }
+
+  #lista-toggle {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 4rem);
   }
 }

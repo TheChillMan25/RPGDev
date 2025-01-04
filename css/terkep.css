@@ -61,7 +61,11 @@ body {
 
 hr {
   width: 90%;
-  margin: 0.5rem auto;
+  margin: 1rem auto;
+}
+
+.leiras {
+  margin-top: 0;
 }
 
 #infoText {
@@ -82,7 +86,6 @@ hr {
   .info {
     display: none;
     flex-direction: column;
-    padding: 1rem 1rem;
     text-align: center;
     bottom: 0;
     max-width: 100%;
@@ -94,18 +97,14 @@ hr {
     padding: 0.3rem;
     max-width: 50%;
   }
-
-  .cim {
-    margin-top: 0;
-  }
-
   #infoText {
     margin: 1rem;
     font-size: large;
     text-align: center;
   }
 }
-@media (max-height: 768px) {
+
+@media screen and (orientation: landscape) and (max-height: 768px) {
   #map-container {
     display: flex;
     flex-direction: column;
@@ -123,7 +122,6 @@ hr {
   .info {
     position: relative;
     flex-direction: column;
-    padding: 1rem 1rem;
     text-align: center;
     overflow-x: auto;
     align-self: end;

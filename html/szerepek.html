@@ -7,6 +7,10 @@
     <link rel="icon" href="../img/icon.png" />
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/szerepek.css" />
+    <script
+      src="https://kit.fontawesome.com/62786e1e62.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
 
   <body>
@@ -17,11 +21,13 @@
         /></a>
         <p id="m-author">Ágas és Bogas</p>
         <div id="mobile-menu">
-          <img src="../img/mobile_menu.png" alt="Menü" />
+          <i class="fa-solid fa-bars fa-2xl" style="color: #fff"></i>
           <div id="mobile-menu-container">
-            <a class="navbar-link" href="fajok.html">Fajok</a>
-            <a class="navbar-link" href="szerepek.html">Szerepek</a>
-            <a class="navbar-link" href="terkep.html">Térkép</a>
+            <div id="mobile-link-container">
+              <a class="navbar-link" href="fajok.html">Fajok</a>
+              <a class="navbar-link" href="szerepek.html">Szerepek</a>
+              <a class="navbar-link" href="terkep.html">Térkép</a>
+            </div>
           </div>
         </div>
       </div>
@@ -36,6 +42,12 @@
       <p id="author">Ágas és Bogas</p>
     </div>
     <div class="page">
+      <div id="szerep-lista-m">
+        <div id="szerep-lista">
+          <i class="fa-solid fa-caret-right fa-2xl" style="color: #ffffff"></i>
+          <div id="lista-toggle"></div>
+        </div>
+      </div>
       <div id="link-container">
         <ul id="class-list">
           <li class="klan">
@@ -68,7 +80,7 @@
         </ul>
       </div>
       <div id="leiras-container">
-        <div id="klanok-leiras" class="leiras">
+        <div id="klanok-leiras" class="leiras" style="display: flex">
           <h2>Klánok és Rendek</h2>
           <p>
             Az áradás megtörte az emberek által évezredek alatt felállított

@@ -7,17 +7,18 @@ function showDescription(event) {
   const main = document.getElementById("klanok-leiras");
 
   if (infoDiv !== null) {
-    if (infoDiv.classList.contains("visible")) {
-      infoDiv.classList.remove("visible");
+    if (infoDiv.style.display === "flex") {
+      infoDiv.style.display = "none";
     } else {
       document.querySelectorAll(".leiras").forEach((div) => {
-        div.classList.remove("visible");
+        div.style.display = "none";
       });
-      infoDiv.classList.add("visible");
+      infoDiv.scrollTop = 0;
+      infoDiv.style.display = "flex";
     }
     let seen = false;
     document.querySelectorAll(".leiras").forEach((div) => {
-      if (div.classList.contains("visible")) seen = true;
+      if (div.style.display !== "none") seen = true;
     });
     if (!seen) {
       main.style.display = "flex";
@@ -33,3 +34,26 @@ const clickableElements = classList.querySelectorAll(".click");
 clickableElements.forEach((element) => {
   element.addEventListener("click", showDescription);
 });
+
+function showLinks() {
+  if (window.innerWidth <= 768 || window.innerHeight <= 768) {
+    const linkList = document.getElementById("szerep-lista-m");
+    const linkToggle = document.getElementById("lista-toggle");
+    const linContainer = document.getElementById("link-container");
+    if (
+      linContainer.style.display === "none" ||
+      linContainer.style.display === ""
+    ) {
+      linkList.style.opacity = "0";
+      linkToggle.style.display = "flex";
+      linContainer.style.display = "flex";
+    } else {
+      linkList.style.opacity = "1";
+      linkToggle.style.display = "none";
+      linContainer.style.display = "none";
+    }
+  }
+}
+
+const linkList = document.getElementById("szerep-lista-m");
+linkList.addEventListener("click", showLinks);
