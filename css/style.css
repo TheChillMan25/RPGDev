@@ -27,7 +27,6 @@ body {
   background-color: #333;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   z-index: 99;
 }
 
@@ -35,7 +34,7 @@ body {
   display: none;
 }
 
-#navbar-links {
+#navbar-desktop {
   height: 100%;
   display: flex;
   align-items: center;
@@ -70,6 +69,33 @@ body {
   padding: 0rem 1.3rem;
   background-color: wheat;
   color: #333;
+}
+
+.username {
+  color: wheat;
+  font-size: x-large;
+  margin-right: 1rem;
+}
+
+.logger-btn {
+  margin-left: auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: wheat;
+  background-color: #444;
+}
+
+.pfp {
+  height: 80%;
+  border: 0.2rem solid #333;
+  border-radius: 50%;
 }
 
 #author {
@@ -112,7 +138,7 @@ body {
     align-items: center;
   }
 
-  #navbar-links {
+  #navbar-desktop {
     display: none;
   }
 
