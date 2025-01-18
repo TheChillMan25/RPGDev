@@ -2,6 +2,10 @@ body {
   background-image: url(../img/paper_bg.jpg);
 }
 
+.page {
+  color: #222;
+}
+
 #szerep-lista-m {
   display: none;
 }
@@ -59,7 +63,6 @@ hr {
 
 a {
   text-decoration: none;
-  color: wheat;
 }
 
 .leiras {

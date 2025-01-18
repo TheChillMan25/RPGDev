@@ -34,7 +34,7 @@ body {
   flex-direction: column;
   padding: 0 1rem;
   background-color: #444;
-  color: wheat;
+
   text-align: center;
   position: absolute;
   left: 0%;
@@ -69,7 +69,8 @@ hr {
 }
 
 #infoText {
-  font-size: larger;
+  font-size: x-large;
+  color: #333;
 }
 
 @media (max-width: 768px) {

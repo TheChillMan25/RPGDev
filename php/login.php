@@ -1,5 +1,5 @@
 <?php
-include 'manager.php';
+include 'scripts/manager.php';
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   $conn = connectToDB();
 
@@ -23,11 +23,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     exit();
   }
   
-}
-
-function error($msg){
-  $error_msg = "<span id='error_msg'>$msg</span>"; 
-  echo $error_msg;
 }
 ?>
 <!DOCTYPE html>
@@ -64,5 +59,6 @@ function error($msg){
       </div>
       <a href="register.php" id="to-index">Nincs még fiókom</a>
     </div>
+    <script src="../js/menus.js"></script>
   </body>
 </html>

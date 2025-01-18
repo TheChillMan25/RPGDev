@@ -1,5 +1,5 @@
 <?php
-include 'manager.php';
+include 'scripts/manager.php';
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $conn = connectToDB();
@@ -17,26 +17,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         error("A felhasználónév már foglalt!");
     } else if(strlen($username) > 16){
         error("A felhasználónév maximum 16 karakter lehet!");
-    } else if($password !== $_POST['c-password']){
-        error("A két jelszó nem egyezik!");
     } else if(strlen($password) < 8){
         error("A jelszó minimum 8 karakter hosszú kell legyen!");
-    }
+    } else if($password !== $_POST['c-password']){
+        error("A két jelszó nem egyezik!");
+    } 
     else if(checkExistingData($conn, 'email', $email)){
         error("Az email cím már foglalt!");
     } else{
       insertUserData($conn, $username, $email, $password);
+      header("Location: login.php");
+      exit();
     }
-
-    header("Location: login.php");
-    exit();
-
-}
-
-function error($msg){
-    $error_msg = "<span id='error_msg'>$msg</span>"; 
-    echo $error_msg;
-    exit();
 }
 
 ?>

@@ -1,25 +1,19 @@
 <?php
-/* $host="localhost";
-$user="root";
-$password="";
-$dbname="RPG_DB";
+$host = "localhost";
+$user = "root";
+$password = "";
+$dbname = "RPG_DB";
 
-$conn = new mysqli($host, $user, $password, $dbname);
+$conn = new mysqli($host, $user, $password);
 if (!$conn) {
   echo "An error occurred.\n";
-  die("Error in connection: " . pg_last_error());
-}
-else {
-  echo "Connected to the database.\n";
-} */
-
-/* $sql = "ALTER TABLE USERS ADD COLUMN pfp VARCHAR(255)";
-if ($conn->query($sql) === TRUE) {
-  echo "Column added successfully\n";
+  die("Error in connection: " . $conn->error);
 } else {
-  echo "Error adding column: " . $conn->error;
-} */
-/*
+  echo "Connected to the database.\n";
+}
+
+
+
 $sql = "CREATE DATABASE RPG_DB";
 if ($conn->query($sql) === TRUE) {
   echo "Database created successfully\n";
@@ -27,11 +21,20 @@ if ($conn->query($sql) === TRUE) {
   echo "Error creating database: " . $conn->error;
 }
 
-if($conn->query("USE RPG_DB")){
+if ($conn->query("USE RPG_DB")) {
   echo "Database changed successfully\n";
 } else {
   echo "Error changing database: " . $conn->error;
 }
+
+/* $conn = new mysqli($host, $user, $password, $dbname);
+if (!$conn) {
+  echo "An error occurred.\n";
+  die("Error in connection: " . $conn->error);
+}
+else {
+  echo "Connected to the database.\n";
+}*/
 
 $sql = "CREATE TABLE Users (
   id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -78,20 +81,38 @@ if ($conn->query($sql) === TRUE) {
   echo "Error creating table: " . $conn->error;
 }
 
-$conn->close(); */
+$sql = 'CREATE TABLE Stat_modifiers (
+  id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  stat_id INT(6) UNSIGNED UNIQUE,
+  strength_mod INT(3) UNSIGNED NOT NULL,
+  dexterity_mod INT(3) UNSIGNED NOT NULL,
+  endurance_mod INT(3) UNSIGNED NOT NULL,
+  intelligence_mod INT(3) UNSIGNED NOT NULL,
+  charisma_mod INT(3) UNSIGNED NOT NULL,
+  willpower_mod INT(3) UNSIGNED NOT NULL,
+  FOREIGN KEY (stat_id) REFERENCES Character_stats(id))';
 
-function delete(){
+if ($conn->query($sql) === TRUE) {
+  echo "Table Stat_modifiers created successfully\n";
+} else {
+  echo "Error creating table: " . $conn->error;
+}
+
+$conn->close();
+
+/* function delete()
+{
   $conn = connectToDB();
 
-$sql = "DELETE FROM Users";
-if ($conn->query($sql) === TRUE) {
+  $sql = "DELETE FROM Users";
+  if ($conn->query($sql) === TRUE) {
     echo "All data deleted from Users table.\n";
-} else {
+  } else {
     echo "Data deletion failed.\n";
     die("Error in data deletion.\n" . $conn->error);
-}
-$conn->close();
-}
+  }
+  $conn->close();
+} */
 
 //delete();
 ?>

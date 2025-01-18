@@ -1,0 +1,330 @@
+<?php
+//-----------------------------------------------------------------------------------
+//--------------------Database connection functions----------------------------------
+/**
+ * Connect to the database.
+ * Returns connection data.
+ * @return MySQL\Connection|false - the connection to the database
+ */
+function connectToDB()
+{
+    $conn = new mysqli('localhost', 'root', null, 'RPG_DB');
+    if (!$conn) {
+        echo "Connection failed.\n";
+        die("Error in connection: " . $conn->connect_error);
+    }
+    return $conn;
+}
+
+/**
+ * Closes connection to the database.
+ */
+function closeConnection($conn)
+{
+    $conn->close();
+}
+//-----------------------------------------------------------------------------------
+//--------------------Database management functions----------------------------------
+/**
+ * Check if the given data already exists in the database.
+ * @param $conn - the connection to the database
+ * @param $type - the type of the data (username, email)
+ * @param $data - the data to check (username, email)
+ * @return bool - true if the data does not exist, false otherwise
+ */
+function checkExistingData($conn, $type, $data)
+{
+    if ($type === 'username') {
+        $sql = "SELECT username FROM Users";
+        $result = $conn->query($sql);
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                if ($row['username'] === $data) {
+                    return true;
+                }
+            }
+        }
+    } else if ($type === 'email') {
+        $sql = "SELECT email FROM Users";
+        $result = $conn->query($sql);
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                if ($row['email'] === $data) {
+                    return true;
+                }
+            }
+        }
+    } else {
+        return false;
+    }
+}
+
+/**
+ * @param $conn - the connection to the database
+ * @param $username - the username of the user
+ * @param $password - the password of the user
+ * @return bool - true if the password is correct, false otherwise
+ */
+function checkPsw($conn, $username, $password)
+{
+    $sql = "SELECT password FROM Users WHERE username='$username'";
+    $result = $conn->query($sql);
+    if ($result) {
+        $row = $result->fetch_assoc();
+        return password_verify($password, $row['password']);
+    }
+}
+//12345678
+/**
+ * Reset the ID counter of the database.
+ * @param $conn - the connection to the database
+ */
+function resetIDCounter($conn)
+{
+    $sql = 'ALTER TABLE Users AUTO_INCREMENT = 1;';
+    $result = $conn->query($sql);
+    if ($result) {
+        echo "Resetted id counter.\n";
+    } else {
+        echo "ID counter reset failed: " . $conn->error . "\n";
+    }
+}
+
+/**
+ * Insert data into the database.
+ * @param $conn - the connection to the database
+ * @param $username - the username of the user
+ * @param $email - the email of the user
+ * @param $password - the password of the user
+ */
+function insertUserData($conn, $username, $email, $password)
+{
+    $password = password_hash($password, PASSWORD_DEFAULT);
+    $sql = "INSERT INTO Users (username, email, password, pfp) VALUES ('$username', '$email', '$password', '../img/pfp/blank.png')";
+    if ($conn->query($sql) === FALSE) {
+        die("Error in user data insertion.\n" . $conn->error);
+    }
+}
+
+/**
+ * Get the ID of the user.
+ * @param $conn - the connection to the database
+ * @param $username - the username of the user
+ */
+function getUserData($conn, $username)
+{
+    $sql = "SELECT id, username, email, pfp FROM Users WHERE username='$username'";
+    $result = $conn->query($sql);
+    if ($result) {
+        $row = $result->fetch_assoc();
+        return $row;
+    }
+}
+
+/**
+ * @param $conn - the connection to the database
+ * @param $new_name - the new username of the user
+ * @param $new_email - the new email of the user
+ * @param $new_psw - the new password of the user
+ * @return bool - returns true if the data update was successful, false otherwise
+ */
+function updateUserData($conn, $new_name, $new_email)
+{
+    $user_data = getUserData($conn, $_SESSION['username']);
+    if (!$new_name && !$new_email) {
+        return false; // Return false if both are empty
+    }
+
+    $updates = [];
+    if ($new_name) {
+        $updates[] = "username = '$new_name'";
+    }
+    if ($new_email) {
+        $updates[] = "email = '$new_email'";
+    }
+
+    if (!empty($updates)) {
+        $sql = "UPDATE Users SET " . implode(', ', $updates) . " WHERE id = " . $user_data['id'];
+        var_dump($sql);
+        if ($conn->query($sql)) {
+            return true;
+        }
+    }
+
+    die("User data update failed!\n");
+}
+
+function updateSession($username)
+{
+    $_SESSION['username'] = $username;
+}
+
+/**
+ * Change the user's password.
+ * @param $conn - the connection to the database
+ * @param $username - the username of the user
+ * @param $current_password - the current password of the user
+ * @param $new_password - the new password of the user
+ * @return bool - true if the password was changed successfully, false otherwise
+ */
+function changePassword($conn, $username, $new_password)
+{
+    // Check if new password meets length requirement
+    if (strlen($new_password) < 8) {
+        error("New password must be at least 8 characters long.");
+        return false;
+    }
+
+    // Hash the new password
+    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+    // Update the password in the database
+    $sql = "UPDATE Users SET password = '$hashed_password' WHERE username = '$username'";
+    if ($conn->query($sql)) {
+        return true;
+    } else {
+        error("Failed to change password.");
+        return false;
+    }
+}
+
+/**
+ * Upload profile picture.
+ * @param $file - the file array from $_FILES
+ * @param $target_dir - the target directory to save the uploaded file
+ * @return mixed - the path of the uploaded file if successful, false otherwise
+ */
+function uploadProfilePicture($file, $target_dir = "../img/pfp/")
+{
+    $valid = true;
+    $target_file = $target_dir . basename($file["name"]);
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+    // Check if image file is an actual image or fake image
+    $check = getimagesize($file["tmp_name"]);
+    if ($check === false) {
+        error("File is not an image.");
+        $valid = false;
+    }
+
+    // Check file size (5MB max)
+    if ($file["size"] > 5000000) {
+        error("Sorry, your file is too large.");
+        $valid = false;
+    }
+
+    // Allow certain file formats
+    $allowed_types = ["jpg", "jpeg", "png", "gif"];
+    if (!in_array($imageFileType, $allowed_types)) {
+        error("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
+        $valid = false;
+    }
+
+    // Check if $valid is set to false by an error
+    if ($valid) {
+        if (move_uploaded_file($file["tmp_name"], $target_file)) {
+            // File is uploaded successfully
+            return $target_file;
+        } else {
+            error("Sorry, there was an error uploading your file.");
+            return false;
+        }
+    }
+
+    return false;
+}
+
+function logout()
+{
+    session_unset();
+    session_destroy();
+    if (basename($_SERVER['SCRIPT_NAME']) === '../index.php') {
+        header("Location: ../index.php");
+    } else {
+        header("Location: ../index.php");
+    }
+    exit();
+}
+
+function error($msg)
+{
+    $error_msg = "<span id='error_msg'>$msg</span>";
+    echo $error_msg;
+}
+
+/**
+ * Insert character data into the database.
+ * @param $conn - the connection to the database
+ * @param $name - the name of the character
+ * @param $level - the level of the character
+ * @param $race - the race of the character
+ * @param $equipment - the equipment of the character
+ * @param $knowledge - the knowledge of the character
+ * @param $description - the description of the character
+ * 
+ */
+/* function insertCharacterData($conn, $name, $level, $race, $equipment, $knowledge, $description){
+    $user_id = getUserID($conn, $_SESSION['username']);
+    $sql = "INSERT INTO Characters (user_id, name, level, race, equipment, knowledge, description) VALUES ('$user_id', '$name', '$level', '$race', '$equipment', '$knowledge', '$description')";
+    if($conn->query($sql) === FALSE){
+        die("Error in character data insertion.\n" . $conn->error);
+    }
+} */
+
+/**
+ * Checks if user is logged in.
+ * @return bool - true if logged in, false otherwise
+ */
+
+function checkLogin()
+{
+    if (isset($_SESSION['loggedin'])) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+//----------------HTML functions-----------------//
+/**
+ * Creates $max_value amount of options for a selection
+ * @param string $name - Name of the selection - applies to name and id property
+ * @param int $max_value - Max value of options, also printed if no $value_list is provided
+ * @param list $value_list - List of values to be printed as options
+ * @return void
+ */
+function createSelection($name, $max_value, $value_list = null)
+{
+    if (empty($value_list)) {
+        echo '<select name="' . $name . '" id="' . $name . '" required>';
+        for ($i = 0; $i <= $max_value; $i++) {
+            echo '<option class="number" value="' . $i . '">' . $i . '</option>';
+        }
+    } else {
+        echo '<select name="' . $name . '" id="' . $name . '" style="width: auto;">';
+        for ($i = 0; $i <= $max_value; $i++) {
+            echo '<option class="string" value="' . strtolower($value_list[$i]) . '">' . $value_list[$i] . '</option>';
+        }
+    }
+    echo '</select>';
+}
+/**
+ * Create select with option groups
+ * @param string $name - Name of the selection - applies to name and id property
+ * @param list $list - Key - Value pairs, where $key is optgroup name, $value is the options for the optgroups
+ * @return void
+ */
+function createOptgroupSelect($name, $list)
+{
+    echo '<select name="' . $name . '" id="' . $name . '" style="width: auto" required>';
+    echo '<option value="null">Válassz utat</option>';
+    foreach ($list as $key => $value) {
+        echo '<optgroup label="' . $key . '">';
+        for ($i = 0; $i < count($value); $i++) {
+            echo '<option value="' . strtolower($value[$i]) . '" style="text-align: left">' . $value[$i] . '</option>';
+        }
+        echo '</optgroup>';
+    }
+    echo '</select>';
+}
+?>

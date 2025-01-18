@@ -22,7 +22,7 @@ body {
   width: 30%;
   height: 100%;
   padding: 0 3rem;
-  color: wheat;
+
   font-size: x-large;
   gap: 2rem;
 }
@@ -39,18 +39,6 @@ form {
   width: 100%;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"] {
-  padding: 0.5rem;
-  font-size: large;
-  line-height: 2;
-  border-radius: 0.7rem;
-  background-color: #444;
-  border: 0.2rem solid #222;
-  color: wheat;
-}
-
 #register_btn {
   font-family: "Modern Antiqua", sans-serif;
   width: 50%;
@@ -60,22 +48,19 @@ input[type="email"] {
   line-height: 1.5;
   border-radius: 0.7rem;
   background-color: #444;
-  color: wheat;
+
   border: 0.2rem solid #222;
   cursor: pointer;
+  transition: 0.5s ease;
 }
 
+#register_btn:hover {
+  border: 0.2rem solid #f2c488;
+  color: #f2c488;
+  transition: 0.5s ease;
+}
 #to-index {
   text-decoration: none;
   color: whitesmoke;
   position: relative;
-}
-
-#error_msg {
-  color: red;
-  font-size: xx-large;
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translate(-50%, 0);
 }
