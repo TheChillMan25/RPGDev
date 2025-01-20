@@ -14,12 +14,17 @@ function closeProfileMenu() {
   );
   profileMenuContainer.style.display = "none";
 }
-document
-  .querySelector("div[id='desktop-profile-menu']")
-  .addEventListener("click", showProfileMenu);
-document
-  .getElementById("profile-menu-container")
-  .addEventListener("click", closeProfileMenu);
+if (document.querySelector("div[id='desktop-profile-menu']") !== null) {
+  document
+    .querySelector("div[id='desktop-profile-menu']")
+    .addEventListener("click", showProfileMenu);
+}
+
+if (document.getElementById("profile-menu-container") !== null) {
+  document
+    .getElementById("profile-menu-container")
+    .addEventListener("click", closeProfileMenu);
+}
 
 function showMobileMenu(event) {
   const mobileMenu = document.getElementById("mobile-menu-container");

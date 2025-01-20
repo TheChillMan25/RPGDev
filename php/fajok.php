@@ -26,9 +26,28 @@ if (checkLogin()) {
       <a class="index-link" href="../index.php"><img src="../img/logo.png" alt="Index oldalra" /></a>
       <p id="m-author">Ágas és Bogas</p>
       <div id="mobile-menu">
-        <i class="fa-solid fa-bars fa-2xl" style="color: #fff"></i>
+        <?php
+        if (checkLogin()) {
+          echo '<div id=mobile-profile-menu class="logger-btn-mobile" style="cursor: pointer;">
+                <img class="pfp" src="' . $user['pfp'] . '">
+              </div>';
+        } else {
+          echo '<i class="fa-solid fa-bars fa-2xl" style="color: #fff"></i>';
+        }
+        ?>
         <div id="mobile-menu-container">
           <div id="mobile-link-container">
+            <?php
+            if (checkLogin()) {
+              echo '<a class="navbar-link" href="profile.php">Profile</a>
+            <a class="navbar-link" href="create-character.php">Create your character</a>
+            <a class="navbar-link" href="scripts/logout.php">Logout</a>
+            <hr style="background-color: #f2c488; width: 70%; height: 0.5rem; border: none;">';
+
+            } else {
+              echo '<a class="navbar-link" href="login.php">Login</a><hr>';
+            }
+            ?>
             <a class="navbar-link" href="fajok.php">Fajok</a>
             <a class="navbar-link" href="szerepek.php">Szerepek</a>
             <a class="navbar-link" href="terkep.php">Térkép</a>
@@ -96,10 +115,10 @@ if (checkLogin()) {
         </div>
       </a>
     </div>
-    <div id="mestersegesfajok" class="faj-container">
-      <a href="mestersegesfajok.php">
+    <div id="novenyszerzetek" class="faj-container">
+      <a href="novenyszerzetek.php">
         <div class="faj-header">
-          <img class="faj-img" src="../img/folyokoz_tmp.jpg" alt="Mesterséges fajok" />
+          <img class="faj-img" src="../img/folyokoz_tmp.jpg" alt="Növényszerzetek fajok" />
         </div>
         <div class="faj-footer">
           <span class="cim">Növényszerzetek</span>

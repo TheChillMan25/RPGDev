@@ -82,7 +82,6 @@ a {
   align-items: center;
   height: 3rem;
   text-decoration: none;
-
   font-size: larger;
   background-color: #444;
   border-radius: 0.7rem;
@@ -201,7 +200,31 @@ input[type="email"] {
   transform: translate(-50%, 0);
 }
 
-@media screen and (orientation: portrait) and (max-width: 768px) {
+@media screen and (orientation: portrait) and (max-width: 425px) {
+  .logger-btn-mobile {
+    padding: 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3rem;
+    text-decoration: none;
+    font-size: larger;
+    background-color: #444;
+    border-radius: 0.7rem;
+  }
+
+  .logger-btn {
+    display: none;
+  }
+  #desktop-profile-menu {
+    display: none;
+  }
+
+  #mobile-profile-menu {
+    border: 0.2rem solid #444;
+    transition: 0.3s ease;
+  }
+
   #navbar-mobile {
     width: 100%;
     display: flex;
@@ -213,6 +236,7 @@ input[type="email"] {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
   }
 
   #navbar-desktop {
@@ -239,6 +263,13 @@ input[type="email"] {
     display: flex;
   }
 
+  hr {
+    background-color: #f2c488;
+    width: 70%;
+    height: 0.5rem;
+    border: none;
+  }
+
   #mobile-link-container {
     display: flex;
     flex-direction: column;
@@ -246,7 +277,7 @@ input[type="email"] {
     top: 4rem;
     background-color: #333;
     width: 10rem;
-    height: 10rem;
+    height: 20rem;
   }
 
   .faj-csoport-link {
@@ -254,9 +285,11 @@ input[type="email"] {
   }
 
   #m-author {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: block;
     padding: 0rem 1rem;
-
     font-size: larger;
   }
 
@@ -265,5 +298,5 @@ input[type="email"] {
   }
 }
 
-@media screen and (orientation: landscape) and (max-height: 768px) {
+@media screen and (orientation: landscape) and (max-height: 425px) {
 }

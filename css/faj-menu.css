@@ -6,9 +6,9 @@ body {
 
 .page {
   align-self: center;
-  gap: 2rem;
-  max-width: 90%;
-  flex-wrap: wrap;
+  justify-content: space-evenly;
+  flex-flow: row wrap;
+  max-width: 100%;
   padding-left: 2rem;
   padding-right: 2rem;
 }
@@ -29,7 +29,6 @@ body {
 
 .faj-container a {
   text-decoration: none;
-  
 }
 
 .faj-img {
@@ -51,27 +50,23 @@ body {
   font-size: 1.6rem;
 }
 
-hr {
-  height: 2px;
-  width: 100%;
-  background-
-  border: none;
-}
-
-@media (max-width: 768px) and (orientation: portrait) {
+@media (max-width: 425px) and (orientation: portrait) {
   .page {
-    padding: 0rem 0rem;
+    padding: 2rem 0rem;
     overflow-y: auto;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    gap: 2rem;
     /* scroll-snap-type: y mandatory; */
   }
 
   .faj-container {
     /* scroll-snap-align: center; */
-    width: 90%;
+    width: 70%;
   }
 }
 
-@media (orientation: landscape) and (max-height: 768px) {
+@media (orientation: landscape) and (max-height: 425px) {
   .page {
     width: 100%;
     padding: 2rem 0rem;

@@ -69,9 +69,17 @@ if (checkLogin()) {
       <a class="index-link" href="../index.php"><img src="../img/logo.png" alt="Index oldalra" /></a>
       <p id="m-author">Ágas és Bogas</p>
       <div id="mobile-menu">
-        <i class="fa-solid fa-bars fa-2xl" style="color: #fff"></i>
+        <?php
+        echo '<div id=mobile-profile-menu class="logger-btn-mobile" style="cursor: pointer; margin-right: .5rem;">
+                <img class="pfp" src="' . $user['pfp'] . '">
+              </div>';
+        ?>
         <div id="mobile-menu-container">
           <div id="mobile-link-container">
+            <a class="navbar-link" href="profile.php">Profile</a>
+            <a class="navbar-link" href="create-character.php">Create your character</a>
+            <a class="navbar-link" href="scripts/logout.php">Logout</a>
+            <hr>
             <a class="navbar-link" href="fajok.php">Fajok</a>
             <a class="navbar-link" href="szerepek.php">Szerepek</a>
             <a class="navbar-link" href="terkep.php">Térkép</a>
@@ -95,10 +103,11 @@ if (checkLogin()) {
         <div id="profile-menu-container">
           <div id="profile-menu">
             <a class="profile-menu-link" href="profile.php">Profile</a>
-            <a class="profile-menu-link" href="create-character.php">Character maker</a>
+            <a class="profile-menu-link" href="create-character.php">Create your character</a>
             <a class="profile-menu-link" href="scripts/logout.php">Logout</a>
           </div>
-        </div>'; ?>
+        </div>';
+    ?>
   </div>
   <div class="page">
     <form id="profile-container" class="container" action="profile.php" method="post" enctype="multipart/form-data">

@@ -36,7 +36,7 @@ clickableElements.forEach((element) => {
 });
 
 function showLinks() {
-  if (window.innerWidth <= 768 || window.innerHeight <= 768) {
+  if (window.innerWidth <= 425 || window.innerHeight <= 425) {
     const linkList = document.getElementById("szerep-lista-m");
     const linkToggle = document.getElementById("lista-toggle");
     const linContainer = document.getElementById("link-container");

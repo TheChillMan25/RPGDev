@@ -12,6 +12,7 @@ body {
   width: 100%;
   display: flex;
   align-items: center;
+  color: #333;
 }
 
 .faj-img-container {
@@ -50,7 +51,7 @@ hr {
   font-size: larger;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 425px) {
   .faj-container {
     flex-direction: column;
   }

@@ -76,7 +76,7 @@ a {
   font-size: larger;
 }
 
-@media screen and (orientation: portrait) and (max-width: 768px) {
+@media screen and (orientation: portrait) and (max-width: 425px) {
   #link-container {
     display: none;
     position: absolute;
@@ -117,7 +117,7 @@ a {
   }
 }
 
-@media screen and (orientation: landscape) and (max-height: 768px) {
+@media screen and (orientation: landscape) and (max-height: 425px) {
   ul {
     padding-inline-start: 0.3rem;
   }

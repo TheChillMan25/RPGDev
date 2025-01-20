@@ -73,7 +73,7 @@ hr {
   color: #333;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 425px) and (orientation: portrait) {
   .page {
     justify-content: start;
   }
@@ -103,9 +103,14 @@ hr {
     font-size: large;
     text-align: center;
   }
+
+  hr {
+    width: 70%;
+    height: 0.2rem;
+  }
 }
 
-@media screen and (orientation: landscape) and (max-height: 768px) {
+@media screen and (orientation: landscape) and (max-height: 425px) {
   #map-container {
     display: flex;
     flex-direction: column;
