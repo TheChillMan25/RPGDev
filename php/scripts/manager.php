@@ -1,4 +1,9 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 //-----------------------------------------------------------------------------------
 //--------------------Database connection functions----------------------------------
 /**
@@ -190,40 +195,40 @@ function changePassword($conn, $username, $new_password)
 
 /**
  * Upload profile picture.
+ * @param list $user - the user and its data
  * @param $file - the file array from $_FILES
  * @param $target_dir - the target directory to save the uploaded file
  * @return mixed - the path of the uploaded file if successful, false otherwise
  */
-function uploadProfilePicture($file, $target_dir = "../img/pfp/")
+function uploadProfilePicture($user, $file, $target_dir = "../img/pfp/")
 {
     $valid = true;
-    $target_file = $target_dir . basename($file["name"]);
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $target_file = $target_dir . $user['username'] . "." . strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
+    $imageFileType = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
 
-    // Check if image file is an actual image or fake image
-    $check = getimagesize($file["tmp_name"]);
-    if ($check === false) {
+    // MIME típus ellenőrzése
+    $mime_type = mime_content_type($file["tmp_name"]);
+    if (strpos($mime_type, 'image') === false) {
         error("File is not an image.");
         $valid = false;
     }
 
-    // Check file size (5MB max)
+    // Fájlméret ellenőrzése
     if ($file["size"] > 5000000) {
         error("Sorry, your file is too large.");
         $valid = false;
     }
 
-    // Allow certain file formats
+    // Engedélyezett típusok
     $allowed_types = ["jpg", "jpeg", "png", "gif"];
     if (!in_array($imageFileType, $allowed_types)) {
         error("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
         $valid = false;
     }
 
-    // Check if $valid is set to false by an error
+    // Ha minden rendben van, fájl feltöltése
     if ($valid) {
         if (move_uploaded_file($file["tmp_name"], $target_file)) {
-            // File is uploaded successfully
             return $target_file;
         } else {
             error("Sorry, there was an error uploading your file.");

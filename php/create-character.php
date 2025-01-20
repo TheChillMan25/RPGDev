@@ -80,47 +80,53 @@ if (checkLogin()) {
     <form id="character-maker" action="create-character.php" method="post" enctype="multipart/form-data">
       <div id="header">
         <label for="name"><input type="text" name="name" id="name" placeholder="Karakter neve"></label>
-        <label for="nation">
+        <label for="nation" style="gap: 1rem">
           Nemzet
           <?php
           createSelection("nation", 16, $nations);
           ?>
         </label>
+        <!-- <label for="nation" style="gap: 1rem">
+          Háttér
+          <?php
+          createSelection("background", 0);
+          ?>
+        </label> -->
       </div>
       <div id="body">
         <div id="stats">
           <div id="physical" class="stat-container">
             <label>Erő
               <?php
-              createSelection("strength", 20);
+              createSelection("strength", 22);
               ?>
             </label>
             <label>Ügyesség
               <?php
-              createSelection("dexterity", 20);
+              createSelection("dexterity", 22);
               max_value:
               ?>
             </label>
             <label>Kitartás
               <?php
-              createSelection("endurance", 20);
+              createSelection("endurance", 22);
               ?>
             </label>
           </div>
           <div id="inner" class="stat-container">
             <label>Ész
               <?php
-              createSelection("intelligence", 20);
+              createSelection("intelligence", 22);
               ?>
             </label>
             <label>Fortély
               <?php
-              createSelection("chrasima", 20);
+              createSelection("chrasima", 22);
               ?>
             </label>
             <label>Akaraterő
               <?php
-              createSelection("willpower", 20);
+              createSelection("willpower", 22);
               ?>
             </label>
           </div>

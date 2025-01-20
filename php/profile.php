@@ -10,7 +10,7 @@ if (checkLogin()) {
 
     // Handle file upload
     if (isset($_FILES['pfp']) && $_FILES['pfp']['error'] == 0) {
-      $pfp_path = uploadProfilePicture($_FILES['pfp']);
+      $pfp_path = uploadProfilePicture($user, $_FILES['pfp']);
       if ($pfp_path === false) {
         $valid = false;
       }

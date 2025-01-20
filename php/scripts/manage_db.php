@@ -1,11 +1,15 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $host = "localhost";
 $user = "root";
 $password = "";
 $dbname = "RPG_DB";
 
 $conn = new mysqli($host, $user, $password);
-if (!$conn) {
+if ($conn->connect_error) {
   echo "An error occurred.\n";
   die("Error in connection: " . $conn->error);
 } else {
@@ -40,7 +44,8 @@ $sql = "CREATE TABLE Users (
   id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(30) NOT NULL,
   password VARCHAR(30) NOT NULL,
-  email VARCHAR(50))";
+  email VARCHAR(50),
+  pfp varchar(255)";
 if ($conn->query($sql) === TRUE) {
   echo "Table Users created successfully\n";
 } else {
