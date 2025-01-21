@@ -18,6 +18,7 @@ input[type="text"]::placeholder {
 
 select {
   font-family: "Modern Antiqua", sans-serif;
+  text-align: center;
   height: 4rem;
   width: 4rem;
   font-size: large;
@@ -112,4 +113,31 @@ label {
 
 #character-info {
   margin: 0rem 2rem 2rem 2rem;
+}
+
+textarea{
+  font-family: "Modern Antiqua", sans-serif;
+  padding: 0.5rem;
+  font-size: large;
+  line-height: 2;
+  border-radius: 0.7rem;
+  background-color: #555;
+  border: 0.2rem solid #333;
+  color: whitesmoke;
+}
+
+#character-info label{
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#add-knowledge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #333;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: whitesmoke;
+  border-radius: 0.5rem;
 }

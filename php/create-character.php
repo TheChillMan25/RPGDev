@@ -13,6 +13,7 @@ if (checkLogin()) {
   $paths['Fortély útja'] = ['Zenész', 'Színész', 'Művész', 'Bűvész'];
   $paths['Akaraterő útja'] = ['Pap', 'Inkvizítor', 'Gyógyító', 'Vezeklő'];
 
+
   /* $nations = ["Riverland", "Highland", "Backwater", "Denn Karadenn", "Cha Me Rén", "Doma Altiora", "Édd", "Vadin", "Monor", "Budlander", "Barkfoot", "Hatman", "Au-1. Sustainer", "AU-2. Successor", "Au-Cust. Guardian", "Abominus", "Vampire"];
   $paths['Path of power'] = ['Soldier', 'Mercenary', 'Worker', 'Blacksmith'];
   $paths['The way of virtue'] = ['Assassin', 'Thief', 'Craftsman', 'Rune Cutter'];
@@ -23,6 +24,10 @@ if (checkLogin()) {
 } else {
   header("Location: ../index.php");
   exit();
+}
+
+function plusKnowledge($knowledge_count){
+  $knowledge_count++;
 }
 ?>
 <!DOCTYPE html>
@@ -172,11 +177,20 @@ if (checkLogin()) {
         </div>
       </div>
       <div id="character-info">
-
+            <label id="knowledge" for="knowledge" data-knowledge-count="
+            <?php echo $knowledge_count; 
+            ?>" 
+            data-options="<?php 
+            for($i = 0; $i < count($knowledge); $i++) {echo '<option id='.$knowledge[$i].'>'.$knowledge[$i].'</option>';} 
+            ?>">
+              Imseretek
+              <a id="add-knowledge" href="#">Ismeret hozzáadása</a>
+            </label>
       </div>
     </form>
   </div>
   <script src="../js/menus.js"></script>
+  <script src="../js/add-knowledge.js"></script>
 </body>
 
 </html>

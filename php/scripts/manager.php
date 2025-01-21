@@ -332,4 +332,22 @@ function createOptgroupSelect($name, $list)
     }
     echo '</select>';
 }
+
+//----------------------Variables----------------------//
+
+$knowledge_count = 1;
+$knowledge = array(
+    "Ősi Mágia",
+    "Mitikus Lények",
+    "Történelmi Események",
+    "Fajok és Kultúrák",
+    "Erdők és Vadonok",
+    "Térképek",
+    "Fejlett Technológia",
+    "Hagyományok és Rítusok",
+    "Szövetségek és Frakciók",
+    "Rejtett Rejtvények"
+);
+
+
 ?>

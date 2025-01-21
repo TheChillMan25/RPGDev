@@ -67,3 +67,20 @@ form {
   color: whitesmoke;
   position: relative;
 }
+
+@media (max-width: 425px) and (orientation: portrait) {
+  #title{
+    font-size: 3rem;
+  }
+
+  #container {
+    width: auto;
+    padding: 2rem;
+  }
+
+  #register_btn{
+    color: #f2c488;
+    border-color: #f2c488;
+    width: 85%;
+  }
+}

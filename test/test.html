@@ -1,51 +1,25 @@
 <!DOCTYPE html>
 <html lang="hu">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ágas és Bogas | Enciklopédia</title>
-    <link rel="icon" href="../img/icon.png" />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="test.css" />
-  </head>
-  <body>
-    <div class="navbar">
-      <div id="navbar-mobile">
-        <a class="index-link" href="index.php"
-          ><img src="../img/logo.png" alt="Index oldalra"
-        /></a>
-        <p id="m-author">Ágas és Bogas</p>
-        <div id="mobile-menu">
-          <img src="../img/mobile_menu.png" alt="Menü" />
-          <div id="mobile-menu-container">
-            <a class="navbar-link" href="php/fajok.php">Fajok</a>
-            <a class="navbar-link" href="php/szerepek.php">Szerepek</a>
-            <a class="navbar-link" href="php/terkep.php">Térkép</a>
-          </div>
-        </div>
-      </div>
-      <div id="navbar-links">
-        <a class="index-link" href="index.php"
-          ><img src="../img/logo.png" alt="Index oldalra"
-        /></a>
-        <a class="navbar-link" href="php/fajok.php">Fajok</a>
-        <a class="navbar-link" href="php/szerepek.php">Szerepek</a>
-        <a class="navbar-link" href="php/terkep.php">Térkép</a>
-      </div>
-      <p id="author">Ágas és Bogas</p>
-    </div>
-    <div class="page">
-      <div class="index-text">
-        <p id="cim">Értelmes Fajok Enciklopédiája</p>
-        <p id="text">
-          Ezen az oldalon a Kalauz a Végtelen Világokhoz nevű szerepjáték
-          játszható fajairól olvashatsz rövid leírást. A fajok listája bővülni
-          fog a későbbi kiadásokban, egyelőre az emberi és ember alkotta fajok
-          elérhetőek, de később a nem emberi és más világok fajaival is ki fog
-          bővülni az enciklopédia.
-        </p>
-      </div>
-    </div>
-    <script src="js/test.js"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Adatátvitel</title>
+</head>
+<body>
+    <button id="sendData">Adat küldése</button>
+    <script>
+    document.getElementById('sendData').addEventListener('click', function() {
+        var jsData = 'Hello from JavaScript';
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'process_data.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log(xhr.responseText); // Válasz a szervertől
+            }
+        };
+        xhr.send('data=' + encodeURIComponent(jsData));
+    });
+    </script>
+</body>
 </html>
