@@ -17,6 +17,7 @@ input[type="text"]::placeholder {
 }
 
 select {
+  cursor: pointer;
   font-family: "Modern Antiqua", sans-serif;
   text-align: center;
   height: 4rem;
@@ -54,15 +55,18 @@ select::-webkit-scrollbar {
 }
 
 #header {
-  margin: 0 2rem;
+  margin: 1rem 2rem 0rem;
   display: flex;
   justify-content: space-between;
   height: 5rem;
 }
 
 #body {
+  margin: 0 2rem;
   display: flex;
   justify-content: space-evenly;
+  background-color: #555;
+  border-radius: 2rem;
 }
 
 #stats {
@@ -70,7 +74,6 @@ select::-webkit-scrollbar {
   display: flex;
   justify-content: space-between;
   gap: 2rem;
-  width: 40%;
 }
 
 .stat {
@@ -109,26 +112,29 @@ label {
   justify-content: space-between;
   align-items: center;
   font-size: larger;
+  gap: 1rem;
 }
 
 #character-info {
-  margin: 0rem 2rem 2rem 2rem;
-}
-
-textarea{
-  font-family: "Modern Antiqua", sans-serif;
-  padding: 0.5rem;
-  font-size: large;
-  line-height: 2;
-  border-radius: 0.7rem;
+  display: flex;
+  margin: 0rem 2rem;
+  padding: 1rem;
+  border-radius: 2rem;
   background-color: #555;
-  border: 0.2rem solid #333;
-  color: whitesmoke;
 }
 
-#character-info label{
+#character-info label {
   flex-direction: column;
   gap: 1rem;
+}
+
+#knowledge {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  font-size: larger;
 }
 
 #add-knowledge {
@@ -136,8 +142,74 @@ textarea{
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
+  width: fit-content;
   background-color: #333;
   font-family: "Helvetica Neue", Arial, sans-serif;
   color: whitesmoke;
+  text-decoration: none;
   border-radius: 0.5rem;
+  border: 0.3rem solid #222;
+}
+
+.knowledge_container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  font-size: medium;
+}
+
+.remove-knowledge {
+  background-color: transparent;
+  border-radius: 0.5rem;
+  border: 0.2rem solid #222;
+  color: #222;
+  font-size: x-large;
+  cursor: pointer;
+}
+
+#inventory-container {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#hands {
+  display: flex;
+  justify-content: space-around;
+}
+
+#inventory {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 1rem;
+  background-color: #444;
+  border-radius: 2rem;
+}
+
+#inventory-txt {
+  font-size: larger;
+  text-align: center;
+}
+
+.inventory-slot {
+  font-size: large;
+}
+
+button {
+  align-self: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  padding: 0.5rem;
+  width: fit-content;
+  background-color: #333;
+  color: whitesmoke;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  border: 0.3rem solid #222;
 }

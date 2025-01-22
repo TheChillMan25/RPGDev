@@ -128,32 +128,33 @@ if (checkLogin()) {
       </div>
     </form>
     <div id="character-container" class="container">
-      <?php
-      for ($i = 0; $i < 10; $i++) {
+
+      <?php $characters = listCharacters($conn, $user['id']);
+      foreach ($characters as $character) {
         echo '<div class="character">
-              <div class="character-header character-data-container">
-                <span class="name">Leo</span>
-                <span class="level value">"3"</span>
-              </div>
-              <div class="character-footer character-data-container">
-                <span class="race character-data">
-                  Race: 
-                  <span class="race-name value">Riverlands</span>
-                </span>
-                <div class="stats character-data">
-                  <span class="stat-title">Stats</span>
-                  <div class="stat-container">
-                    <span class="stat">Strengt<span class="value">"3"</span></span>
-                    <span class="stat">Dexterity<span class="value">"3"</span></span>
-                    <span class="stat">Endurance<span class="value">"3"</span></span>
-                    <span class="stat">Intelligence<span class="value">"3"</span></span>
-                    <span class="stat">Charisma<span class="value">"3"</span></span>
-                    <span class="stat">Willpower<span class="value">"3"</span></span>
-                  </div>
-                </div>
-                <a class="charater-link" href="#">About</a>
-              </div>
-          </div>';
+        <div class="character-header character-data-container">
+          <span class="name">' . $character['name'] . '</span>
+          <span class="level value">"' . $character['level'] . '"</span>
+        </div>
+        <div class="character-footer character-data-container">
+          <span class="race character-data">
+            Nation:
+            <span class="race-name value">' . $character['nation'] . '</span>
+          </span>
+          <div class="stats character-data">
+            <span class="stat-title">Stats</span>
+            <div class="stat-container">
+              <span class="stat">Strengt<span class="value">"' . $character['strength'] . '"</span></span>
+              <span class="stat">Dexterity<span class="value">"' . $character['dexterity'] . '"</span></span>
+              <span class="stat">Endurance<span class="value">"' . $character['endurance'] . '"</span></span>
+              <span class="stat">Intelligence<span class="value">"' . $character['intelligence'] . '"</span></span>
+              <span class="stat">Charisma<span class="value">"' . $character['charisma'] . '"</span></span>
+              <span class="stat">Willpower<span class="value">"' . $character['willpower'] . '"</span></span>
+            </div>
+          </div>
+          <a class="charater-link" href="#">About</a>
+        </div>
+      </div>';
       }
       ?>
     </div>

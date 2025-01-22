@@ -1,32 +1,52 @@
 <?php
 include 'scripts/manager.php';
 session_start();
+
 if (checkLogin()) {
   $conn = connectToDB();
-
   $user = getUserData($conn, $_SESSION['username']);
-  $nations = ['Folyóköz', 'Magasföld', 'Holtág', 'Denn Karadenn', 'Cha Me Rén', 'Doma Altiora', 'Édd', 'Vadin', 'Monor', 'Rügysze', 'Kérgeláb', 'Kalapos', 'Au-1. Fenntartó', 'AU-2 Utód', 'Au-Cust. Örző', 'Abominus', 'Vámpír'];
-  $paths['Erő útja'] = ['Katona', 'Zsoldos', 'Dolgozó', 'Kovács'];
-  $paths['Ügyesség útja'] = ['Bérgyilkos', 'Tolvaj', 'Kézműves', 'Rúnavéső'];
-  $paths['Kitartás útja'] = ['Vadász', 'Őrző', 'Kereskedő', 'Gyűjtő'];
-  $paths['Ész útja'] = ['Szakács', 'Vegyész', 'Orvos', 'Feltaláló'];
-  $paths['Fortély útja'] = ['Zenész', 'Színész', 'Művész', 'Bűvész'];
-  $paths['Akaraterő útja'] = ['Pap', 'Inkvizítor', 'Gyógyító', 'Vezeklő'];
+  $user_id = $user['id'];
 
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $character_data = [];
+    foreach ($_POST as $key => $value) {
+      $character_data[$key] = $value;
+    }
 
-  /* $nations = ["Riverland", "Highland", "Backwater", "Denn Karadenn", "Cha Me Rén", "Doma Altiora", "Édd", "Vadin", "Monor", "Budlander", "Barkfoot", "Hatman", "Au-1. Sustainer", "AU-2. Successor", "Au-Cust. Guardian", "Abominus", "Vampire"];
-  $paths['Path of power'] = ['Soldier', 'Mercenary', 'Worker', 'Blacksmith'];
-  $paths['The way of virtue'] = ['Assassin', 'Thief', 'Craftsman', 'Rune Cutter'];
-  $paths['Path of perseverance'] = ['Hunter', 'Guardian', 'Mechant', 'Collector'];
-  $paths['Way of the mind'] = ['Cook', 'Chemist', 'Doctor', 'Inventor'];
-  $paths['Way of cunning'] = ['Musician', 'Actor', 'Artist', 'Magician'];
-  $paths['Path of Willpower'] = ['Priest', 'Inquisitor', 'Healer', 'Penitent']; */
+    if (!empty($character_data)) {
+      // Oszlopnevek és értékek előkészítése az SQL lekérdezéshez
+      $columns = array_keys($character_data);
+      $values = array_values($character_data);
+
+      // Oszlopnevek körülzárása backtick-ekkel
+      $columns = array_map(function ($column) {
+        return "`" . $column . "`";
+      }, $columns);
+
+      // Dinamikus SQL lekérdezés létrehozása
+      $sql = "INSERT INTO CharacterData (user_id, " . implode(", ", $columns) . ") VALUES (?, " . str_repeat("?, ", count($values) - 1) . "?)";
+      $stmt = $conn->prepare($sql);
+
+      // Paraméterek csatolása
+      $types = "i" . str_repeat("s", count($values));
+      $stmt->bind_param($types, $user_id, ...$values);
+
+      if ($stmt->execute() !== TRUE) {
+        error("Error in data insertion.\n" . $stmt->error);
+      } else {
+        header("Location: profile.php");
+        exit();
+      }
+      $conn->close();
+    }
+  }
 } else {
   header("Location: ../index.php");
   exit();
 }
 
-function plusKnowledge($knowledge_count){
+function plusKnowledge($knowledge_count)
+{
   $knowledge_count++;
 }
 ?>
@@ -103,11 +123,11 @@ function plusKnowledge($knowledge_count){
   <div class="page">
     <form id="character-maker" action="create-character.php" method="post" enctype="multipart/form-data">
       <div id="header">
-        <label for="name"><input type="text" name="name" id="name" placeholder="Karakter neve"></label>
+        <label for="name"><input type="text" name="name" id="name" placeholder="Karakter neve" required></label>
         <label for="nation" style="gap: 1rem">
           Nemzet
           <?php
-          createSelection("nation", 16, $nations);
+          createSelection("nation", 16, $nations, "Válassz nemzetet", true);
           ?>
         </label>
         <!-- <label for="nation" style="gap: 1rem">
@@ -145,7 +165,7 @@ function plusKnowledge($knowledge_count){
             </label>
             <label>Fortély
               <?php
-              createSelection("chrasima", 22);
+              createSelection("charisma", 22);
               ?>
             </label>
             <label>Akaraterő
@@ -165,7 +185,7 @@ function plusKnowledge($knowledge_count){
           <label for="path">
             Út
             <?php
-            createOptgroupSelect("path", $paths);
+            createOptgroupSelect("path", $paths, "Válassz utat", true);
             ?>
           </label>
           <label for="level">
@@ -177,16 +197,52 @@ function plusKnowledge($knowledge_count){
         </div>
       </div>
       <div id="character-info">
-            <label id="knowledge" for="knowledge" data-knowledge-count="
-            <?php echo $knowledge_count; 
-            ?>" 
-            data-options="<?php 
-            for($i = 0; $i < count($knowledge); $i++) {echo '<option id='.$knowledge[$i].'>'.$knowledge[$i].'</option>';} 
-            ?>">
-              Imseretek
-              <a id="add-knowledge" href="#">Ismeret hozzáadása</a>
+        <div id="knowledge" data-knowledge-count="<?php echo htmlspecialchars($knowledge_count); ?>" data-options="<?php
+           foreach ($knowledge as $item) {
+             echo htmlspecialchars('<option value="' . $item . '">' . $item . '</option>');
+           }
+           ?>" data-lvl-options="<?php
+           for ($i = 0; $i <= 5; $i++) {
+             echo htmlspecialchars('<option value="' . $i . '">' . $i . '</option>');
+           }
+           ?>">
+          Imseretek
+          <a id="add-knowledge" href="#">Ismeret hozzáadása</a>
+        </div>
+        <div id="inventory-container">
+          <div id="hands">
+            <label for="weapons-left">
+              Bal kéz
+              <?php
+              createSelection("left_hand", count($weapons) - 1, $weapons, "Válassz");
+              ?>
             </label>
+            <label for="weapons-right">
+              Jobb kéz
+              <?php
+              createSelection("right_hand", count($weapons) - 1, $weapons, "fegyvert");
+              ?>
+            </label>
+          </div>
+          <label for="armour">
+            Páncél
+            <?php createSelection("armour", count($armours) - 1, $armours, "Válassz páncélt"); ?>
+          </label>
+          <label id="inventory-txt">Inventory</label>
+          <div id="inventory">
+            <?php
+            for ($i = 1; $i <= 10; $i++) {
+              echo '
+                <label class="inventory-slot" for="item-' . $i . '">
+                  Tárgy ' . $i . '
+                  <input type="text" name="item_' . $i . '" id="item-' . $i . '">
+              ';
+            }
+            ?>
+          </div>
+        </div>
       </div>
+      <button type="submit">Karakter létrehozása</button>
     </form>
   </div>
   <script src="../js/menus.js"></script>

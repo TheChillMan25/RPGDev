@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 /**
  * Connect to the database.
  * Returns connection data.
- * @return MySQL\Connection|false - the connection to the database
+ * @return mysqli|false - the connection to the database
  */
 function connectToDB()
 {
@@ -59,9 +59,8 @@ function checkExistingData($conn, $type, $data)
                 }
             }
         }
-    } else {
-        return false;
     }
+    return false;
 }
 
 /**
@@ -78,6 +77,7 @@ function checkPsw($conn, $username, $password)
         $row = $result->fetch_assoc();
         return password_verify($password, $row['password']);
     }
+    die("Error in password check.\n");
 }
 //12345678
 /**
@@ -258,28 +258,39 @@ function error($msg)
 }
 
 /**
- * Insert character data into the database.
- * @param $conn - the connection to the database
- * @param $name - the name of the character
- * @param $level - the level of the character
- * @param $race - the race of the character
- * @param $equipment - the equipment of the character
- * @param $knowledge - the knowledge of the character
- * @param $description - the description of the character
- * 
+ * List all characters of the user.
+ * @param mysqli $conn - the connection to the database
+ * @param int $user_id - the ID of the user
+ * @return array - the list of characters
  */
-/* function insertCharacterData($conn, $name, $level, $race, $equipment, $knowledge, $description){
-    $user_id = getUserID($conn, $_SESSION['username']);
-    $sql = "INSERT INTO Characters (user_id, name, level, race, equipment, knowledge, description) VALUES ('$user_id', '$name', '$level', '$race', '$equipment', '$knowledge', '$description')";
-    if($conn->query($sql) === FALSE){
-        die("Error in character data insertion.\n" . $conn->error);
-    }
-} */
+function listCharacters($conn, $user_id)
+{
+    // SQL lekérdezés előkészítése a biztonság érdekében
+    $sql = "SELECT * FROM CharacterData WHERE user_id = ?";
+    $stmt = $conn->prepare($sql);
 
-/**
- * Checks if user is logged in.
- * @return bool - true if logged in, false otherwise
- */
+    // Paraméter hozzáadása
+    $stmt->bind_param("i", $user_id);
+
+    // Lekérdezés végrehajtása
+    $stmt->execute();
+
+    // Eredmények lekérése
+    $result = $stmt->get_result();
+
+    if ($result === false) {
+        die("Error in character listing.\n" . $conn->error);
+    }
+
+    // Eredmények feldolgozása
+    $characters = [];
+    while ($row = $result->fetch_assoc()) {
+        $characters[] = $row;
+    }
+
+    return $characters;
+}
+
 
 function checkLogin()
 {
@@ -296,17 +307,20 @@ function checkLogin()
  * @param string $name - Name of the selection - applies to name and id property
  * @param int $max_value - Max value of options, also printed if no $value_list is provided
  * @param list $value_list - List of values to be printed as options
+ * @param string $text - Text to be printed as the selection default value
+ * @param bool $required - If the selection is required
  * @return void
  */
-function createSelection($name, $max_value, $value_list = null)
+function createSelection($name, $max_value, $value_list = null, $text = "", $required = false)
 {
     if (empty($value_list)) {
         echo '<select name="' . $name . '" id="' . $name . '" required>';
         for ($i = 0; $i <= $max_value; $i++) {
-            echo '<option class="number" value="' . $i . '">' . $i . '</option>';
+            echo '<option class="number" value="' . ($i == 0 ? null : $i) . '">' . $i . '</option>';
         }
     } else {
-        echo '<select name="' . $name . '" id="' . $name . '" style="width: auto;">';
+        echo '<select name="' . $name . '" id="' . $name . '" style="width: auto;" ' . ($required ? 'required' : '') . '>';
+        echo '<option class="string" value="' . null . '">' . $text . '</option>';
         for ($i = 0; $i <= $max_value; $i++) {
             echo '<option class="string" value="' . strtolower($value_list[$i]) . '">' . $value_list[$i] . '</option>';
         }
@@ -317,12 +331,14 @@ function createSelection($name, $max_value, $value_list = null)
  * Create select with option groups
  * @param string $name - Name of the selection - applies to name and id property
  * @param list $list - Key - Value pairs, where $key is optgroup name, $value is the options for the optgroups
+ * @param string $text - Text to be printed as the selection default value
+ * @param bool $required - If the selection is required
  * @return void
  */
-function createOptgroupSelect($name, $list)
+function createOptgroupSelect($name, $list, $text = "", $required = false)
 {
-    echo '<select name="' . $name . '" id="' . $name . '" style="width: auto" required>';
-    echo '<option value="null">Válassz utat</option>';
+    echo '<select name="' . $name . '" id="' . $name . '" style="width: auto;"' . ($required ? 'required' : '') . '>';
+    echo '<option value="' . null . '">' . $text . '</option>';
     foreach ($list as $key => $value) {
         echo '<optgroup label="' . $key . '">';
         for ($i = 0; $i < count($value); $i++) {
@@ -335,7 +351,7 @@ function createOptgroupSelect($name, $list)
 
 //----------------------Variables----------------------//
 
-$knowledge_count = 1;
+$knowledge_count = 0;
 $knowledge = array(
     "Ősi Mágia",
     "Mitikus Lények",
@@ -348,6 +364,15 @@ $knowledge = array(
     "Szövetségek és Frakciók",
     "Rejtett Rejtvények"
 );
+$nations = ['Folyóköz', 'Magasföld', 'Holtág', 'Denn Karadenn', 'Cha Me Rén', 'Doma Altiora', 'Édd', 'Vadin', 'Monor', 'Rügysze', 'Kérgeláb', 'Kalapos', 'Au-1. Fenntartó', 'AU-2 Utód', 'Au-Cust. Örző', 'Abominus', 'Vámpír'];
+$paths['Erő útja'] = ['Katona', 'Zsoldos', 'Dolgozó', 'Kovács'];
+$paths['Ügyesség útja'] = ['Bérgyilkos', 'Tolvaj', 'Kézműves', 'Rúnavéső'];
+$paths['Kitartás útja'] = ['Vadász', 'Őrző', 'Kereskedő', 'Gyűjtő'];
+$paths['Ész útja'] = ['Szakács', 'Vegyész', 'Orvos', 'Feltaláló'];
+$paths['Fortély útja'] = ['Zenész', 'Színész', 'Művész', 'Bűvész'];
+$paths['Akaraterő útja'] = ['Pap', 'Inkvizítor', 'Gyógyító', 'Vezeklő'];
 
+$armours = ['Ruha', 'Könnyű páncél', 'Közepes páncél', 'Sétáló erőd'];
+$weapons = ["acél öklök", "buzogány", "csatabárd", "fejsze", "fokos", "hosszúkard", "íj", "kalapács", "karabély", "kard", "kézi ágyú", "kézi balliszta", "lándzsa", "ostor", "pálca", "pisztoly", "pöröly", "rapír", "szablya", "számszeríj", "tőr"];
 
 ?>

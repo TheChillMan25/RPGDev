@@ -4,18 +4,18 @@ use function PHPSTORM_META\type;
 
 include 'manager.php';
 
-/* $conn = connectToDB();
+$conn = connectToDB();
 
-$sql = "DELETE FROM Users";
+$sql = "DELETE FROM CharacterData";
 if ($conn->query($sql) === TRUE) {
     echo "All data deleted from Users table.\n";
 } else {
     echo "Data deletion failed.\n";
     die("Error in data deletion.\n" . $conn->error);
 }
-$conn->close(); */
+$conn->close();
 
-$list['Kenyér'] = ["Alma", "Körte", "Dió"];
+/* $list['Kenyér'] = ["Alma", "Körte", "Dió"];
 $list['Tejföl'] = ["Alma", "Körte", "Dió"];
 $list['Sajt'] = ["Alma", "Körte", "Dió"];
 
@@ -28,11 +28,5 @@ foreach ($list as $k => $v) {
     }
     echo "</optgroup>";
 }
-echo '</select>';
+echo '</select>'; */
 ?>
-
-<html>
-    
-
-    </optgroup>
-</html>
