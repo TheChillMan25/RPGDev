@@ -13,6 +13,13 @@ if (checkLogin()) {
       $character_data[$key] = $value;
     }
 
+    $character_data['strength_mod'] = calculateModifier($character_data['strength']);
+    $character_data['dexterity_mod'] = calculateModifier($character_data['dexterity']);
+    $character_data['endurance_mod'] = calculateModifier($character_data['endurance']);
+    $character_data['intelligence_mod'] = calculateModifier($character_data['intelligence']);
+    $character_data['charisma_mod'] = calculateModifier($character_data['charisma']);
+    $character_data['willpower_mod'] = calculateModifier($character_data['willpower']);
+
     if (!empty($character_data)) {
       // Oszlopnevek és értékek előkészítése az SQL lekérdezéshez
       $columns = array_keys($character_data);
@@ -88,7 +95,7 @@ function plusKnowledge($knowledge_count)
             <hr style="background-color: #f2c488; width: 70%; height: 0.5rem; border: none;">';
 
             } else {
-              echo '<a class="navbar-link" href="login.php">Login</a><hr>';
+              echo '<a class="navbar-link" href="login.php">Login</a><hr class="nav-hr">';
             }
             ?>
             <a class="navbar-link" href="fajok.php">Fajok</a>
@@ -175,26 +182,34 @@ function plusKnowledge($knowledge_count)
             </label>
           </div>
         </div>
-        <div id="health-path-lvl">
+        <div id="health-sanity">
           <label for="health">
             Életerő
             <?php
             createSelection("health", 12);
             ?>
           </label>
-          <label for="path">
-            Út
+          <label for="sanity">
+            Elme
             <?php
-            createOptgroupSelect("path", $paths, "Válassz utat", true);
-            ?>
-          </label>
-          <label for="level">
-            Szint
-            <?php
-            createSelection("level", 6);
+            createSelection("sanity", 12);
             ?>
           </label>
         </div>
+      </div>
+      <div id="path-container">
+        <label for="path">
+          Út
+          <?php
+          createOptgroupSelect("path", $paths, "Válassz utat", true);
+          ?>
+        </label>
+        <label for="level">
+          Szint
+          <?php
+          createSelection("level", 6);
+          ?>
+        </label>
       </div>
       <div id="character-info">
         <div id="knowledge" data-knowledge-count="<?php echo htmlspecialchars($knowledge_count); ?>" data-options="<?php
@@ -211,13 +226,13 @@ function plusKnowledge($knowledge_count)
         </div>
         <div id="inventory-container">
           <div id="hands">
-            <label for="weapons-left">
+            <label for="left_hand">
               Bal kéz
               <?php
               createSelection("left_hand", count($weapons) - 1, $weapons, "Válassz");
               ?>
             </label>
-            <label for="weapons-right">
+            <label for="right_hand">
               Jobb kéz
               <?php
               createSelection("right_hand", count($weapons) - 1, $weapons, "fegyvert");

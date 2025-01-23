@@ -1,12 +1,15 @@
 function showMenu(event) {
-  const mobileMenu = document.getElementById("mobile-menu-container");
+  event.preventDefault();
+  const plus = document.getElementById("plus");
+  const minus = document.getElementById("minus");
+  var num = document.getElementById("num");
 
-  if (mobileMenu.classList.contains("visible")) {
-    mobileMenu.classList.remove("visible");
-  } else {
-    mobileMenu.classList.add("visible");
+  if (event.target.id === "plus") {
+    num.innerHTML = parseInt(num.innerHTML) + 1;
+  } else if (event.target.id === "minus") {
+    num.innerHTML = parseInt(num.innerHTML) - 1;
   }
 }
-document
-  .querySelector('div[id="mobile-menu"]')
-  .addEventListener("click", showMenu);
+
+document.getElementById("plus").addEventListener("click", showMenu);
+document.getElementById("minus").addEventListener("click", showMenu);

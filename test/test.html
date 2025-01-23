@@ -1,25 +1,13 @@
 <!DOCTYPE html>
 <html lang="hu">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Adatátvitel</title>
-</head>
-<body>
-    <button id="sendData">Adat küldése</button>
-    <script>
-    document.getElementById('sendData').addEventListener('click', function() {
-        var jsData = 'Hello from JavaScript';
-        
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'process_data.php', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log(xhr.responseText); // Válasz a szervertől
-            }
-        };
-        xhr.send('data=' + encodeURIComponent(jsData));
-    });
-    </script>
-</body>
+  </head>
+  <body>
+    <button id="plus">+</button>
+    <button id="minus">-</button>
+    <p id="num">0</p>
+    <script src="test.js"></script>
+  </body>
 </html>

@@ -98,13 +98,23 @@ select::-webkit-scrollbar {
   width: 50%;
 }
 
-#health-path-lvl {
+#health-sanity {
   padding: 1rem;
   width: 30%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   gap: 1rem;
+}
+
+#path-container {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-self: center;
+  width: 50%;
+  background-color: #555;
+  border-radius: 1rem;
 }
 
 label {
@@ -205,11 +215,79 @@ button {
   margin-bottom: 1rem;
   cursor: pointer;
   font-family: "Helvetica Neue", Arial, sans-serif;
-  padding: 0.5rem;
+  padding: 1rem;
   width: fit-content;
   background-color: #333;
   color: whitesmoke;
+  font-size: larger;
   text-decoration: none;
   border-radius: 0.5rem;
   border: 0.3rem solid #222;
+}
+
+@media (orientation: portrait) and (max-width: 425px) {
+  #character-maker {
+    width: 95%;
+    align-items: center;
+  }
+
+  #header {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+    margin-top: 1rem;
+    height: auto;
+  }
+
+  #body {
+    width: 85%;
+    flex-direction: column;
+    align-items: center;
+    margin: 0.5rem 0;
+  }
+
+  #stats {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  #physical {
+    width: 80%;
+  }
+
+  #inner {
+    width: 80%;
+  }
+
+  #health-sanity {
+    width: 80%;
+  }
+
+  #path-container {
+    width: auto;
+    gap: 1rem;
+  }
+
+  #character-info {
+    width: 85%;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  #knowledge {
+    width: auto;
+  }
+
+  #inventory-container {
+    width: 100%;
+  }
+
+  #hands {
+    width: 100%;
+    gap: 1rem;
+  }
 }

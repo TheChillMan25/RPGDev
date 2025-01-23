@@ -22,7 +22,8 @@ if (checkLogin()) {
 
 <body>
   <div class="navbar">
-    <div id="navbar-mobile"> <a class="index-link" href="index.php"><img src="img/logo.png" alt="Index oldalra" /></a>
+    <div id="navbar-mobile"> <a class="index-link" href="index.php"><img src="../img/logo.png"
+          alt="Index oldalra" /></a>
       <p id="m-author">Ágas és Bogas</p>
       <div id="mobile-menu">
         <?php if (checkLogin()) {
@@ -33,12 +34,15 @@ if (checkLogin()) {
         <div id="mobile-menu-container">
           <div id="mobile-link-container">
             <?php if (checkLogin()) {
-              echo '<a class="navbar-link" href="profile.php">Profile</a>             <a class="navbar-link" href="create-character.php">Create your character</a>             <a class="navbar-link" href="scripts/logout.php">Logout</a>             <hr>';
+              echo '<a class="navbar-link" href="profile.php">Profile</a>
+              <a class="navbar-link" href="create-character.php">Create your character</a>
+              <a class="navbar-link" href="scripts/logout.php">Logout</a><hr>';
             } else {
-              echo '<a class="navbar-link" href="php/login.php">Login</a><hr>';
+              echo '<a class="navbar-link" href="login.php">Login</a><hr style="background-color: #f2c488; width: 70%; height: 0.5rem; border: none;">';
             } ?>
-            <a class="navbar-link" href="php/fajok.php">Fajok</a> <a class="navbar-link"
-              href="php/szerepek.php">Szerepek</a> <a class="navbar-link" href="php/terkep.php">Térkép</a> </div>
+            <a class="navbar-link" href="fajok.php">Fajok</a> <a class="navbar-link" href="szerepek.php">Szerepek</a> <a
+              class="navbar-link" href="terkep.php">Térkép</a>
+          </div>
         </div>
       </div>
     </div>

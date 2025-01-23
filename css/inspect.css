@@ -1,0 +1,72 @@
+body {
+  background-image: url("../img/paper_bg.jpg");
+}
+
+.page {
+  justify-content: space-around;
+}
+
+#sidebar {
+  background-color: #333;
+  border-radius: 1rem;
+}
+
+#sidebar form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.sidebar-btn {
+  height: 3rem;
+  width: 3rem;
+  color: whitesmoke;
+  background-color: #444;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+#content {
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+  padding: 2rem;
+  width: 85%;
+  height: 85%;
+  background-color: #222;
+  border-radius: 2rem;
+}
+
+.container {
+  background-color: #333;
+  border-radius: 1rem;
+}
+
+#character-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #444;
+}
+
+#character-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#inventory {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.path-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}

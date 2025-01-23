@@ -290,6 +290,65 @@ function listCharacters($conn, $user_id)
 
     return $characters;
 }
+/**
+ * Gets all character data of the given character id
+ * @param mysqli $conn - the connection to the database
+ * @param int $character_id - the ID of the character
+ * @return array - the character data
+ */
+function getCharacterData($conn, $character_id)
+{
+    $stmt = "SELECT * FROM CharacterData WHERE id = ?";
+    $stmt = $conn->prepare($stmt);
+    $stmt->bind_param("i", $character_id);
+    if ($stmt->execute() !== TRUE) {
+        die("Error in data retrieval.\n" . $conn->error);
+    }
+    return $stmt->get_result()->fetch_assoc();
+}
+/**
+ * Delete character of given id
+ * @param mysqli $conn - the connection to the database
+ * @param int $character_id - the ID of the character
+ * @return void
+ */
+function deleteCharacter($conn, $character_id)
+{
+    $id = $character_id;
+    $stmt = "DELETE FROM CharacterData WHERE id = ?";
+    $stmt = $conn->prepare($stmt);
+    $stmt->bind_param("i", $id);
+
+    if ($stmt->execute() !== TRUE) {
+        die("Error in data deletion.\n" . $conn->error);
+    }
+}
+/**
+ * Claculates modifier based on the given value
+ * @param string $value - the value to calculate the modifier from
+ * @throws \Exception - if the value is invalid
+ * @return string - the modifier
+ */
+function calculateModifier($value)
+{
+    if ('1' <= $value && $value <= '4') {
+        return "-3";
+    } else if ('5' <= $value && $value <= '6') {
+        return "-2";
+    } else if ('7' <= $value && $value <= '8') {
+        return "-1";
+    } else if ('9' <= $value && $value <= '12') {
+        return "+0";
+    } else if ('13' <= $value && $value <= '14') {
+        return "+1";
+    } else if ('15' <= $value && $value <= '16') {
+        return "+2";
+    } else if ('17' <= $value && $value <= '20') {
+        return "+3";
+    } else {
+        throw new Exception("Invalid value for modifier calculation. VALUE: " . $value);
+    }
+}
 
 
 function checkLogin()
@@ -322,7 +381,7 @@ function createSelection($name, $max_value, $value_list = null, $text = "", $req
         echo '<select name="' . $name . '" id="' . $name . '" style="width: auto;" ' . ($required ? 'required' : '') . '>';
         echo '<option class="string" value="' . null . '">' . $text . '</option>';
         for ($i = 0; $i <= $max_value; $i++) {
-            echo '<option class="string" value="' . strtolower($value_list[$i]) . '">' . $value_list[$i] . '</option>';
+            echo '<option class="string" value="' . $value_list[$i] . '">' . $value_list[$i] . '</option>';
         }
     }
     echo '</select>';
@@ -342,7 +401,7 @@ function createOptgroupSelect($name, $list, $text = "", $required = false)
     foreach ($list as $key => $value) {
         echo '<optgroup label="' . $key . '">';
         for ($i = 0; $i < count($value); $i++) {
-            echo '<option value="' . strtolower($value[$i]) . '" style="text-align: left">' . $value[$i] . '</option>';
+            echo '<option value="' . $value[$i] . '" style="text-align: left">' . $value[$i] . '</option>';
         }
         echo '</optgroup>';
     }

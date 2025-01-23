@@ -45,7 +45,7 @@ if (checkLogin()) {
             <hr>';
 
             } else {
-              echo '<a class="navbar-link" href="php/login.php">Login</a><hr>';
+              echo '<a class="navbar-link" href="php/login.php">Login</a><hr class="nav-hr">';
             }
             ?>
             <a class="navbar-link" href="php/fajok.php">Fajok</a>
