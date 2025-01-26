@@ -73,13 +73,27 @@ if (checkLogin()) {
     </div>
     <div class="page">
         <div id="sidebar">
-            <form id="edit" action="" method="post">
-                <input type="hidden" name="id" id="id" value="<?php echo $character['id']; ?>" />
+            <div class="sidebar-container">
                 <button class="sidebar-btn">
-                    <i class="fa-solid fa-pencil fa-2xl"></i>
+                    <i class="fa-solid fa-address-card fa-2xl"></i>
                 </button>
-            </form>
-            <form id="delete" action="scripts/delete-character.php" method="post">
+            </div>
+            <div class="sidebar-container">
+                <a class="sidebar-btn" href="terkep.php">
+                    <i class="fa-solid fa-map-location-dot fa-2xl"></i>
+                </a>
+            </div>
+            <div class="sidebar-container">
+                <button class="sidebar-btn">
+                    <i class="fa-solid fa-briefcase fa-2xl"></i>
+                </button>
+            </div>
+            <div id="edit" class="sidebar-container" action="" method="post">
+                <button class="sidebar-btn">
+                    <i class="fa-solid fa-book fa-2xl"></i>
+                </button>
+            </div>
+            <form id="delete" class="sidebar-container" action="scripts/delete-character.php" method="post">
                 <input type="hidden" name="id" id="id" value="<?php echo $character['id']; ?>" />
                 <button class="sidebar-btn">
                     <i class="fa-solid fa-trash fa-2xl"></i>
@@ -89,79 +103,99 @@ if (checkLogin()) {
         <div id="content">
             <div id="character-header" class="container">
                 <span id="name"><?php echo $character['name'] ?></span>
-                <span id="nation"><?php echo $character['nation'] ?></span>
+                <div class="nation-path-container">
+                    <span id="nation"><?php echo $character['nation'] ?></span>
+                    <div id="path-container">
+                        <span class="path"><?php echo $character['path']; ?></span>
+                        <span class="path-level">"<?php echo $character['level']; ?>"</span>
+                    </div>
+                </div>
                 <div id="character-stats">
+                    <span id="stat-txt">Tulajdonságok</span>
                     <div class="stat">
                         Erő
-                        <span class="value">
-                            <?php echo $character['strength'] ?>
-                        </span>
-                        <span class="modifier">
-                            <?php echo $character['strength_mod'] ?>
-                        </span>
+                        <div class="value-container">
+                            <span class="value">
+                                <?php echo $character['strength'] ?>
+                            </span>
+                            <span class="modifier">
+                                <?php echo $character['strength_mod'] ?>
+                            </span>
+                        </div>
                     </div>
                     <div class="stat">
                         Ügyesség
-                        <span class="value">
-                            <?php echo $character['dexterity'] ?>
-                        </span>
-                        <span class="modifier">
-                            <?php echo $character['dexterity_mod'] ?>
-                        </span>
+                        <div class="value-container">
+                            <span class="value">
+                                <?php echo $character['dexterity'] ?>
+                            </span>
+                            <span class="modifier">
+                                <?php echo $character['dexterity_mod'] ?>
+                            </span>
+                        </div>
                     </div>
                     <div class="stat">
                         Kitartás
-                        <span class="value">
-                            <?php echo $character['endurance'] ?>
-                        </span>
-                        <span class="modifier">
-                            <?php echo $character['endurance_mod'] ?>
-                        </span>
+                        <div class="value-container">
+                            <span class="value">
+                                <?php echo $character['endurance'] ?>
+                            </span>
+                            <span class="modifier">
+                                <?php echo $character['endurance_mod'] ?>
+                            </span>
+                        </div>
                     </div>
                     <div class="stat">
                         Ész
-                        <span class="value">
-                            <?php echo $character['intelligence'] ?>
-                        </span>
-                        <span class="modifier">
-                            <?php echo $character['intelligence_mod'] ?>
-                        </span>
+                        <div class="value-container">
+                            <span class="value">
+                                <?php echo $character['intelligence'] ?>
+                            </span>
+                            <span class="modifier">
+                                <?php echo $character['intelligence_mod'] ?>
+                            </span>
+                        </div>
                     </div>
                     <div class="stat">
                         Fortély
-                        <span class="value">
-                            <?php echo $character['charisma'] ?>
-                        </span>
-                        <span class="modifier">
-                            <?php echo $character['charisma_mod'] ?>
-                        </span>
+                        <div class="value-container">
+                            <span class="value">
+                                <?php echo $character['charisma'] ?>
+                            </span>
+                            <span class="modifier">
+                                <?php echo $character['charisma_mod'] ?>
+                            </span>
+                        </div>
                     </div>
                     <div class="stat">
                         Akaraterő
-                        <span class="value">
-                            <?php echo $character['willpower'] ?>
-                        </span>
-                        <span class="modifier">
-                            <?php echo $character['willpower_mod'] ?>
-                        </span>
+                        <div class="value-container">
+                            <span class="value">
+                                <?php echo $character['willpower'] ?>
+                            </span>
+                            <span class="modifier">
+                                <?php echo $character['willpower_mod'] ?>
+                            </span>
+                        </div>
                     </div>
                 </div>
-                <div class="path-container">
-                    <span class="path">Path - <?php echo $character['path']; ?></span>
-                    <span class="path-level">Path level - <?php echo $character['level']; ?></span>
-                </div>
             </div>
-            <div id="character-body" class="container">
-                <div id="character-knowledge">
-                    <?php
-                    $j = 1;
-                    for ($i = 12; $i < 22; $i++) {
-                        echo '<span class="knowledge">' . $character['knowledge_' . $j] . '</span><span class="knowledge_lvl">' . $character['knowledge_lvl_' . $j] . '</span>';
-                        $j++;
-                    }
-                    ?>
+            <div id="character-body">
+                <div id="character-knowledge" class="container">
+                    <span class="knowledge">Ismeretek</span>
+                    <div id="knowledge-container">
+                        <?php
+                        $j = 1;
+                        for ($i = 20; $i < 30; $i++) {
+                            if (empty(!$character['knowledge_' . $j])) {
+                                echo '<span class="knowledge">' . $character['knowledge_' . $j] . '<span class="knowledge_lvl">' . $character['knowledge_lvl_' . $j] . '</span></span>';
+                            }
+                            $j++;
+                        }
+                        ?>
+                    </div>
                 </div>
-                <div id="character-inventory">
+                <div id="character-inventory" class="container">
                     <span class="weapons">
                         Fegyverek
                         <div id="weapons">
@@ -174,7 +208,6 @@ if (checkLogin()) {
                         <span><?php echo strtolower($character['armour']) ?></span>
                     </span>
                     <div id="inventory">
-                        Inventory
                         <?php
                         foreach ($character as $key => $value) {
                             if (str_contains($key, 'item')) {

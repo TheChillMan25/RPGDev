@@ -38,3 +38,40 @@ function showMobileMenu(event) {
 document
   .querySelector('div[id="mobile-menu"]')
   .addEventListener("click", showMobileMenu);
+
+if (document.getElementById("mcv-btn") !== null) {
+  document.getElementById("mcv-btn").addEventListener("click", showMCharacters);
+}
+
+if (document.getElementById("mpv-btn") !== null) {
+  document.getElementById("mpv-btn").addEventListener("click", showMProfile);
+}
+
+function showMCharacters() {
+  const mCharacters = document.getElementById("character-container");
+  const mProfile = document.getElementById("profile-container");
+
+  if (
+    mCharacters.style.display === "none" ||
+    mCharacters.style.display === ""
+  ) {
+    mCharacters.style.display = "flex";
+    mProfile.style.display = "none";
+  } else {
+    mCharacters.style.display = "none";
+    mProfile.style.display = "flex";
+  }
+}
+
+function showMProfile() {
+  const mCharacters = document.getElementById("character-container");
+  const mProfile = document.getElementById("profile-container");
+
+  if (mProfile.style.display === "none" || mProfile.style.display === "") {
+    mCharacters.style.display = "none";
+    mProfile.style.display = "flex";
+  } else {
+    mCharacters.style.display = "flex";
+    mProfile.style.display = "none";
+  }
+}

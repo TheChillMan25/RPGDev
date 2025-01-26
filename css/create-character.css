@@ -2,6 +2,103 @@ body {
   background-image: url("../img/paper_bg.jpg");
 }
 
+#drb-c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4rem;
+  height: 4rem;
+  background-color: #333;
+}
+
+#dr-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  z-index: 10;
+}
+
+#dice-roller-btn {
+  width: 3rem;
+  height: 3rem;
+  color: whitesmoke;
+  background-color: #444;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+#dice-roller {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  background-color: #333;
+  height: 30rem;
+  padding: 1rem;
+}
+
+#dice-btn-c {
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+  width: 100%;
+}
+
+#dcv-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  color: whitesmoke;
+}
+
+#dr-label {
+  font-size: xx-large;
+  cursor: pointer;
+}
+
+#double {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.dice {
+  width: 4rem;
+  height: 4rem;
+  border: none;
+  background-color: whitesmoke;
+  font-size: larger;
+  border-radius: 0.5rem;
+  color: #333;
+  cursor: pointer;
+}
+
+#current-roll {
+  font-size: 5rem;
+}
+
+#rolls {
+  font-size: large;
+}
+
+#empty-rolls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  color: whitesmoke;
+  font-size: large;
+  background-color: #444;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
 option {
   text-align: center;
 }
@@ -101,13 +198,17 @@ select::-webkit-scrollbar {
 #health-sanity {
   padding: 1rem;
   width: 30%;
+  height: fit-content;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  align-self: center;
   gap: 1rem;
+  background-color: #444;
+  border-radius: 1rem;
 }
 
-#path-container {
+#nation-path-container {
   padding: 1rem;
   display: flex;
   justify-content: space-around;
@@ -210,7 +311,7 @@ label {
   font-size: large;
 }
 
-button {
+#creabe-btn {
   align-self: center;
   margin-bottom: 1rem;
   cursor: pointer;
@@ -264,9 +365,10 @@ button {
 
   #health-sanity {
     width: 80%;
+    margin-bottom: 1rem;
   }
 
-  #path-container {
+  #nation-path-container {
     width: auto;
     gap: 1rem;
   }
@@ -276,6 +378,7 @@ button {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    margin: 0;
   }
 
   #knowledge {

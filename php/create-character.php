@@ -128,6 +128,23 @@ function plusKnowledge($knowledge_count)
     ?>
   </div>
   <div class="page">
+    <div id="dr-container">
+      <div id="dice-roller">
+        <div id="dice-btn-c">
+          <button id="d6" class="dice" data-value="6">d6</button>
+          <button id="d10" class="dice" data-value="10">d10</button>
+          <button id="d20" class="dice" data-value="20">d20</button>
+          <button id="d100" class="dice" data-value="100">d100</button>
+        </div>
+        <label id="dr-label" for="double">Dupla<input type="checkbox" id="double" name="duble"></label>
+        <div id="dcv-container">
+          <span id="current-roll">X</span>
+          <span id="rolls">X | X | X</span>
+          <button id="empty-rolls"><i class="fa-solid fa-recycle fa-2xl"></i></button>
+        </div>
+      </div>
+      <div id="drb-c"><button id="dice-roller-btn"><i class="fa-solid fa-dice fa-2xl"></i></button></div>
+    </div>
     <form id="character-maker" action="create-character.php" method="post" enctype="multipart/form-data">
       <div id="header">
         <label for="name"><input type="text" name="name" id="name" placeholder="Karakter neve" required></label>
@@ -197,7 +214,7 @@ function plusKnowledge($knowledge_count)
           </label>
         </div>
       </div>
-      <div id="path-container">
+      <div id="nation-path-container">
         <label for="path">
           Út
           <?php
@@ -257,11 +274,12 @@ function plusKnowledge($knowledge_count)
           </div>
         </div>
       </div>
-      <button type="submit">Karakter létrehozása</button>
+      <button id="creabe-btn" type="submit">Karakter létrehozása</button>
     </form>
   </div>
   <script src="../js/menus.js"></script>
   <script src="../js/add-knowledge.js"></script>
+  <script src="../js/dice-roller.js"></script>
 </body>
 
 </html>

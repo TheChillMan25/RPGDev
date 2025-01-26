@@ -105,10 +105,12 @@ function resetIDCounter($conn)
 function insertUserData($conn, $username, $email, $password)
 {
     $password = password_hash($password, PASSWORD_DEFAULT);
-    $sql = "INSERT INTO Users (username, email, password, pfp) VALUES ('$username', '$email', '$password', '../img/pfp/blank.png')";
-    if ($conn->query($sql) === FALSE) {
-        die("Error in user data insertion.\n" . $conn->error);
+    $stmt = $conn->prepare("INSERT INTO Users (username, email, password, pfp) VALUES (?, ?, ?, '../img/pfp/blank.png')");
+    $stmt->bind_param("sss", $username, $email, $password);
+    if ($stmt->execute() === false) {
+        die("Error in data insertion.\n" . $conn->error);
     }
+
 }
 
 /**
@@ -118,8 +120,10 @@ function insertUserData($conn, $username, $email, $password)
  */
 function getUserData($conn, $username)
 {
-    $sql = "SELECT id, username, email, pfp FROM Users WHERE username='$username'";
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT id, username, email, pfp FROM Users WHERE username = ?;");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if ($result) {
         $row = $result->fetch_assoc();
         return $row;
@@ -137,7 +141,7 @@ function updateUserData($conn, $new_name, $new_email)
 {
     $user_data = getUserData($conn, $_SESSION['username']);
     if (!$new_name && !$new_email) {
-        return false; // Return false if both are empty
+        return false;
     }
 
     $updates = [];
@@ -149,48 +153,18 @@ function updateUserData($conn, $new_name, $new_email)
     }
 
     if (!empty($updates)) {
-        $sql = "UPDATE Users SET " . implode(', ', $updates) . " WHERE id = " . $user_data['id'];
-        var_dump($sql);
-        if ($conn->query($sql)) {
+        $stmt = $conn->prepare("UPDATE Users SET username = ?, email = ? WHERE id = ?");
+        $stmt->bind_param("ssi", $new_name, $new_email, $user_data['id']);
+        if ($stmt->execute() === TRUE) {
             return true;
         }
     }
-
     die("User data update failed!\n");
 }
 
 function updateSession($username)
 {
     $_SESSION['username'] = $username;
-}
-
-/**
- * Change the user's password.
- * @param $conn - the connection to the database
- * @param $username - the username of the user
- * @param $current_password - the current password of the user
- * @param $new_password - the new password of the user
- * @return bool - true if the password was changed successfully, false otherwise
- */
-function changePassword($conn, $username, $new_password)
-{
-    // Check if new password meets length requirement
-    if (strlen($new_password) < 8) {
-        error("New password must be at least 8 characters long.");
-        return false;
-    }
-
-    // Hash the new password
-    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-
-    // Update the password in the database
-    $sql = "UPDATE Users SET password = '$hashed_password' WHERE username = '$username'";
-    if ($conn->query($sql)) {
-        return true;
-    } else {
-        error("Failed to change password.");
-        return false;
-    }
 }
 
 /**
@@ -268,21 +242,14 @@ function listCharacters($conn, $user_id)
     // SQL lekérdezés előkészítése a biztonság érdekében
     $sql = "SELECT * FROM CharacterData WHERE user_id = ?";
     $stmt = $conn->prepare($sql);
-
-    // Paraméter hozzáadása
     $stmt->bind_param("i", $user_id);
-
-    // Lekérdezés végrehajtása
     $stmt->execute();
-
-    // Eredmények lekérése
     $result = $stmt->get_result();
 
     if ($result === false) {
         die("Error in character listing.\n" . $conn->error);
     }
 
-    // Eredmények feldolgozása
     $characters = [];
     while ($row = $result->fetch_assoc()) {
         $characters[] = $row;
@@ -290,6 +257,7 @@ function listCharacters($conn, $user_id)
 
     return $characters;
 }
+
 /**
  * Gets all character data of the given character id
  * @param mysqli $conn - the connection to the database
@@ -306,6 +274,7 @@ function getCharacterData($conn, $character_id)
     }
     return $stmt->get_result()->fetch_assoc();
 }
+
 /**
  * Delete character of given id
  * @param mysqli $conn - the connection to the database

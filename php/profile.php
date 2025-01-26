@@ -110,7 +110,12 @@ if (checkLogin()) {
     ?>
   </div>
   <div class="page">
+    <div id="btn-container">
+      <button id="mpv-btn" class="m-btn"><i class="fa-solid fa-address-book fa-2xl"></i></button>
+      <button id="mcv-btn" class="m-btn"><i class="fa-solid fa-people-group fa-2xl"></i></button>
+    </div>
     <form id="profile-container" class="container" action="profile.php" method="post" enctype="multipart/form-data">
+
       <div id="pfp-container">
         <?php echo '<img class="pfp-img" src="' . $user['pfp'] . '" alt="Profile picture">' ?>
         <input type="file" id="uploadPFP" name=pfp>
@@ -127,6 +132,7 @@ if (checkLogin()) {
         <input type="submit" name="save" id="save-btn" value="Save">
       </div>
     </form>
+
     <div id="character-container" class="container">
       <?php $characters = listCharacters($conn, $user['id']);
       foreach ($characters as $character) {
