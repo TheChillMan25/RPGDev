@@ -76,7 +76,6 @@ if (checkLogin()) {
         ?>
         <div id="mobile-menu-container">
           <div id="mobile-link-container">
-            <a class="navbar-link" href="profile.php">Profile</a>
             <a class="navbar-link" href="create-character.php">Create your character</a>
             <a class="navbar-link" href="scripts/logout.php">Logout</a>
             <hr>

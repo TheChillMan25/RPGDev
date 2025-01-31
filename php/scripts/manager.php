@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 /**
  * Connect to the database.
  * Returns connection data.
- * @return mysqli|false - the connection to the database
+ * @return mysqli|false the connection to the database
  */
 function connectToDB()
 {
@@ -32,10 +32,10 @@ function closeConnection($conn)
 //--------------------Database management functions----------------------------------
 /**
  * Check if the given data already exists in the database.
- * @param $conn - the connection to the database
- * @param $type - the type of the data (username, email)
- * @param $data - the data to check (username, email)
- * @return bool - true if the data does not exist, false otherwise
+ * @param msqli $conn the connection to the database
+ * @param string $type the type of the data (username, email)
+ * @param string $data the data to check (username, email)
+ * @return bool true if the data does not exist, false otherwise
  */
 function checkExistingData($conn, $type, $data)
 {
@@ -64,10 +64,10 @@ function checkExistingData($conn, $type, $data)
 }
 
 /**
- * @param $conn - the connection to the database
- * @param $username - the username of the user
- * @param $password - the password of the user
- * @return bool - true if the password is correct, false otherwise
+ * @param mysqli $conn the connection to the database
+ * @param string $username the username of the user
+ * @param string $password the password of the user
+ * @return bool true if the password is correct, false otherwise
  */
 function checkPsw($conn, $username, $password)
 {
@@ -82,7 +82,7 @@ function checkPsw($conn, $username, $password)
 //12345678
 /**
  * Reset the ID counter of the database.
- * @param $conn - the connection to the database
+ * @param $conn the connection to the database
  */
 function resetIDCounter($conn)
 {
@@ -97,10 +97,10 @@ function resetIDCounter($conn)
 
 /**
  * Insert data into the database.
- * @param $conn - the connection to the database
- * @param $username - the username of the user
- * @param $email - the email of the user
- * @param $password - the password of the user
+ * @param $conn the connection to the database
+ * @param $username the username of the user
+ * @param $email the email of the user
+ * @param $password the password of the user
  */
 function insertUserData($conn, $username, $email, $password)
 {
@@ -115,8 +115,8 @@ function insertUserData($conn, $username, $email, $password)
 
 /**
  * Get the ID of the user.
- * @param $conn - the connection to the database
- * @param $username - the username of the user
+ * @param mysqli $conn the connection to the database
+ * @param string $username the username of the user
  */
 function getUserData($conn, $username)
 {
@@ -131,11 +131,10 @@ function getUserData($conn, $username)
 }
 
 /**
- * @param $conn - the connection to the database
- * @param $new_name - the new username of the user
- * @param $new_email - the new email of the user
- * @param $new_psw - the new password of the user
- * @return bool - returns true if the data update was successful, false otherwise
+ * @param mysqli $conn the connection to the database
+ * @param string $new_name the new username of the user
+ * @param string $new_email the new email of the user
+ * @return bool returns true if the data update was successful, false otherwise
  */
 function updateUserData($conn, $new_name, $new_email)
 {
@@ -169,10 +168,10 @@ function updateSession($username)
 
 /**
  * Upload profile picture.
- * @param list $user - the user and its data
- * @param $file - the file array from $_FILES
- * @param $target_dir - the target directory to save the uploaded file
- * @return mixed - the path of the uploaded file if successful, false otherwise
+ * @param list $user the user and its data
+ * @param $file the file array from $_FILES
+ * @param $target_dir the target directory to save the uploaded file
+ * @return mixed the path of the uploaded file if successful, false otherwise
  */
 function uploadProfilePicture($user, $file, $target_dir = "../img/pfp/")
 {
@@ -233,13 +232,12 @@ function error($msg)
 
 /**
  * List all characters of the user.
- * @param mysqli $conn - the connection to the database
- * @param int $user_id - the ID of the user
- * @return array - the list of characters
+ * @param mysqli $conn the connection to the database
+ * @param int $user_id the ID of the user
+ * @return array the list of characters
  */
 function listCharacters($conn, $user_id)
 {
-    // SQL lekérdezés előkészítése a biztonság érdekében
     $sql = "SELECT * FROM CharacterData WHERE user_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $user_id);
@@ -260,9 +258,9 @@ function listCharacters($conn, $user_id)
 
 /**
  * Gets all character data of the given character id
- * @param mysqli $conn - the connection to the database
- * @param int $character_id - the ID of the character
- * @return array - the character data
+ * @param mysqli $conn the connection to the database
+ * @param int $character_id the ID of the character
+ * @return array the character data
  */
 function getCharacterData($conn, $character_id)
 {
@@ -277,8 +275,8 @@ function getCharacterData($conn, $character_id)
 
 /**
  * Delete character of given id
- * @param mysqli $conn - the connection to the database
- * @param int $character_id - the ID of the character
+ * @param mysqli $conn the connection to the database
+ * @param int $character_id the ID of the character
  * @return void
  */
 function deleteCharacter($conn, $character_id)
@@ -292,11 +290,31 @@ function deleteCharacter($conn, $character_id)
         die("Error in data deletion.\n" . $conn->error);
     }
 }
+
+/**
+ * @param mysqli $conn the connection to the database
+ * @param int $user_id the id of the user
+ * @return bool number of characters the user have 
+ */
+function checkCharacterCount($conn, $user_id)
+{
+    $stmt = "SELECT COUNT(*) FROM CharacterData WHERE user_id = ?";
+    $stmt = $conn->prepare($stmt);
+    $stmt->bind_param("i", $user_id);
+    if ($stmt->execute() !== TRUE) {
+        throw new Exception("Error finding character count: {$conn->error}");
+    }
+    if ($stmt->get_result()->fetch_row()[0] >= 9) {
+        header("Location: profile.php");
+        exit();
+    }
+}
+
 /**
  * Claculates modifier based on the given value
- * @param string $value - the value to calculate the modifier from
- * @throws \Exception - if the value is invalid
- * @return string - the modifier
+ * @param string $value the value to calculate the modifier from
+ * @throws \Exception if the value is invalid
+ * @return string the modifier
  */
 function calculateModifier($value)
 {
@@ -332,11 +350,11 @@ function checkLogin()
 //----------------HTML functions-----------------//
 /**
  * Creates $max_value amount of options for a selection
- * @param string $name - Name of the selection - applies to name and id property
- * @param int $max_value - Max value of options, also printed if no $value_list is provided
- * @param list $value_list - List of values to be printed as options
- * @param string $text - Text to be printed as the selection default value
- * @param bool $required - If the selection is required
+ * @param string $name Name of the selection applies to name and id property
+ * @param int $max_value Max value of options, also printed if no $value_list is provided
+ * @param list $value_list List of values to be printed as options
+ * @param string $text Text to be printed as the selection default value
+ * @param bool $required If the selection is required
  * @return void
  */
 function createSelection($name, $max_value, $value_list = null, $text = "", $required = false)
@@ -357,10 +375,10 @@ function createSelection($name, $max_value, $value_list = null, $text = "", $req
 }
 /**
  * Create select with option groups
- * @param string $name - Name of the selection - applies to name and id property
- * @param list $list - Key - Value pairs, where $key is optgroup name, $value is the options for the optgroups
- * @param string $text - Text to be printed as the selection default value
- * @param bool $required - If the selection is required
+ * @param string $name Name of the selection applies to name and id property
+ * @param list $list Key Value pairs, where $key is optgroup name, $value is the options for the optgroups
+ * @param string $text Text to be printed as the selection default value
+ * @param bool $required If the selection is required
  * @return void
  */
 function createOptgroupSelect($name, $list, $text = "", $required = false)

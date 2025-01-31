@@ -40,7 +40,7 @@ if (checkLogin()) {
           <div id="mobile-link-container">
             <?php
             if (checkLogin()) {
-              echo '<a class="navbar-link" href="profile.php">Profile</a>
+              echo '<a class="navbar-link" href="profile.php">' . $user['username'] . '</a>
             <a class="navbar-link" href="create-character.php">Create your character</a>
             <a class="navbar-link" href="scripts/logout.php">Logout</a>
             <hr style="background-color: #f2c488; width: 70%; height: 0.5rem; border: none;">';

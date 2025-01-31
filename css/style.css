@@ -107,11 +107,14 @@ a {
   right: 0;
   bottom: 0;
   width: 100%;
-  height: calc(100% - 4rem);
+  height: 100%;
   background-color: transparent;
 }
 
 #profile-menu {
+  position: relative;
+  right: 0;
+  top: 4rem;
   display: flex;
   flex-direction: column;
   height: 15rem;
@@ -204,6 +207,9 @@ input[type="email"] {
 }
 
 @media screen and (orientation: portrait) and (max-width: 768px) {
+  #profile-menu-container {
+    display: none;
+  }
   .logger-btn-mobile {
     padding: 0 1rem;
     display: flex;
@@ -240,14 +246,11 @@ input[type="email"] {
     justify-content: center;
     align-items: center;
     text-align: center;
+    padding: 0;
   }
 
   #navbar-desktop {
     display: none;
-  }
-
-  #mobile-menu {
-    margin-right: 1rem;
   }
 
   #mobile-menu-container {
@@ -279,8 +282,9 @@ input[type="email"] {
     position: relative;
     top: 4rem;
     background-color: #333;
-    width: 10rem;
-    height: 20rem;
+    width: 13rem;
+    height: 23rem;
+    padding: 1rem;
   }
 
   .faj-csoport-link {

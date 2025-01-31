@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const knowledgeID = knowledgeIDList.shift(); // Az első elemet veszi ki és adja hozzá
       newKnowledgeDiv.classList.add("knowledge_container");
       newKnowledgeDiv.innerHTML = `
-        <select name="knowledge_${knowledgeID}" style="width: auto; height: 3rem;">
+        <select name="knowledge_${knowledgeID}" style="width: 80%; height: 3rem;">
           ${knowledgeOptions}
         </select>
         <select name="knowledge_lvl_${knowledgeID}" style="width: 3rem; height: 3rem;">

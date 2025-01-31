@@ -7,7 +7,11 @@ if (checkLogin()) {
   $user = getUserData($conn, $_SESSION['username']);
   $user_id = $user['id'];
 
+  checkCharacterCount($conn, $user_id);
+
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    checkCharacterCount($conn, $user_id);
+
     $character_data = [];
     foreach ($_POST as $key => $value) {
       $character_data[$key] = $value;
@@ -48,7 +52,7 @@ if (checkLogin()) {
     }
   }
 } else {
-  header("Location: ../index.php");
+  header("Location: login.php");
   exit();
 }
 
@@ -89,7 +93,7 @@ function plusKnowledge($knowledge_count)
           <div id="mobile-link-container">
             <?php
             if (checkLogin()) {
-              echo '<a class="navbar-link" href="profile.php">Profile</a>
+              echo '<a class="navbar-link" href="profile.php">' . $user['username'] . '</a>
             <a class="navbar-link" href="create-character.php">Create your character</a>
             <a class="navbar-link" href="scripts/logout.php">Logout</a>
             <hr style="background-color: #f2c488; width: 70%; height: 0.5rem; border: none;">';
@@ -239,7 +243,7 @@ function plusKnowledge($knowledge_count)
            }
            ?>">
           Imseretek
-          <a id="add-knowledge" href="#">Ismeret hozzáadása</a>
+          <button id="add-knowledge">Ismeret hozzáadása</button>
         </div>
         <div id="inventory-container">
           <div id="hands">
