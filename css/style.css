@@ -41,9 +41,18 @@ a {
 }
 
 #navbar-desktop {
+  padding-right: 0.5rem;
   height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
+}
+
+#link-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 .index-link {
   height: 100%;
@@ -123,6 +132,13 @@ a {
   z-index: 100;
 }
 
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
 .profile-menu-link {
   display: flex;
   justify-content: center;
@@ -149,8 +165,10 @@ a {
 }
 
 #author {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 0rem 1rem;
-
   font-size: x-large;
 }
 
@@ -171,6 +189,9 @@ a {
 }
 
 #m-author {
+  display: none;
+}
+#m-link-container {
   display: none;
 }
 
@@ -207,101 +228,35 @@ input[type="email"] {
 }
 
 @media screen and (orientation: portrait) and (max-width: 768px) {
-  #profile-menu-container {
-    display: none;
-  }
-  .logger-btn-mobile {
-    padding: 0 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 3rem;
-    text-decoration: none;
-    font-size: larger;
-    background-color: #444;
-    border-radius: 0.7rem;
-  }
-
-  .logger-btn {
-    display: none;
-  }
-  #desktop-profile-menu {
+  .username {
     display: none;
   }
 
-  #mobile-profile-menu {
-    border: 0.2rem solid #444;
-    transition: 0.3s ease;
+  #link-container {
+    display: none;
+  }
+  #profile-menu {
+    height: auto;
   }
 
-  #navbar-mobile {
-    width: 100%;
+  #m-link-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+  }
+
+  .profile-menu-link {
+    height: 4rem;
   }
 
   .navbar-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 0;
+    height: 4rem;
   }
 
-  #navbar-desktop {
-    display: none;
-  }
-
-  #mobile-menu-container {
-    display: none;
-    justify-content: end;
-    right: 0;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    background-color: transparent;
-    z-index: 100;
-  }
-
-  #mobile-menu-container.visible {
-    display: flex;
-  }
-
-  hr {
+  .nav-hr {
     background-color: #f2c488;
     width: 70%;
-    height: 0.5rem;
+    height: 0.15rem;
     border: none;
-  }
-
-  #mobile-link-container {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    top: 4rem;
-    background-color: #333;
-    width: 13rem;
-    height: 23rem;
-    padding: 1rem;
-  }
-
-  .faj-csoport-link {
-    text-align: center;
-  }
-
-  #m-author {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    display: block;
-    padding: 0rem 1rem;
-    font-size: larger;
-  }
-
-  #author {
-    display: none;
   }
 }
 

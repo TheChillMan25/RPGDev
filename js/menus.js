@@ -35,9 +35,6 @@ function showMobileMenu(event) {
     mobileMenu.classList.add("visible");
   }
 }
-document
-  .querySelector('div[id="mobile-menu"]')
-  .addEventListener("click", showMobileMenu);
 
 if (document.getElementById("mcv-btn") !== null) {
   document.getElementById("mcv-btn").addEventListener("click", showMCharacters);
@@ -72,29 +69,4 @@ function showMProfile() {
   } else {
     return;
   }
-}
-
-if (document.getElementById("add-character")) {
-  document
-    .getElementById("add-character")
-    .addEventListener("click", startCharacterCreation);
-}
-
-if (document.getElementById("character-creation-intro") !== null) {
-  document
-    .getElementById("character-creation-intro")
-    .addEventListener("click", closeCharacterCreation);
-}
-
-function startCharacterCreation() {
-  const container = document.getElementById("intro-container");
-  const mainContainer = document.getElementById("character-creation-intro");
-
-  mainContainer.style.display = "flex";
-  container.style.display = "flex";
-}
-
-function closeCharacterCreation() {
-  const mainContainer = document.getElementById("character-creation-intro");
-  mainContainer.style.display = "none";
 }
