@@ -26,14 +26,26 @@ if (document.getElementById("profile-menu-container") !== null) {
     .addEventListener("click", closeProfileMenu);
 }
 
-function showMobileMenu(event) {
-  const mobileMenu = document.getElementById("mobile-menu-container");
+if (document.getElementById("m-menu") !== null) {
+  document.getElementById("m-menu").addEventListener("click", showMobileMenu);
+}
+if (document.getElementById("m-link-c") !== null) {
+  document
+    .getElementById("m-link-c")
+    .addEventListener("click", closeMobileMenu);
+}
 
-  if (mobileMenu.classList.contains("visible")) {
-    mobileMenu.classList.remove("visible");
-  } else {
-    mobileMenu.classList.add("visible");
-  }
+function showMobileMenu() {
+  const container = document.getElementById("m-link-c");
+  const menu = document.getElementById("m-link-m");
+
+  container.style.display = "flex";
+  menu.style.display = "flex";
+}
+
+function closeMobileMenu() {
+  const container = document.getElementById("m-link-c");
+  container.style.display = "none";
 }
 
 if (document.getElementById("mcv-btn") !== null) {
