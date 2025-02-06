@@ -14,7 +14,7 @@ if (checkLogin()) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ágas és Bogas | Szerepek</title>
-  <link rel="icon" href="../img/icon.png" />
+  <link rel="icon" href="../img/assets/icons/icon.png" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/szerepek.css" />
   <script src="https://kit.fontawesome.com/62786e1e62.js" crossorigin="anonymous"></script>
@@ -22,7 +22,7 @@ if (checkLogin()) {
 
 <body>
   <div class="navbar">
-    <a class="index-link" href="../index.php"><img src="../img/logo.png" alt="Index oldalra" /></a>
+    <a class="index-link" href="../index.php"><img src="../img/assets/icons/logo.png" alt="Index oldalra" /></a>
     <div id="link-container">
       <a class="navbar-link" href="fajok.php">Fajok</a>
       <a class="navbar-link" href="szerepek.php">Szerepek</a>

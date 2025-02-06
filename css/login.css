@@ -1,5 +1,5 @@
 body {
-  background-image: url(../img/bg.jpg);
+  background-image: url(../img/assets/backgrounds/bg.jpg);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,7 +69,7 @@ form {
 }
 
 @media (max-width: 425px) and (orientation: portrait) {
-  #title{
+  #title {
     font-size: 3rem;
   }
 
@@ -78,7 +78,7 @@ form {
     padding: 2rem;
   }
 
-  #register_btn{
+  #register_btn {
     color: #f2c488;
     border-color: #f2c488;
     width: 85%;

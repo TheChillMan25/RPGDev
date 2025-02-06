@@ -1,5 +1,5 @@
 body {
-  background-image: url("../img/paper_bg.jpg");
+  background-image: url("../img/assets/backgrounds/paper_bg.jpg");
   display: flex;
   flex-direction: column;
 }
@@ -8,8 +8,8 @@ body {
   align-self: center;
   justify-content: space-evenly;
   flex-flow: row wrap;
-  max-width: 100%;
-  padding: 2rem 0rem;
+  width: calc(100% - 4rem);
+  padding: 2rem;
   gap: 1rem;
 }
 

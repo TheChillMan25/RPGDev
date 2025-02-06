@@ -57,7 +57,7 @@ if (checkLogin()) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ágas és Bogas | Profil</title>
-  <link rel="icon" href="../img/icon.png" />
+  <link rel="icon" href="../img/assets/icons/icon.png" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/profile.css" />
   <script src="https://kit.fontawesome.com/62786e1e62.js" crossorigin="anonymous"></script>
@@ -65,7 +65,7 @@ if (checkLogin()) {
 
 <body>
   <div class="navbar">
-    <a class="index-link" href="../index.php"><img src="../img/logo.png" alt="Index oldalra" /></a>
+    <a class="index-link" href="../index.php"><img src="../img/assets/icons/logo.png" alt="Index oldalra" /></a>
     <div id="link-container">
       <a class="navbar-link" href="fajok.php">Fajok</a>
       <a class="navbar-link" href="szerepek.php">Szerepek</a>
@@ -140,31 +140,30 @@ if (checkLogin()) {
     <div id="character-container" class="container">
       <?php $characters = listCharacters($conn, $user['id']);
       foreach ($characters as $character) {
-
         echo '
         <div class="character">
         <div class="character-header character-data-container">
           <span class="name">' . $character['name'] . '</span>
           <div class="path">
-            <span class="value">' . $character['path'] . '</span>
-            <span class="level value">' . $character['level'] . '</span>
+            <span class="value">' . getCharacterPath($conn, $character['path_id']) . '</span>
+            <span class="level value">' . $character['path_level'] . '</span>
           </div>
         </div>
         <div class="character-body character-data-container">
           <span class="race character-data">
             Nemzet:
-            <span class="race-name value">' . $character['nation'] . '</span>
+            <span class="race-name value">' . getCharacterNation($conn, $character['nation_id']) . '</span>
           </span>
           <div class="stats character-data">
             <span class="stat-title">Tulajdonságok</span>
             <div class="main-stats"><span class="main-stat-title">Életerő<span class="value">' . $character['health'] . '</span></span><span class="main-stat-title">Elme<span class="value">' . $character['sanity'] . '</span></span></div>
             <div class="stat-container">
-              <span class="stat">Erő<div class="value-container"><span class="value">' . $character['strength'] . '</span><span class="value-modifier">' . $character['strength_mod'] . '</span></div></span>
-              <span class="stat">Ügyesség<div class="value-container"><span class="value">' . $character['dexterity'] . '</span><span class="value-modifier">' . $character['dexterity_mod'] . '</span></div></span>
-              <span class="stat">Kitartás<div class="value-container"><span class="value">' . $character['endurance'] . '</span><span class="value-modifier">' . $character['endurance_mod'] . '</span></div></span>
-              <span class="stat">Akaraterő<div class="value-container"><span class="value">' . $character['intelligence'] . '</span><span class="value-modifier">' . $character['intelligence_mod'] . '</span></div></span>
-              <span class="stat">Fortély<div class="value-container"><span class="value">' . $character['charisma'] . '</span><span class="value-modifier">' . $character['charisma_mod'] . '</span></div></span>
-              <span class="stat">Akaraterő<div class="value-container"><span class="value">' . $character['willpower'] . '</span><span class="value-modifier">' . $character['willpower_mod'] . '</span></div></span>
+              <span class="stat">Erő<div class="value-container"><span class="value">' . $character['strength'] . '</span><span class="value-modifier">' . calculateModifier($character['strength']) . '</span></div></span>
+              <span class="stat">Ügyesség<div class="value-container"><span class="value">' . $character['dexterity'] . '</span><span class="value-modifier">' . calculateModifier($character['dexterity']) . '</span></div></span>
+              <span class="stat">Kitartás<div class="value-container"><span class="value">' . $character['endurance'] . '</span><span class="value-modifier">' . calculateModifier($character['endurance']) . '</span></div></span>
+              <span class="stat">Akaraterő<div class="value-container"><span class="value">' . $character['intelligence'] . '</span><span class="value-modifier">' . calculateModifier($character['intelligence']) . '</span></div></span>
+              <span class="stat">Fortély<div class="value-container"><span class="value">' . $character['charisma'] . '</span><span class="value-modifier">' . calculateModifier($character['charisma']) . '</span></div></span>
+              <span class="stat">Akaraterő<div class="value-container"><span class="value">' . $character['willpower'] . '</span><span class="value-modifier">' . calculateModifier($character['willpower']) . '</span></div></span>
             </div>
           </div>
           <div class="character-footer">

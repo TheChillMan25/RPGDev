@@ -1,3 +1,4 @@
+//-----------------Desktop------------------//
 function showProfileMenu() {
   const profileMenu = document.getElementById("profile-menu");
   const profileMenuContainer = document.getElementById(
@@ -14,7 +15,7 @@ function closeProfileMenu() {
   );
   profileMenuContainer.style.display = "none";
 }
-if (document.querySelector("div[id='desktop-profile-menu']") !== null) {
+if (document.getElementById("desktop-profile-menu") !== null) {
   document
     .querySelector("div[id='desktop-profile-menu']")
     .addEventListener("click", showProfileMenu);
@@ -26,6 +27,7 @@ if (document.getElementById("profile-menu-container") !== null) {
     .addEventListener("click", closeProfileMenu);
 }
 
+//------------------Mobil----------------//
 if (document.getElementById("m-menu") !== null) {
   document.getElementById("m-menu").addEventListener("click", showMobileMenu);
 }
@@ -47,6 +49,8 @@ function closeMobileMenu() {
   const container = document.getElementById("m-link-c");
   container.style.display = "none";
 }
+
+//------------Mobil profil---------------------//
 
 if (document.getElementById("mcv-btn") !== null) {
   document.getElementById("mcv-btn").addEventListener("click", showMCharacters);

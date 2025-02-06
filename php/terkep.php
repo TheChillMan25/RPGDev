@@ -14,7 +14,7 @@ if (checkLogin()) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ágas és Bogas | Térkép</title>
-  <link rel="icon" href="../img/icon.png" />
+  <link rel="icon" href="../img/assets/icons/icon.png" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/terkep.css" />
   <script src="https://kit.fontawesome.com/62786e1e62.js" crossorigin="anonymous"></script>
@@ -23,7 +23,7 @@ if (checkLogin()) {
 
 <body>
   <div class="navbar">
-    <a class="index-link" href="../index.php"><img src="../img/logo.png" alt="Index oldalra" /></a>
+    <a class="index-link" href="../index.php"><img src="../img/assets/icons/logo.png" alt="Index oldalra" /></a>
     <div id="link-container">
       <a class="navbar-link" href="fajok.php">Fajok</a>
       <a class="navbar-link" href="szerepek.php">Szerepek</a>
@@ -76,7 +76,7 @@ if (checkLogin()) {
       A térképen a területekre kattintva el tudod olvasni azok leírását.
     </div>
     <div id="imageContainer">
-      <img src="../img/map_test.jpg" usemap="#pelda-map" id="test-map-img" alt="Példa Térkép" />
+      <img src="../img/tmp/map_test.jpg" usemap="#pelda-map" id="test-map-img" alt="Példa Térkép" />
       <map name="pelda-map">
         <area target="" alt="Elso terulet" title="Elso terulet" data-target="infoDiv" href="#"
           coords="191,295,286,444,301,543,239,566,273,653,383,688,344,807,391,905,498,883,539,934,625,846,747,931,802,800,790,741,844,678,837,575,800,490,702,317,671,366,590,288,498,270,461,320,405,346,354,349,337,320,286,324,245,326"
@@ -96,7 +96,7 @@ if (checkLogin()) {
     <div id="info-container">
       <div class="info" id="infoDiv">
         <p class="cim">Elso terulet</p>
-        <img src="../img/folyokoz_tmp.jpg" alt="Folyóköz" />
+        <img src="../img/assets/regions/nuygatitorony.png" alt="Folyóköz" />
         <div class="text-container">
           <hr />
           <p class="leiras">
@@ -110,7 +110,7 @@ if (checkLogin()) {
 
       <div class="info" id="infoDiv2">
         <p class="cim">Masodik terulet</p>
-        <img src="../img/folyokoz_tmp.jpg" alt="Folyóköz" />
+        <img src="../img/assets/regions/folyokoz.jpg" alt="Folyóköz" />
         <div class="text-container">
           <hr />
           <p class="leiras">
@@ -124,7 +124,7 @@ if (checkLogin()) {
 
       <div class="info" id="infoDiv3">
         <p class="cim">Harmadik terulet</p>
-        <img src="../img/folyokoz_tmp.jpg" alt="Folyóköz" />
+        <img src="../img/assets/regions/nuygatitorony.png" alt="Folyóköz" />
         <div class="text-container">
           <hr />
           <p class="leiras">
@@ -138,7 +138,7 @@ if (checkLogin()) {
 
       <div class="info" id="infoDiv4">
         <p class="cim">Negyedik terulet</p>
-        <img src="../img/folyokoz_tmp.jpg" alt="Folyóköz" />
+        <img src="../img/assets/regions/folyokoz.jpg" alt="Folyóköz" />
         <div class="text-container">
           <hr />
           <p class="leiras">

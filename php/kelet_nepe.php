@@ -14,7 +14,7 @@ if (checkLogin()) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fajok | Kelet Népe</title>
-  <link rel="icon" href="../img/icon.png" />
+  <link rel="icon" href="../img/assets/icons/icon.png" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/fajok-leirasok.css" />
   <script src="https://kit.fontawesome.com/62786e1e62.js" crossorigin="anonymous"></script>
@@ -22,7 +22,7 @@ if (checkLogin()) {
 
 <body>
   <div class="navbar">
-    <a class="index-link" href="../index.php"><img src="../img/logo.png" alt="Index oldalra" /></a>
+    <a class="index-link" href="../index.php"><img src="../img/assets/icons/logo.png" alt="Index oldalra" /></a>
     <div id="link-container">
       <a class="navbar-link" href="fajok.php">Fajok</a>
       <a class="navbar-link" href="szerepek.php">Szerepek</a>
@@ -73,7 +73,7 @@ if (checkLogin()) {
   <div class="page">
     <div class="faj-container">
       <div class="faj-img-container">
-        <img class="faj-img" src="../img/folyokoz.jpg" alt="Éddek" />
+        <img class="faj-img" src="../img/assets/nations/edd.png" alt="Éddek" />
       </div>
       <div class="faj-txt">
         <p class="nep-nev">Éddek</p>
@@ -120,7 +120,7 @@ if (checkLogin()) {
     </div>
     <div class="faj-container">
       <div class="faj-img-container">
-        <img class="faj-img" src="../img/magafol.png" alt="Vadinok" />
+        <img class="faj-img" src="../img/assets/nations/vadin.png" alt="Vadinok" />
       </div>
       <div class="faj-txt">
         <p class="nep-nev">Vadinok</p>
@@ -148,7 +148,7 @@ if (checkLogin()) {
     </div>
     <div class="faj-container">
       <div class="faj-img-container">
-        <img class="faj-img" src="../img/holtag.png" alt="Monorok" />
+        <img class="faj-img" src="../img/assets/nations/holtag.png" alt="Monorok" />
       </div>
       <div class="faj-txt">
         <p class="nep-nev">Monorok</p>

@@ -3,46 +3,75 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="lib/dice.js"></script>
-
-    <script>
-      // Setup your three.js scene
-      var scene = new THREE.Scene();
-      // ...
-
-      // Setup your cannon.js world
-      var world = new CANNON.World();
-      // ...
-
-      DiceManager.setWorld(world);
-
-      // Create a dice
-      var dice = new DiceD6({ backColor: "#ff0000" }); // DiceD6 for six-sided dice; for options see DiceObject
-      scene.add(dice.getObject());
-
-      // If you want to place the mesh somewhere else, you have to update the body
-      dice.getObject().position.x = 150;
-      dice.getObject().position.y = 100;
-      dice.getObject().rotation.x = (20 * Math.PI) / 180;
-      dice.updateBodyFromMesh();
-
-      // Set the value of the side, which will be upside after the dice lands
-      DiceManager.prepareValues([{ dice: dice, value: 6 }]);
-
-      // Animate everything
-      function animate() {
-        world.step(1.0 / 60.0);
-
-        dice.updateMeshFromBody(); // Call this after updating the physics world for rearranging the mesh according to the body
-
-        renderer.render(scene, camera);
-
-        requestAnimationFrame(animate);
+    <title>RPG Stat Slot</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        flex-wrap: wrap;
       }
-      requestAnimationFrame(animate);
-    </script>
+      .stat-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
+        margin: 10px;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 150px;
+        text-align: center;
+        flex-direction: column;
+      }
+      .stat-container h3 {
+        margin: 5px 0;
+        font-size: 1.2em;
+      }
+      .stat-container .boost {
+        font-size: 1.2em;
+        color: #3498db;
+      }
+      .stat-container .total {
+        font-size: 1.5em;
+        font-weight: bold;
+        background-color: #3498db;
+        color: white;
+        border-radius: 50%;
+        padding: 10px;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+      }
+    </style>
   </head>
-
-  <body></body>
+  <body>
+    <div class="stat-container">
+      <h3>Strength</h3>
+      <span class="boost">+2</span>
+      <span class="total">15</span>
+    </div>
+    <div class="stat-container">
+      <h3>Dexterity</h3>
+      <span class="boost">+1</span>
+      <span class="total">12</span>
+    </div>
+    <div class="stat-container">
+      <h3>Intelligence</h3>
+      <span class="boost">+3</span>
+      <span class="total">14</span>
+    </div>
+    <div class="stat-container">
+      <h3>Health</h3>
+      <span class="boost">+5</span>
+      <span class="total">20</span>
+    </div>
+  </body>
 </html>

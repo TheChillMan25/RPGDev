@@ -36,10 +36,10 @@ clickableElements.forEach((element) => {
 });
 
 function showLinks() {
-  if (window.innerWidth <= 425 || window.innerHeight <= 425) {
+  if (window.innerWidth <= 768 || window.innerHeight <= 768) {
     const linkList = document.getElementById("szerep-lista-m");
     const linkToggle = document.getElementById("lista-toggle");
-    const linContainer = document.getElementById("link-container");
+    const linContainer = document.getElementById("sz-link-container");
     if (
       linContainer.style.display === "none" ||
       linContainer.style.display === ""

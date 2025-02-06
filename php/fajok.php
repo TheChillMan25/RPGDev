@@ -14,7 +14,7 @@ if (checkLogin()) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ágas és Bogas | Fajok</title>
-  <link rel="icon" href="../img/icon.png" />
+  <link rel="icon" href="../img/assets/icons/icon.png" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/faj-menu.css" />
   <script src="https://kit.fontawesome.com/62786e1e62.js" crossorigin="anonymous"></script>
@@ -22,7 +22,7 @@ if (checkLogin()) {
 
 <body>
   <div class="navbar">
-    <a class="index-link" href="../index.php"><img src="../img/logo.png" alt="Index oldalra" /></a>
+    <a class="index-link" href="../index.php"><img src="../img/assets/icons/logo.png" alt="Index oldalra" /></a>
     <div id="link-container">
       <a class="navbar-link" href="fajok.php">Fajok</a>
       <a class="navbar-link" href="szerepek.php">Szerepek</a>
@@ -74,7 +74,7 @@ if (checkLogin()) {
     <div id="folyokoz" class="faj-container">
       <a href="folyokoz.php">
         <div class="faj-header">
-          <img class="faj-img" src="../img/folyokoz_tmp.jpg" alt="Folyóköz" />
+          <img class="faj-img" src="../img/assets/regions/folyokoz.jpg" alt="Folyóköz" />
         </div>
         <div class="faj-footer">
           <span class="cim">Folyóköz</span>
@@ -85,7 +85,7 @@ if (checkLogin()) {
     <div id="toronyvarosok" class="faj-container">
       <a href="toronyvarosok.php">
         <div class="faj-header">
-          <img class="faj-img" src="../img/folyokoz_tmp.jpg" alt="Toronyvárosok" />
+          <img class="faj-img" src="../img/assets/regions/nuygatitorony.png" alt="Toronyvárosok" />
         </div>
         <div class="faj-footer">
           <span class="cim">Toronyvárosok</span>
@@ -96,7 +96,7 @@ if (checkLogin()) {
     <div id="kelet_nepe" class="faj-container">
       <a href="kelet_nepe.php">
         <div class="faj-header">
-          <img class="faj-img" src="../img/folyokoz_tmp.jpg" alt="Kelet Népe" />
+          <img class="faj-img" src="../img/assets/regions/keletnepe.png" alt="Kelet Népe" />
         </div>
         <div class="faj-footer">
           <span class="cim">Kelet Népe</span>
@@ -107,7 +107,7 @@ if (checkLogin()) {
     <div id="novenyszerzetek" class="faj-container">
       <a href="novenyszerzetek.php">
         <div class="faj-header">
-          <img class="faj-img" src="../img/folyokoz_tmp.jpg" alt="Növényszerzetek fajok" />
+          <img class="faj-img" src="../img/assets/regions/folyokoz.jpg" alt="Növényszerzetek fajok" />
         </div>
         <div class="faj-footer">
           <span class="cim">Növényszerzetek</span>
@@ -118,7 +118,7 @@ if (checkLogin()) {
     <div id="gepszulottek" class="faj-container">
       <a href="gepszulottek.php">
         <div class="faj-header">
-          <img class="faj-img" src="../img/folyokoz_tmp.jpg" alt="Gépszülöttek" />
+          <img class="faj-img" src="../img/assets/regions/gepszulottek.png" alt="Gépszülöttek" />
         </div>
         <div class="faj-footer">
           <span class="cim">Gépszülöttek</span>
@@ -129,7 +129,7 @@ if (checkLogin()) {
     <div id="atkozottak" class="faj-container">
       <a href="atkozottak.php">
         <div class="faj-header">
-          <img class="faj-img" src="../img/folyokoz_tmp.jpg" alt="Átkozottak" />
+          <img class="faj-img" src="../img/assets/regions/folyokoz.jpg" alt="Átkozottak" />
         </div>
         <div class="faj-footer">
           <span class="cim">Átkozottak</span>

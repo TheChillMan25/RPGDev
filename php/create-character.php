@@ -12,43 +12,82 @@ if (checkLogin()) {
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     checkCharacterCount($conn, $user_id);
 
-    $character_data = [];
-    foreach ($_POST as $key => $value) {
-      $character_data[$key] = $value;
+    if ($conn->query('INSERT INTO Characters (user_id) VALUES (' . $user['id'] . ')') !== true) {
+      die('Passing user is failed! ' . $conn->error);
+    } else {
+      echo 'pass';
+      $character_id = $conn->insert_id;
     }
 
-    $character_data['strength_mod'] = calculateModifier($character_data['strength']);
-    $character_data['dexterity_mod'] = calculateModifier($character_data['dexterity']);
-    $character_data['endurance_mod'] = calculateModifier($character_data['endurance']);
-    $character_data['intelligence_mod'] = calculateModifier($character_data['intelligence']);
-    $character_data['charisma_mod'] = calculateModifier($character_data['charisma']);
-    $character_data['willpower_mod'] = calculateModifier($character_data['willpower']);
+    if (
+      $conn->query('INSERT INTO `Stats` (character_id, 
+    health, sanity, strength, dexterity, endurance, intelligence, 
+    charisma, willpower) VALUES (' . $character_id . ', ' . $_POST['health'] . ', 
+    ' . $_POST['sanity'] . ', ' . $_POST['strength'] . ', ' . $_POST['dexterity'] . ', 
+    ' . $_POST['endurance'] . ', ' . $_POST['intelligence'] . ', ' . $_POST['charisma'] . ', 
+    ' . $_POST['willpower'] . ')') !== true
+    ) {
+      die('Inserting stats failed ' . $conn->error);
+    } else {
+      echo 'pass';
+      $stats_id = $conn->insert_id;
+    }
 
-    if (!empty($character_data)) {
-      // Oszlopnevek és értékek előkészítése az SQL lekérdezéshez
-      $columns = array_keys($character_data);
-      $values = array_values($character_data);
+    if (
+      $conn->query('INSERT INTO CharacterSkills 
+    (character_id, skill_1_lvl, skill_2_lvl, skill_3_lvl, skill_4_lvl, skill_5_lvl, 
+    skill_6_lvl, skill_7_lvl, skill_8_lvl,skill_9_lvl,skill_10_lvl)
+    VALUES (' . $character_id . ',' . $_POST['skill_1'] . ', ' . $_POST['skill_2'] . ', ' . $_POST['skill_3'] . ', ' . $_POST['skill_4'] . ', 
+    ' . $_POST['skill_5'] . ' , ' . $_POST['skill_6'] . ', ' . $_POST['skill_7'] . ', ' . $_POST['skill_8'] . ', 
+    ' . $_POST['skill_9'] . ', ' . $_POST['skill_10'] . ')') !== true
+    ) {
+      die('Inserting skills failed ' . $conn->error);
+    } else {
+      echo 'pass';
+      $skills_id = $conn->insert_id;
+    }
 
-      // Oszlopnevek körülzárása backtick-ekkel
-      $columns = array_map(function ($column) {
-        return "`" . $column . "`";
-      }, $columns);
+    if (
+      $conn->query('INSERT INTO Equipment 
+    (character_id, left_hand, right_hand, armour)
+    VALUES (' . $character_id . ',' . $_POST['left_hand'] . ', ' . $_POST['right_hand'] . ', ' . $_POST['armour'] . ')') !== true
+    ) {
+      die('Inserting Equipment failed ' . $conn->error);
+    } else {
+      echo 'pass';
+      $equipment_id = $conn->insert_id;
+    }
 
-      // Dinamikus SQL lekérdezés létrehozása
-      $sql = "INSERT INTO CharacterData (user_id, " . implode(", ", $columns) . ") VALUES (?, " . str_repeat("?, ", count($values) - 1) . "?)";
-      $stmt = $conn->prepare($sql);
+    if (
+      $conn->query('INSERT INTO Inventory 
+    (character_id, item_1_id, item_2_id, item_3_id, item_4_id, item_5_id, 
+    item_6_id, item_7_id, item_8_id,item_9_id,item_10_id)
+    VALUES (' . $character_id . ',' . $_POST['item_1'] . ', ' . $_POST['item_2'] . ', ' . $_POST['item_3'] . ', ' . $_POST['item_4'] . ', 
+    ' . $_POST['item_5'] . ' , ' . $_POST['item_6'] . ', ' . $_POST['item_7'] . ', ' . $_POST['item_8'] . ', 
+    ' . $_POST['item_9'] . ', ' . $_POST['item_10'] . ')') !== true
+    ) {
+      die('Inserting items failed ' . $conn->error);
+    } else {
+      echo 'pass';
+      $inventory_id = $conn->insert_id;
+    }
 
-      // Paraméterek csatolása
-      $types = "i" . str_repeat("s", count($values));
-      $stmt->bind_param($types, $user_id, ...$values);
-
-      if ($stmt->execute() !== TRUE) {
-        error("Error in data insertion.\n" . $stmt->error);
-      } else {
-        header("Location: profile.php");
-        exit();
-      }
-      $conn->close();
+    if (
+      $conn->query("UPDATE Characters SET 
+          name='" . $_POST['name'] . "', 
+          nation_id=" . $_POST['nation'] . ", 
+          path_id=" . $_POST['path'] . ", 
+          path_level=" . $_POST['level'] . ", 
+          stats_id=" . $stats_id . ", 
+          skills_id=" . $skills_id . ", 
+          equipment_id=" . $equipment_id . ", 
+          inventory_id=" . $inventory_id . " 
+          WHERE id=" . $character_id) !== true
+    ) {
+      die('Inserting CharacterData failed ' . $conn->error);
+    } else {
+      echo 'pass';
+      header("Location: profile.php");
     }
   }
 } else {
@@ -68,7 +107,7 @@ function plusKnowledge($knowledge_count)
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ágas és Bogas | Karakter készítő</title>
-  <link rel="icon" href="../img/icon.png" />
+  <link rel="icon" href="../img/assets/icons/icon.png" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/create-character.css" />
   <script src="https://kit.fontawesome.com/62786e1e62.js" crossorigin="anonymous"></script>
@@ -76,7 +115,7 @@ function plusKnowledge($knowledge_count)
 
 <body>
   <div class="navbar">
-    <a class="index-link" href="../index.php"><img src="../img/logo.png" alt="Index oldalra" /></a>
+    <a class="index-link" href="../index.php"><img src="../img/assets/icons/logo.png" alt="Index oldalra" /></a>
     <div id="link-container">
       <a class="navbar-link" href="fajok.php">Fajok</a>
       <a class="navbar-link" href="szerepek.php">Szerepek</a>
@@ -128,10 +167,13 @@ function plusKnowledge($knowledge_count)
     <div id="dr-container">
       <div id="dice-roller">
         <div id="dice-btn-c">
-          <button id="d6" class="dice" data-value="6">d6</button>
-          <button id="d10" class="dice" data-value="10">d10</button>
-          <button id="d20" class="dice" data-value="20">d20</button>
-          <button id="d100" class="dice" data-value="100">d100</button>
+          <button id="d4" class="dice" data-value="4"><img src="../img/dice/d4.png" alt="d4"></button>
+          <button id="d6" class="dice" data-value="6"><img src="../img/dice/d6.png" alt="d6"></button>
+          <button id="d8" class="dice" data-value="8"><img src="../img/dice/d8.png" alt="d8"></button>
+          <button id="d10" class="dice" data-value="10"><img src="../img/dice/d10.png" alt="d10"></button>
+          <button id="d6" class="dice" data-value="12"><img src="../img/dice/d12.png" alt="d12"></button>
+          <button id="d20" class="dice" data-value="20"><img src="../img/dice/d20.png" alt="d20"></button>
+          <button id="d100" class="dice" data-value="100"><img src="../img/dice/d100.png" alt="d100"></button>
         </div>
         <label id="dr-label" for="double">Dupla<input type="checkbox" id="double" name="duble"></label>
         <div id="dcv-container">
@@ -148,7 +190,13 @@ function plusKnowledge($knowledge_count)
         <label for="nation" style="gap: 1rem">
           Nemzet
           <?php
-          createSelection("nation", 16, $nations, "Válassz nemzetet", true);
+          $nations = getTableData($conn, 'Nations');
+          echo '<select name="nation" id="nation" style="width: auto;">';
+          echo '<option value="' . null . '">Válassz nemzetet</option>';
+          for ($i = 0; $i < sizeof($nations); $i++) {
+            echo '<option name="' . $nations[$i]['name'] . '" id="' . $nations[$i]['name'] . '" value="' . $nations[$i]['id'] . '">' . ucfirst($nations[$i]['name']) . '</option>';
+          }
+          echo '</select>';
           ?>
         </label>
         <!-- <label for="nation" style="gap: 1rem">
@@ -211,11 +259,24 @@ function plusKnowledge($knowledge_count)
           </label>
         </div>
       </div>
-      <div id="nation-path-container">
+      <div id="path-container">
         <label for="path">
           Út
           <?php
-          createOptgroupSelect("path", $paths, "Válassz utat", true);
+          $paths = getTableData($conn, "Paths");
+          $pathGroups = getTableData($conn, "PathGroups");
+          echo '<select name="path" id="path" style="width: auto;">';
+          echo '<option value="' . null . '">Válassz utat</option>';
+          for ($i = 0, $j = 0; $i < sizeof($paths); $i++) {
+            if ($i % 4 == 0) {
+              echo '<optgroup label="' . $pathGroups[$j]['name'] . '">';
+              echo '<option name="' . $paths[$i]['name'] . '" id="' . $paths[$i]['name'] . '" value="' . $paths[$i]['id'] . '">' . ucfirst($paths[$i]['name']) . '</option>';
+              echo '</optgroup>';
+              $j++;
+            } else
+              echo '<option name="' . $paths[$i]['name'] . '" id="' . $paths[$i]['name'] . '" value="' . $paths[$i]['id'] . '">' . ucfirst($paths[$i]['name']) . '</option>';
+          }
+          echo '</select>';
           ?>
         </label>
         <label for="level">
@@ -226,46 +287,78 @@ function plusKnowledge($knowledge_count)
         </label>
       </div>
       <div id="character-info">
-        <div id="knowledge" data-knowledge-count="<?php echo htmlspecialchars($knowledge_count); ?>" data-options="<?php
-           foreach ($knowledge as $item) {
-             echo htmlspecialchars('<option value="' . $item . '">' . $item . '</option>');
-           }
-           ?>" data-lvl-options="<?php
-           for ($i = 0; $i <= 5; $i++) {
-             echo htmlspecialchars('<option value="' . $i . '">' . $i . '</option>');
-           }
-           ?>">
+        <div id="knowledge">
           Imseretek
-          <button id="add-knowledge">Ismeret hozzáadása</button>
+          <?php
+          $skills = getTableData($conn, "Skills");
+          for ($i = 0; $i < sizeof($skills); $i++) {
+            echo '<div class="skill-container"><label for="skill_' . $i + 1 . '" class="knowledge">' . $skills[$i]['name'] . '</label>';
+            createSelection('skill_' . $i + 1);
+            echo '</div>';
+          }
+          ?>
         </div>
         <div id="inventory-container">
           <div id="hands">
             <label for="left_hand">
               Bal kéz
               <?php
-              createSelection("left_hand", count($weapons) - 1, $weapons, "Válassz");
+              $weapons = getTableData($conn, 'Weapons');
+              echo '<select name="left_hand" id="left_hand" style="width: auto;">';
+              echo '<option value="0">Fegyver</option>';
+              for ($i = 0; $i < sizeof($weapons); $i++) {
+                echo '<option name="' . $weapons[$i]['name'] . '" id="' . $weapons[$i]['name'] . '" value="' . $weapons[$i]['id'] . '">' . ucfirst($weapons[$i]['name']) . '</option>';
+              }
+              echo '</select>';
               ?>
             </label>
             <label for="right_hand">
               Jobb kéz
               <?php
-              createSelection("right_hand", count($weapons) - 1, $weapons, "fegyvert");
+              $weapons = getTableData($conn, 'Weapons');
+              echo '<select name="right_hand" id="right_hand" style="width: auto;">';
+              echo '<option value="0">Fegyver</option>';
+              for ($i = 0; $i < sizeof($weapons); $i++) {
+                echo '<option name="' . $weapons[$i]['name'] . '" id="' . $weapons[$i]['name'] . '" value="' . $weapons[$i]['id'] . '">' . ucfirst($weapons[$i]['name']) . '</option>';
+              }
+              echo '</select>';
               ?>
             </label>
           </div>
           <label for="armour">
             Páncél
-            <?php createSelection("armour", count($armours) - 1, $armours, "Válassz páncélt"); ?>
+            <?php
+            $armour = getTableData($conn, 'Armour');
+            echo '<select name="armour" id="armour" style="width: auto;">';
+            echo '<option value="0">Páncél</option>';
+            for ($i = 0; $i < sizeof($armour); $i++) {
+              echo '<option name="' . $armour[$i]['name'] . '" id="' . $armour[$i]['name'] . '" value="' . $armour[$i]['id'] . '">' . ucfirst($armour[$i]['name']) . '</option>';
+            }
+            echo '</select>';
+            ?>
           </label>
-          <label id="inventory-txt">Inventory</label>
+          <label id="inventory-txt">Tárgyak</label>
           <div id="inventory">
             <?php
-            for ($i = 1; $i <= 10; $i++) {
+            /* for ($i = 1; $i <= 10; $i++) {
               echo '
                 <label class="inventory-slot" for="item-' . $i . '">
                   Tárgy ' . $i . '
                   <input type="text" name="item_' . $i . '" id="item-' . $i . '">
               ';
+            } */
+
+            $items = getTableData($conn, 'Items');
+            for ($i = 1; $i <= 10; $i++) {
+              echo '
+                <label class="inventory-slot" for="item_' . $i . '">
+                  Tárgy ' . $i . '';
+              echo '<select name="item_' . $i . '" id="item_' . $i . '" style="width: auto;">';
+              echo '<option value="0"> </option>';
+              for ($j = 0; $j < sizeof($items); $j++) {
+                echo '<option name="' . $items[$j]['name'] . '" id="' . $items[$j]['name'] . '" value="' . $items[$j]['id'] . '">' . ucfirst($items[$j]['name']) . '</option>';
+              }
+              echo '</select>';
             }
             ?>
           </div>
@@ -275,7 +368,6 @@ function plusKnowledge($knowledge_count)
     </form>
   </div>
   <script src="../js/menus.js"></script>
-  <script src="../js/add-knowledge.js"></script>
   <script src="../js/dice-roller.js"></script>
 </body>
 

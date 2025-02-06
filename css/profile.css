@@ -1,5 +1,5 @@
 body {
-  background-image: url("../img/bg.jpg");
+  background-image: url("../img/assets/backgrounds/bg.jpg");
 }
 
 .page {
@@ -110,7 +110,6 @@ label {
 
 #character-container {
   display: flex;
-  justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 1rem;
   border-radius: 0 1rem 1rem 0;
@@ -145,7 +144,7 @@ label {
 .character-header {
   justify-content: space-between;
   font-size: larger;
-  height: 3rem;
+  height: 2rem;
 }
 
 .name {
@@ -261,12 +260,11 @@ label {
   .page {
     flex-direction: column;
     gap: 1rem;
-    width: auto;
   }
 
   .container {
     gap: 1rem;
-    height: auto;
+    height: 31rem;
     width: 75%;
   }
 
@@ -276,7 +274,6 @@ label {
 
   #character-container {
     width: 75%;
-    height: 31rem;
     display: none;
     justify-content: center;
     border-radius: 1rem;

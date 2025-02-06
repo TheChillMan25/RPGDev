@@ -32,7 +32,7 @@ function closeConnection($conn)
 //--------------------Database management functions----------------------------------
 /**
  * Check if the given data already exists in the database.
- * @param msqli $conn the connection to the database
+ * @param mysqli $conn the connection to the database
  * @param string $type the type of the data (username, email)
  * @param string $data the data to check (username, email)
  * @return bool true if the data does not exist, false otherwise
@@ -71,8 +71,11 @@ function checkExistingData($conn, $type, $data)
  */
 function checkPsw($conn, $username, $password)
 {
-    $sql = "SELECT password FROM Users WHERE username='$username'";
-    $result = $conn->query($sql);
+    $stmt = "SELECT password FROM Users WHERE username=?";
+    $stmt = $conn->prepare($stmt);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if ($result) {
         $row = $result->fetch_assoc();
         return password_verify($password, $row['password']);
@@ -105,12 +108,12 @@ function resetIDCounter($conn)
 function insertUserData($conn, $username, $email, $password)
 {
     $password = password_hash($password, PASSWORD_DEFAULT);
-    $stmt = $conn->prepare("INSERT INTO Users (username, email, password, pfp) VALUES (?, ?, ?, '../img/pfp/blank.png')");
+    $stmt = $conn->prepare("INSERT INTO Users (username, email, password, pfp, status) VALUES (?, ?, ?, '../img/pfp/blank.png', 'user')");
     $stmt->bind_param("sss", $username, $email, $password);
     if ($stmt->execute() === false) {
         die("Error in data insertion.\n" . $conn->error);
     }
-
+    $stmt->close();
 }
 
 /**
@@ -120,12 +123,13 @@ function insertUserData($conn, $username, $email, $password)
  */
 function getUserData($conn, $username)
 {
-    $stmt = $conn->prepare("SELECT id, username, email, pfp FROM Users WHERE username = ?;");
+    $stmt = $conn->prepare("SELECT id, username, email, pfp, status FROM Users WHERE username = ?;");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result) {
         $row = $result->fetch_assoc();
+        $stmt->close();
         return $row;
     }
 }
@@ -155,6 +159,7 @@ function updateUserData($conn, $new_name, $new_email)
         $stmt = $conn->prepare("UPDATE Users SET username = ?, email = ? WHERE id = ?");
         $stmt->bind_param("ssi", $new_name, $new_email, $user_data['id']);
         if ($stmt->execute() === TRUE) {
+            $stmt->close();
             return true;
         }
     }
@@ -171,7 +176,7 @@ function updateSession($username)
  * @param list $user the user and its data
  * @param $file the file array from $_FILES
  * @param $target_dir the target directory to save the uploaded file
- * @return mixed the path of the uploaded file if successful, false otherwise
+ * @return bool|string the path of the uploaded file if successful, false otherwise
  */
 function uploadProfilePicture($user, $file, $target_dir = "../img/pfp/")
 {
@@ -230,6 +235,17 @@ function error($msg)
     echo $error_msg;
 }
 
+
+function checkLogin()
+{
+    if (isset($_SESSION['loggedin'])) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+//----------------RPG functions--------------------//
 /**
  * List all characters of the user.
  * @param mysqli $conn the connection to the database
@@ -238,7 +254,7 @@ function error($msg)
  */
 function listCharacters($conn, $user_id)
 {
-    $sql = "SELECT * FROM CharacterData WHERE user_id = ?";
+    $sql = "SELECT * FROM Characters WHERE user_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
@@ -250,7 +266,7 @@ function listCharacters($conn, $user_id)
 
     $characters = [];
     while ($row = $result->fetch_assoc()) {
-        $characters[] = $row;
+        $characters[] = getCharacterData($conn, $row['id']);
     }
 
     return $characters;
@@ -260,17 +276,103 @@ function listCharacters($conn, $user_id)
  * Gets all character data of the given character id
  * @param mysqli $conn the connection to the database
  * @param int $character_id the ID of the character
- * @return array the character data
+ * @return array|bool|null the character data
  */
 function getCharacterData($conn, $character_id)
 {
-    $stmt = "SELECT * FROM CharacterData WHERE id = ?";
+    $stmt = "SELECT * FROM Characters WHERE id = ?";
     $stmt = $conn->prepare($stmt);
     $stmt->bind_param("i", $character_id);
     if ($stmt->execute() !== TRUE) {
         die("Error in data retrieval.\n" . $conn->error);
     }
-    return $stmt->get_result()->fetch_assoc();
+    $character = $stmt->get_result()->fetch_assoc();
+
+    $stmt = "SELECT * FROM `Stats` WHERE id = ?";
+    $stmt = $conn->prepare($stmt);
+    $stmt->bind_param("i", $character['stats_id']);
+    if ($stmt->execute() !== TRUE) {
+        die("Error in data retrieval.\n" . $conn->error);
+    }
+    $stats = $stmt->get_result()->fetch_assoc();
+
+    $stmt = "SELECT * FROM CharacterSkills WHERE id = ?";
+    $stmt = $conn->prepare($stmt);
+    $stmt->bind_param("i", $character['skills_id']);
+    if ($stmt->execute() !== TRUE) {
+        die("Error in data retrieval.\n" . $conn->error);
+    }
+    $skills = $stmt->get_result()->fetch_assoc();
+
+    $stmt = "SELECT * FROM Equipment WHERE id = ?";
+    $stmt = $conn->prepare($stmt);
+    $stmt->bind_param("i", $character['equipment_id']);
+    if ($stmt->execute() !== TRUE) {
+        die("Error in data retrieval.\n" . $conn->error);
+    }
+    $equipment = $stmt->get_result()->fetch_assoc();
+
+    $stmt = "SELECT * FROM Inventory WHERE id = ?";
+    $stmt = $conn->prepare($stmt);
+    $stmt->bind_param("i", $character['inventory_id']);
+    if ($stmt->execute() !== TRUE) {
+        die("Error in data retrieval.\n" . $conn->error);
+    }
+    $inventory = $stmt->get_result()->fetch_assoc();
+
+    foreach ($stats as $key => $value) {
+        $character[$key] = $value;
+    }
+    foreach ($skills as $key => $value) {
+        $character[$key] = $value;
+    }
+    foreach ($equipment as $key => $value) {
+        $character[$key] = $value;
+    }
+    foreach ($inventory as $key => $value) {
+        $character[$key] = $value;
+    }
+    return $character;
+}
+
+/**
+ * Get character path
+ * @param mysqli $conn 
+ * @param int $path_id Id of path to get.
+ * @return string|bool|null
+ */
+function getCharacterPath($conn, $path_id)
+{
+    $stmt = $conn->prepare("SELECT name FROM Paths WHERE id=?");
+    $stmt->bind_param("i", $path_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $path = $result->fetch_assoc();
+        return $path['name'];
+    } else {
+        return null;
+    }
+}
+
+/**
+ * Get character nation
+ * @param mysqli $conn
+ * @param int $nation_id Id of nation to get
+ * @return string|bool|null
+ */
+function getCharacterNation($conn, $nation_id)
+{
+    $stmt = $conn->prepare("SELECT name FROM Nations WHERE id=?");
+    $stmt->bind_param("i", $nation_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $nation = $result->fetch_assoc();
+        return $nation['name'];
+    } else {
+        return null;
+    }
 }
 
 /**
@@ -282,7 +384,7 @@ function getCharacterData($conn, $character_id)
 function deleteCharacter($conn, $character_id)
 {
     $id = $character_id;
-    $stmt = "DELETE FROM CharacterData WHERE id = ?";
+    $stmt = "DELETE FROM Characters WHERE id = ?";
     $stmt = $conn->prepare($stmt);
     $stmt->bind_param("i", $id);
 
@@ -292,13 +394,14 @@ function deleteCharacter($conn, $character_id)
 }
 
 /**
+ * Checks if user has space for another character
  * @param mysqli $conn the connection to the database
  * @param int $user_id the id of the user
- * @return bool number of characters the user have 
+ * @return void 
  */
 function checkCharacterCount($conn, $user_id)
 {
-    $stmt = "SELECT COUNT(*) FROM CharacterData WHERE user_id = ?";
+    $stmt = "SELECT COUNT(*) FROM Characters WHERE user_id = ?";
     $stmt = $conn->prepare($stmt);
     $stmt->bind_param("i", $user_id);
     if ($stmt->execute() !== TRUE) {
@@ -314,7 +417,7 @@ function checkCharacterCount($conn, $user_id)
  * Claculates modifier based on the given value
  * @param string $value the value to calculate the modifier from
  * @throws \Exception if the value is invalid
- * @return string the modifier
+ * @return int|string the modifier
  */
 function calculateModifier($value)
 {
@@ -330,21 +433,29 @@ function calculateModifier($value)
         return "+1";
     } else if ('15' <= $value && $value <= '16') {
         return "+2";
-    } else if ('17' <= $value && $value <= '20') {
+    } else if ('17' <= $value) {
         return "+3";
     } else {
         throw new Exception("Invalid value for modifier calculation. VALUE: " . $value);
     }
 }
-
-
-function checkLogin()
+/**
+ * Returns $table
+ * @param $conn the connection to the database
+ * @param $table the table the data is returned (Nations, Weapons, etc)
+ * @return array|null the whole table in an associate array, null otherwise
+ */
+function getTableData($conn, $table)
 {
-    if (isset($_SESSION['loggedin'])) {
-        return true;
-    } else {
-        return false;
+    $sql = "SELECT * FROM " . $table;
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+        return $data;
     }
+    return null;
 }
 
 //----------------HTML functions-----------------//
@@ -357,18 +468,18 @@ function checkLogin()
  * @param bool $required If the selection is required
  * @return void
  */
-function createSelection($name, $max_value, $value_list = null, $text = "", $required = false)
+function createSelection($name, $max_value = 5, $value_list = null, $text = "", $required = false)
 {
     if (empty($value_list)) {
         echo '<select name="' . $name . '" id="' . $name . '" required>';
         for ($i = 0; $i <= $max_value; $i++) {
-            echo '<option class="number" value="' . ($i == 0 ? null : $i) . '">' . $i . '</option>';
+            echo '<option class="number" value="' . $i . '">' . $i . '</option>';
         }
     } else {
         echo '<select name="' . $name . '" id="' . $name . '" style="width: auto;" ' . ($required ? 'required' : '') . '>';
         echo '<option class="string" value="' . null . '">' . $text . '</option>';
         for ($i = 0; $i <= $max_value; $i++) {
-            echo '<option class="string" value="' . $value_list[$i] . '">' . $value_list[$i] . '</option>';
+            echo '<option class="string" value="' . $value_list[$i] . '">' . ucfirst($value_list[$i]) . '</option>';
         }
     }
     echo '</select>';
@@ -394,31 +505,4 @@ function createOptgroupSelect($name, $list, $text = "", $required = false)
     }
     echo '</select>';
 }
-
-//----------------------Variables----------------------//
-
-$knowledge_count = 0;
-$knowledge = array(
-    "Ősi Mágia",
-    "Mitikus Lények",
-    "Történelmi Események",
-    "Fajok és Kultúrák",
-    "Erdők és Vadonok",
-    "Térképek",
-    "Fejlett Technológia",
-    "Hagyományok és Rítusok",
-    "Szövetségek és Frakciók",
-    "Rejtett Rejtvények"
-);
-$nations = ['Folyóköz', 'Magasföld', 'Holtág', 'Denn Karadenn', 'Cha Me Rén', 'Doma Altiora', 'Édd', 'Vadin', 'Monor', 'Rügysze', 'Kérgeláb', 'Kalapos', 'Au-1. Fenntartó', 'AU-2 Utód', 'Au-Cust. Örző', 'Abominus', 'Vámpír'];
-$paths['Erő útja'] = ['Katona', 'Zsoldos', 'Dolgozó', 'Kovács'];
-$paths['Ügyesség útja'] = ['Bérgyilkos', 'Tolvaj', 'Kézműves', 'Rúnavéső'];
-$paths['Kitartás útja'] = ['Vadász', 'Őrző', 'Kereskedő', 'Gyűjtő'];
-$paths['Ész útja'] = ['Szakács', 'Vegyész', 'Orvos', 'Feltaláló'];
-$paths['Fortély útja'] = ['Zenész', 'Színész', 'Művész', 'Bűvész'];
-$paths['Akaraterő útja'] = ['Pap', 'Inkvizítor', 'Gyógyító', 'Vezeklő'];
-
-$armours = ['Ruha', 'Könnyű páncél', 'Közepes páncél', 'Sétáló erőd'];
-$weapons = ["acél öklök", "buzogány", "csatabárd", "fejsze", "fokos", "hosszúkard", "íj", "kalapács", "karabély", "kard", "kézi ágyú", "kézi balliszta", "lándzsa", "ostor", "pálca", "pisztoly", "pöröly", "rapír", "szablya", "számszeríj", "tőr"];
-
 ?>

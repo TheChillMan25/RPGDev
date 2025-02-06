@@ -1,5 +1,9 @@
 body {
-  background-image: url("../img/paper_bg.jpg");
+  background-image: url("../img/assets/backgrounds/paper_bg.jpg");
+}
+
+.page {
+  align-items: unset;
 }
 
 #drb-c {
@@ -31,6 +35,7 @@ body {
 }
 
 #dice-roller {
+  width: 20rem;
   display: none;
   flex-direction: column;
   align-items: center;
@@ -43,6 +48,7 @@ body {
 #dice-btn-c {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
   gap: 1rem;
   width: 100%;
 }
@@ -67,14 +73,21 @@ body {
 }
 
 .dice {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 4rem;
   height: 4rem;
   border: none;
   background-color: whitesmoke;
-  font-size: larger;
   border-radius: 0.5rem;
-  color: #333;
   cursor: pointer;
+}
+
+.dice img {
+  height: 100%;
+  width: 100%;
 }
 
 #current-roll {
@@ -137,12 +150,9 @@ select::-webkit-scrollbar {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  height: calc(100% - 4rem);
+  height: fit-content;
   width: 55%;
-  position: absolute;
-  bottom: 0;
   background-color: #444;
-  overflow-y: auto;
   -ms-overflow-style: none; /* IE and Edge */ /* Hide scrollbar for IE, Edge and Firefox */
   scrollbar-width: none; /* Firefox */
 }
@@ -211,7 +221,7 @@ select::-webkit-scrollbar {
   border-radius: 1rem;
 }
 
-#nation-path-container {
+#path-container {
   padding: 1rem;
   display: flex;
   justify-content: space-around;
@@ -234,6 +244,7 @@ label {
 
 #character-info {
   display: flex;
+  gap: 1rem;
   margin: 0rem 2rem;
   padding: 1rem;
   border-radius: 2rem;
@@ -254,27 +265,12 @@ label {
   font-size: larger;
 }
 
-#add-knowledge {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.5rem;
-  width: fit-content;
-  background-color: #333;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  color: whitesmoke;
-  text-align: center;
-  font-size: large;
-  border-radius: 0.5rem;
-  border: 0.3rem solid #222;
-  cursor: pointer;
-}
-
-.knowledge_container {
+.skill-container {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   font-size: medium;
 }
@@ -353,7 +349,6 @@ label {
 
   #body {
     width: 85%;
-    flex-direction: column;
     align-items: center;
     margin: 0.5rem 0;
   }
@@ -378,7 +373,7 @@ label {
     margin-bottom: 1rem;
   }
 
-  #nation-path-container {
+  #path-container {
     width: auto;
     gap: 1rem;
   }

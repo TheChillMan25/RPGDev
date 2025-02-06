@@ -1,8 +1,9 @@
 body {
-  background-image: url(../img/paper_bg.jpg);
+  background-image: url(../img/assets/backgrounds/paper_bg.jpg);
 }
 
 .page {
+  padding: 1rem;
   flex-direction: column;
   justify-content: start;
 }

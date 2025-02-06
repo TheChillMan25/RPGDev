@@ -22,7 +22,7 @@ if (checkLogin()) {
 
 <body>
   <div class="navbar">
-    <a class="index-link" href="index.php"><img src="img/logo.png" alt="Index oldalra" /></a>
+    <a class="index-link" href="index.php"><img src="img/assets/icons/logo.png" alt="Index oldalra" /></a>
     <div id="link-container">
       <a class="navbar-link" href="php/fajok.php">Fajok</a>
       <a class="navbar-link" href="php/szerepek.php">Szerepek</a>

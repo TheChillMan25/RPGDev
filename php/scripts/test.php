@@ -6,7 +6,7 @@ include 'manager.php';
 
 $conn = connectToDB();
 
-$sql = "DELETE FROM CharacterData";
+$sql = "DELETE FROM Paths";
 if ($conn->query($sql) === TRUE) {
     echo "All data deleted from Users table.\n";
 } else {
