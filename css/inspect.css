@@ -13,7 +13,6 @@ body {
 
 #header {
   width: calc(100% - 10rem);
-  height: 5rem;
   padding: 1rem 5rem;
   display: flex;
   justify-content: space-between;
@@ -23,7 +22,15 @@ body {
 }
 
 #name {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   font-size: 3rem;
+}
+
+#path {
+  font-size: x-large;
+  color: whitesmoke;
 }
 
 #header-container {
@@ -43,12 +50,12 @@ body {
 }
 
 .main-stat-container {
-  width: 15%;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  gap: 0.5rem;
   background-color: #444;
   border: 0.2rem solid #333;
   border-radius: 1rem;
@@ -77,14 +84,7 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-}
-
-#sanity-form {
-  flex-direction: row-reverse;
-}
-
-#health-form {
-  flex-direction: row;
+  gap: 0.5rem;
 }
 
 .main-stat-btn {
@@ -114,6 +114,7 @@ body {
   padding: 0.5rem;
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   gap: 0.5rem;
   font-size: larger;
 }
@@ -280,10 +281,67 @@ body {
   color: whitesmoke;
 }
 
-/* .item:nth-child(odd) {
-  background-color: #999;
+#throw-container {
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.item:nth-child(even) {
-  background-color: #777;
-} */
+#throw {
+  height: 10rem;
+  width: 10rem;
+  padding: 1rem;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: #333;
+  border-radius: 1rem;
+}
+
+@media (orientation: portrait) and (max-width: 768px) {
+  #header {
+    padding: 0.5rem;
+    width: calc(100% - 1rem);
+  }
+
+  #name {
+    font-size: x-large;
+  }
+
+  #header-container {
+    font-size: large;
+    gap: 0.5rem;
+  }
+
+  #stats {
+    flex-wrap: wrap;
+  }
+
+  #body {
+    height: auto;
+  }
+
+  #other {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .body-container {
+    width: auto;
+  }
+
+  #equipment {
+    width: auto;
+  }
+
+  #knowledge {
+    width: auto;
+  }
+
+  #inventory {
+    width: auto;
+  }
+}

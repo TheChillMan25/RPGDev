@@ -1,15 +1,4 @@
-function showMenu(event) {
-  event.preventDefault();
-  const plus = document.getElementById("plus");
-  const minus = document.getElementById("minus");
-  var num = document.getElementById("num");
-
-  if (event.target.id === "plus") {
-    num.innerHTML = parseInt(num.innerHTML) + 1;
-  } else if (event.target.id === "minus") {
-    num.innerHTML = parseInt(num.innerHTML) - 1;
-  }
+function printHealth() {
+  const a = document.getElementById("a");
+  const value = parseInt(a.getAttribute("data-value"));
 }
-
-document.getElementById("plus").addEventListener("click", showMenu);
-document.getElementById("minus").addEventListener("click", showMenu);

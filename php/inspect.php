@@ -141,29 +141,21 @@ if (checkLogin()) {
             <span id="name"><?php echo $character['name'] ?></span>
             <div id="header-container">
                 <span id="nation"><?php echo getCharacterNation($conn, $character['nation_id']) ?></span>
-                <span id="path"><?php echo getPath($conn, $character['path_id']) ?>
-                    <?php echo $character['path_level'] ?></span>
+                <span id="background">
+                    <?php echo getCharacterBackground($conn, $character['background_id'])['name'] ?></span>
             </div>
         </div>
         <div id="body" class="container">
             <div id="stats">
-                <div id="sanity" class="main-stat-container">
-                    <span class="title">Elme</span>
-                    <div class="value">
-                        <?php echo $character['sanity'] . '/' . $character['max_sanity'] ?>
+                <div id="throw-container" style="display: none; backdrop-filter: blur(3px)">
+                    <div id="throw">
+                        <span id="throw-title" class="title" style="font-size: larger">Dobás</span>
+                        <span id="throw-value" class="value">X</span>
                     </div>
-                    <form action="inspect.php" method="post" id="sanity-form" class="form">
-                        <button type="submit" name="sanity_action" value="heal" class="heal main-stat-btn"><i
-                                class="fa-solid fa-heart fa-2xl"></i></button>
-                        <input type="number" name="amount" id="amount" min="0" value="0">
-                        <input type="hidden" name="character_id" value="<?php echo $character['id'] ?>">
-                        <button type="submit" name="sanity_action" value="damage" class="damage main-stat-btn"><i
-                                class="fa-solid fa-heart-crack fa-2xl"></i>
-                        </button>
-                    </form>
                 </div>
-                <div id="strength" class="stat" data-value="<?php calculateModifier($character['strength']) ?>"><span
-                        class="title">Erő</span>
+
+                <div id="strength" class="stat" data-value="<?php echo calculateModifier($character['strength']) ?>">
+                    <span class="title">Erő</span>
                     <div class="value-mod-container">
                         <span class="value"><?php echo $character['strength'] ?></span>
                         <div class="mod">
@@ -171,8 +163,8 @@ if (checkLogin()) {
                         </div>
                     </div>
                 </div>
-                <div id="dexterity" class="stat" data-value="<?php calculateModifier($character['dexterity']) ?>"><span
-                        class="title">Ügyesség</span>
+                <div id="dexterity" class="stat" data-value="<?php echo calculateModifier($character['dexterity']) ?>">
+                    <span class="title">Ügyesség</span>
                     <div class="value-mod-container">
                         <span class="value"><?php echo $character['dexterity'] ?></span>
                         <div class="mod">
@@ -180,8 +172,8 @@ if (checkLogin()) {
                         </div>
                     </div>
                 </div>
-                <div id="endurance" class="stat" data-value="<?php calculateModifier($character['endurance']) ?>"><span
-                        class="title">Kitartás</span>
+                <div id="endurance" class="stat" data-value="<?php echo calculateModifier($character['endurance']) ?>">
+                    <span class="title">Kitartás</span>
                     <div class="value-mod-container">
                         <span class="value"><?php echo $character['endurance'] ?></span>
                         <div class="mod">
@@ -189,7 +181,8 @@ if (checkLogin()) {
                         </div>
                     </div>
                 </div>
-                <div id="intelligence" class="stat" data-value="<?php calculateModifier($character['intelligence']) ?>">
+                <div id="intelligence" class="stat"
+                    data-value="<?php echo calculateModifier($character['intelligence']) ?>">
                     <span class="title">Ész</span>
                     <div class="value-mod-container">
                         <span class="value"><?php echo $character['intelligence'] ?></span>
@@ -198,8 +191,8 @@ if (checkLogin()) {
                         </div>
                     </div>
                 </div>
-                <div id="charisma" class="stat" data-value="<?php calculateModifier($character['charisma']) ?>"><span
-                        class="title">Fortély</span>
+                <div id="charisma" class="stat" data-value="<?php echo calculateModifier($character['charisma']) ?>">
+                    <span class="title">Fortély</span>
                     <div class="value-mod-container">
                         <span class="value"><?php echo $character['charisma'] ?></span>
                         <div class="mod">
@@ -207,8 +200,8 @@ if (checkLogin()) {
                         </div>
                     </div>
                 </div>
-                <div id="willpower" class="stat" data-value="<?php calculateModifier($character['willpower']) ?>"><span
-                        class="title">Akaraterő</span>
+                <div id="willpower" class="stat" data-value="<?php echo calculateModifier($character['willpower']) ?>">
+                    <span class="title">Akaraterő</span>
                     <div class="value-mod-container">
                         <span class="value"><?php echo $character['willpower'] ?></span>
                         <div class="mod">
@@ -231,19 +224,23 @@ if (checkLogin()) {
                         </button>
                     </form>
                 </div>
+                <div id="sanity" class="main-stat-container">
+                    <span class="title">Elme</span>
+                    <div class="value">
+                        <?php echo $character['sanity'] . '/' . $character['max_sanity'] ?>
+                    </div>
+                    <form action="inspect.php" method="post" id="sanity-form" class="form">
+                        <button type="submit" name="sanity_action" value="heal" class="heal main-stat-btn"><i
+                                class="fa-solid fa-heart fa-2xl"></i></button>
+                        <input type="number" name="amount" id="amount" min="0" value="0">
+                        <input type="hidden" name="character_id" value="<?php echo $character['id'] ?>">
+                        <button type="submit" name="sanity_action" value="damage" class="damage main-stat-btn"><i
+                                class="fa-solid fa-heart-crack fa-2xl"></i>
+                        </button>
+                    </form>
+                </div>
             </div>
             <div id="other">
-                <div id="knowledge" class="body-container">
-                    <span class="title" style="font-size: x-large">Ismeretek</span>
-                    <div id="knowledge-container" class="body-item-container">
-                        <?php
-                        $skills = getSkills($conn);
-                        for ($i = 1; $i <= 10; $i++) {
-                            echo '<span class="body-container-item knowledge">' . $skills[$i - 1]['name'] . '<span class="knowledge_lvl" style="color: whitesmoke">' . $character['skill_' . $i . '_lvl'] . '</span></span>';
-                        }
-                        ?>
-                    </div>
-                </div>
                 <div id="equipment">
                     <div id="weapons">
                         <span class="title" style="font-size:x-large">Fegyverek</span>
@@ -287,6 +284,20 @@ if (checkLogin()) {
                         </span>
                     </div>
                 </div>
+                <div id="knowledge" class="body-container">
+                    <span class="title" style="font-size: x-large">Ismeretek</span>
+                    <span id="path">
+                        <?php echo getPath($conn, $character['path_id']) ?>
+                        <?php echo $character['path_level'] ?></span>
+                    <div id="knowledge-container" class="body-item-container">
+                        <?php
+                        $skills = getSkills($conn);
+                        for ($i = 1; $i <= 10; $i++) {
+                            echo '<span class="body-container-item knowledge">' . $skills[$i - 1]['name'] . '<span class="knowledge_lvl" style="color: whitesmoke">' . $character['skill_' . $i . '_lvl'] . '</span></span>';
+                        }
+                        ?>
+                    </div>
+                </div>
                 <div id="inventory" class="body-container">
                     <span class="title" style="font-size: x-large">Tárgyak</span>
                     <div id="item-container" class="body-item-container">
@@ -306,6 +317,7 @@ if (checkLogin()) {
         </div>
     </div>
     <script src="../js/menus.js"></script>
+    <script src="../js/statroll.js"></script>
 </body>
 
 </html>

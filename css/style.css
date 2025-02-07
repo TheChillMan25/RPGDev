@@ -105,6 +105,7 @@ a {
 }
 
 #desktop-profile-menu {
+  color: whitesmoke;
   border: 0.2rem solid #444;
   transition: 0.3s ease;
 }

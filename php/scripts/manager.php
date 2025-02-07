@@ -20,14 +20,6 @@ function connectToDB()
     }
     return $conn;
 }
-
-/**
- * Closes connection to the database.
- */
-function closeConnection($conn)
-{
-    $conn->close();
-}
 //-----------------------------------------------------------------------------------
 //--------------------Database management functions----------------------------------
 /**
@@ -78,11 +70,12 @@ function checkPsw($conn, $username, $password)
     $result = $stmt->get_result();
     if ($result) {
         $row = $result->fetch_assoc();
+        $stmt->close();
         return password_verify($password, $row['password']);
     }
     die("Error in password check.\n");
 }
-//12345678
+
 /**
  * Reset the ID counter of the database.
  * @param $conn the connection to the database
@@ -238,7 +231,7 @@ function error($msg)
 
 function checkLogin()
 {
-    if (isset($_SESSION['loggedin'])) {
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         return true;
     } else {
         return false;
@@ -354,12 +347,13 @@ function getCharacterData($conn, $character_id)
  */
 function getPath($conn, $path_id)
 {
-    $stmt = $conn->prepare("SELECT name FROM Paths WHERE id=?");
+    $stmt = $conn->prepare("SELECT name, description FROM Paths WHERE id=?");
     $stmt->bind_param("i", $path_id);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $path = $result->fetch_assoc();
+        $stmt->close();
         return $path['name'];
     } else {
         return null;
@@ -374,17 +368,37 @@ function getPath($conn, $path_id)
  */
 function getCharacterNation($conn, $nation_id)
 {
-    $stmt = $conn->prepare("SELECT name FROM Nations WHERE id=?");
+    $stmt = $conn->prepare("SELECT name, description FROM Nations WHERE id=?");
     $stmt->bind_param("i", $nation_id);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $nation = $result->fetch_assoc();
+        $stmt->close();
         return $nation['name'];
     } else {
         return null;
     }
 }
+/**
+ * Get character background
+ * @param mysqli $conn
+ * @param int $background_id Id of background wished to be gotten
+ * @return array|bool|null
+ */
+function getCharacterBackground($conn, $background_id)
+{
+    $stmt = $conn->prepare('SELECT name, description FROM Backgrounds WHERE id=?');
+    $stmt->bind_param('i', $background_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $stmt->close();
+        $background = $result->fetch_assoc();
+        return $background;
+    }
+}
+
 /**
  * Lits all skills from table Skills
  * @param mixed $conn
@@ -392,7 +406,7 @@ function getCharacterNation($conn, $nation_id)
  */
 function getSkills($conn)
 {
-    $result = $conn->query('SELECT name FROM Skills');
+    $result = $conn->query('SELECT name, description FROM Skills');
     while ($row = $result->fetch_assoc()) {
         $skills[] = $row;
     }
@@ -508,31 +522,41 @@ function getTableData($conn, $table)
 }
 
 //----------------HTML functions-----------------//
+
 /**
- * Creates $max_value amount of options for a selection
- * @param string $name Name of the selection applies to name and id property
- * @param int $max_value Max value of options, also printed if no $value_list is provided
- * @param list $value_list List of values to be printed as options
- * @param string $text Text to be printed as the selection default value
- * @param bool $required If the selection is required
+ * Summary of createStatSelect
+ * @param string $name Name of the selection
+ * @param int $min Minimum number to start
+ * @param int $max Maximum number to stop
+ * @param bool $required If true, the select block will be required
  * @return void
  */
-function createSelection($name, $max_value = 5, $value_list = null, $text = "", $required = false)
+function createStatSelect($name, $min = 1, $max = 6, $required = false)
 {
-    if (empty($value_list)) {
-        echo '<select name="' . $name . '" id="' . $name . '" required>';
-        for ($i = 0; $i <= $max_value; $i++) {
-            echo '<option class="number" value="' . $i . '">' . $i . '</option>';
-        }
-    } else {
-        echo '<select name="' . $name . '" id="' . $name . '" style="width: auto;" ' . ($required ? 'required' : '') . '>';
-        echo '<option class="string" value="' . null . '">' . $text . '</option>';
-        for ($i = 0; $i <= $max_value; $i++) {
-            echo '<option class="string" value="' . $value_list[$i] . '">' . ucfirst($value_list[$i]) . '</option>';
-        }
+    echo '<select name="' . $name . '" id="' . $name . '" ' . ($required ? 'required' : '') . '>';
+    for ($i = $min; $i <= $max; $i++) {
+        echo '<option class="number" value="' . $i . '">' . $i . '</option>';
     }
     echo '</select>';
 }
+/**
+ * Create Select from a list
+ * @param string $name Name of the selection
+ * @param array|list $list List with the values
+ * @param bool $required If true, the select block will be required
+ * @param string $text Test to print as title of the select
+ * @return void
+ */
+function createListSelect($name, $list, $required = false, $text = '')
+{
+    echo '<select name="' . $name . '" id="' . $name . '" style="width: auto;" ' . ($required ? 'required' : '') . '>';
+    echo '<option class="string" value="' . null . '">' . $text . '</option>';
+    for ($i = 0; $i < sizeof($list); $i++) {
+        echo '<option class="string" value="' . $list[$i] . '">' . ucfirst($list[$i]) . '</option>';
+    }
+    echo '</select>';
+}
+
 /**
  * Create select with option groups
  * @param string $name Name of the selection applies to name and id property

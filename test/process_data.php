@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="number" name="amount" id="amount" value="0" min="0" style="width: 5rem">
             <button type="submit" name="action" value="add">heal</button>
         </form>
-        <span><?php echo $_SESSION['health'] ?></span>
+        <span id="a" data-value="<?php echo $_SESSION['health'] ?>"><?php echo $_SESSION['health'] ?></span>
     </div>
 </body>
 

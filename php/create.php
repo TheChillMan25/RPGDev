@@ -80,6 +80,7 @@ if (checkLogin()) {
           path_level=" . $_POST['level'] . ", 
           stats_id=" . $stats_id . ", 
           skills_id=" . $skills_id . ", 
+          background_id=" . $_POST['background'] . ", 
           equipment_id=" . $equipment_id . ", 
           inventory_id=" . $inventory_id . " 
           WHERE id=" . $character_id) !== true
@@ -94,11 +95,6 @@ if (checkLogin()) {
   header("Location: login.php");
   exit();
 }
-
-function plusKnowledge($knowledge_count)
-{
-  $knowledge_count++;
-}
 ?>
 <!DOCTYPE html>
 <html lang="hu">
@@ -109,7 +105,7 @@ function plusKnowledge($knowledge_count)
   <title>Ágas és Bogas | Karakter készítő</title>
   <link rel="icon" href="../img/assets/icons/icon.png" />
   <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="../css/create-character.css" />
+  <link rel="stylesheet" href="../css/create.css" />
   <script src="https://kit.fontawesome.com/62786e1e62.js" crossorigin="anonymous"></script>
 </head>
 
@@ -167,13 +163,13 @@ function plusKnowledge($knowledge_count)
     <div id="dr-container">
       <div id="dice-roller">
         <div id="dice-btn-c">
-          <button id="d4" class="dice" data-value="4"><img src="../img/dice/d4.png" alt="d4"></button>
-          <button id="d6" class="dice" data-value="6"><img src="../img/dice/d6.png" alt="d6"></button>
-          <button id="d8" class="dice" data-value="8"><img src="../img/dice/d8.png" alt="d8"></button>
-          <button id="d10" class="dice" data-value="10"><img src="../img/dice/d10.png" alt="d10"></button>
-          <button id="d6" class="dice" data-value="12"><img src="../img/dice/d12.png" alt="d12"></button>
-          <button id="d20" class="dice" data-value="20"><img src="../img/dice/d20.png" alt="d20"></button>
-          <button id="d100" class="dice" data-value="100"><img src="../img/dice/d100.png" alt="d100"></button>
+          <button id="d4" class="dice" data-value="4"><img src="../img/assets/dice/d4.png" alt="d4"></button>
+          <button id="d6" class="dice" data-value="6"><img src="../img/assets/dice/d6.png" alt="d6"></button>
+          <button id="d8" class="dice" data-value="8"><img src="../img/assets/dice/d8.png" alt="d8"></button>
+          <button id="d10" class="dice" data-value="10"><img src="../img/assets/dice/d10.png" alt="d10"></button>
+          <button id="d6" class="dice" data-value="12"><img src="../img/assets/dice/d12.png" alt="d12"></button>
+          <button id="d20" class="dice" data-value="20"><img src="../img/assets/dice/d20.png" alt="d20"></button>
+          <button id="d100" class="dice" data-value="100"><img src="../img/assets/dice/d100.png" alt="d100"></button>
         </div>
         <label id="dr-label" for="double">Dupla<input type="checkbox" id="double" name="duble"></label>
         <div id="dcv-container">
@@ -191,55 +187,61 @@ function plusKnowledge($knowledge_count)
           Nemzet
           <?php
           $nations = getTableData($conn, 'Nations');
-          echo '<select name="nation" id="nation" style="width: auto;">';
-          echo '<option value="' . null . '">Válassz nemzetet</option>';
+          echo '<select name="nation" id="nation" style="width: auto;" required>';
+          echo '<option value="' . null . '">Válassz</option>';
           for ($i = 0; $i < sizeof($nations); $i++) {
             echo '<option name="' . $nations[$i]['name'] . '" id="' . $nations[$i]['name'] . '" value="' . $nations[$i]['id'] . '">' . ucfirst($nations[$i]['name']) . '</option>';
           }
           echo '</select>';
           ?>
         </label>
-        <!-- <label for="nation" style="gap: 1rem">
+        <label for="background" style="gap: 1rem">
           Háttér
           <?php
-          createSelection("background", 0);
+          $backgrounds = getTableData($conn, 'Backgrounds');
+          echo '<select name="background" id="background" style="width: auto;" required>';
+          echo '<option value="' . null . '">Válassz</option>';
+          for ($i = 0; $i < sizeof($backgrounds); $i++) {
+            echo '<option name="' . $backgrounds[$i]['name'] . '" id="' . $backgrounds[$i]['name'] . '" value="' . $backgrounds[$i]['id'] . '">' . ucfirst($backgrounds[$i]['name']) . '</option>';
+          }
+          echo '</select>';
           ?>
-        </label> -->
+        </label>
       </div>
       <div id="body">
         <div id="stats">
           <div id="physical" class="stat-container">
             <label>Erő
               <?php
-              createSelection("strength", 22);
+              createStatSelect("strength", 1, 22, true);
               ?>
             </label>
             <label>Ügyesség
               <?php
-              createSelection("dexterity", 22);
+              createStatSelect("dexterity", 1, 22, true);
               max_value:
               ?>
             </label>
             <label>Kitartás
               <?php
-              createSelection("endurance", 22);
+              createStatSelect("endurance", 1, 22, true);
               ?>
             </label>
           </div>
           <div id="inner" class="stat-container">
             <label>Ész
               <?php
-              createSelection("intelligence", 22);
+              createStatSelect("intelligence", 1, 22, true);
               ?>
             </label>
             <label>Fortély
               <?php
-              createSelection("charisma", 22);
+              createStatSelect("charisma", 1, 22, true);
               ?>
             </label>
             <label>Akaraterő
               <?php
-              createSelection("willpower", 22);
+              createStatSelect("willpower", 1, 22, true);
               ?>
             </label>
           </div>
@@ -248,13 +250,13 @@ function plusKnowledge($knowledge_count)
           <label for="health">
             Életerő
             <?php
-            createSelection("health", 12);
+            createStatSelect("health", 1, 12, true);
             ?>
           </label>
           <label for="sanity">
             Elme
             <?php
-            createSelection("sanity", 12);
+            createStatSelect("sanity", 1, 12, true);
             ?>
           </label>
         </div>
@@ -265,7 +267,7 @@ function plusKnowledge($knowledge_count)
           <?php
           $paths = getTableData($conn, "Paths");
           $pathGroups = getTableData($conn, "PathGroups");
-          echo '<select name="path" id="path" style="width: auto;">';
+          echo '<select name="path" id="path" style="width: auto;" required>';
           echo '<option value="' . null . '">Válassz utat</option>';
           for ($i = 0, $j = 0; $i < sizeof($paths); $i++) {
             if ($i % 4 == 0) {
@@ -282,7 +284,7 @@ function plusKnowledge($knowledge_count)
         <label for="level">
           Szint
           <?php
-          createSelection("level", 6);
+          createStatSelect("level", 1, 6, true);
           ?>
         </label>
       </div>
@@ -293,7 +295,7 @@ function plusKnowledge($knowledge_count)
           $skills = getTableData($conn, "Skills");
           for ($i = 0; $i < sizeof($skills); $i++) {
             echo '<div class="skill-container"><label for="skill_' . $i + 1 . '" class="knowledge">' . $skills[$i]['name'] . '</label>';
-            createSelection('skill_' . $i + 1);
+            createStatSelect('skill_' . $i + 1, 0);
             echo '</div>';
           }
           ?>
