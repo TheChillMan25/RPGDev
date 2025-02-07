@@ -320,17 +320,28 @@ function getCharacterData($conn, $character_id)
     }
     $inventory = $stmt->get_result()->fetch_assoc();
 
-    foreach ($stats as $key => $value) {
-        $character[$key] = $value;
+    if (is_array($stats)) {
+        foreach ($stats as $key => $value) {
+            $character[$key] = $value;
+        }
     }
-    foreach ($skills as $key => $value) {
-        $character[$key] = $value;
+
+    if (is_array($skills)) {
+        foreach ($skills as $key => $value) {
+            $character[$key] = $value;
+        }
     }
-    foreach ($equipment as $key => $value) {
-        $character[$key] = $value;
+
+    if (is_array($equipment)) {
+        foreach ($equipment as $key => $value) {
+            $character[$key] = $value;
+        }
     }
-    foreach ($inventory as $key => $value) {
-        $character[$key] = $value;
+
+    if (is_array($inventory)) {
+        foreach ($inventory as $key => $value) {
+            $character[$key] = $value;
+        }
     }
     return $character;
 }
@@ -341,7 +352,7 @@ function getCharacterData($conn, $character_id)
  * @param int $path_id Id of path to get.
  * @return string|bool|null
  */
-function getCharacterPath($conn, $path_id)
+function getPath($conn, $path_id)
 {
     $stmt = $conn->prepare("SELECT name FROM Paths WHERE id=?");
     $stmt->bind_param("i", $path_id);
@@ -373,6 +384,44 @@ function getCharacterNation($conn, $nation_id)
     } else {
         return null;
     }
+}
+/**
+ * Lits all skills from table Skills
+ * @param mixed $conn
+ * @return array|null
+ */
+function getSkills($conn)
+{
+    $result = $conn->query('SELECT name FROM Skills');
+    while ($row = $result->fetch_assoc()) {
+        $skills[] = $row;
+    }
+    return $skills;
+
+}
+/**
+ * Get items and gear
+ * @param mysqli $conn
+ * @param string $table_name Name of the table the gear should be gotten from
+ * @param int $id Id of the item
+ */
+function getGear($conn, $table_name, $id)
+{
+    if ($table_name === "Armour") {
+        $stmt = $conn->prepare('SELECT name, description, value, dex_mod FROM ' . $table_name . ' WHERE id=?');
+    } else if ($table_name === "Weapons") {
+        $stmt = $conn->prepare('SELECT name, description, dice, properties FROM ' . $table_name . ' WHERE id=?');
+    } else {
+        $stmt = $conn->prepare('SELECT name, description FROM ' . $table_name . ' WHERE id=?');
+    }
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $item = $result->fetch_assoc();
+        return $item;
+    }
+    return ["name" => "-", "description" => "-", "dice" => "-", "properties" => "-", "value" => "0", "dex_mod" => "0"];
 }
 
 /**

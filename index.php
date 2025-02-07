@@ -40,7 +40,7 @@ if (checkLogin()) {
           <div id="profile-menu">
             <div id="profile-link-container" class="profile-container">
               <a class="profile-menu-link" href="php/profile.php">Profile</a>
-              <a class="profile-menu-link" href="php/create-character.php">Character maker</a>
+              <a class="profile-menu-link" href="php/create.php">Character maker</a>
               <a class="profile-menu-link" href="php/scripts/logout.php">Logout</a>
             </div>
             <div id="m-link-container" class="profile-container">

@@ -6,7 +6,7 @@ include 'manager.php';
 
 $conn = connectToDB();
 
-$sql = "DELETE FROM Paths";
+/* $sql = "DELETE FROM Paths";
 if ($conn->query($sql) === TRUE) {
     echo "All data deleted from Users table.\n";
 } else {
@@ -15,7 +15,7 @@ if ($conn->query($sql) === TRUE) {
 }
 $conn->close();
 
-/* $list['Kenyér'] = ["Alma", "Körte", "Dió"];
+$list['Kenyér'] = ["Alma", "Körte", "Dió"];
 $list['Tejföl'] = ["Alma", "Körte", "Dió"];
 $list['Sajt'] = ["Alma", "Körte", "Dió"];
 
@@ -29,4 +29,5 @@ foreach ($list as $k => $v) {
     echo "</optgroup>";
 }
 echo '</select>'; */
+
 ?>

@@ -21,8 +21,8 @@ if (checkLogin()) {
 
     if (
       $conn->query('INSERT INTO `Stats` (character_id, 
-    health, sanity, strength, dexterity, endurance, intelligence, 
-    charisma, willpower) VALUES (' . $character_id . ', ' . $_POST['health'] . ', 
+    max_health, max_sanity, health, sanity, strength, dexterity, endurance, intelligence, 
+    charisma, willpower) VALUES (' . $character_id . ',' . $_POST['health'] . ', ' . $_POST['sanity'] . ' , ' . $_POST['health'] . ', 
     ' . $_POST['sanity'] . ', ' . $_POST['strength'] . ', ' . $_POST['dexterity'] . ', 
     ' . $_POST['endurance'] . ', ' . $_POST['intelligence'] . ', ' . $_POST['charisma'] . ', 
     ' . $_POST['willpower'] . ')') !== true
@@ -133,7 +133,7 @@ function plusKnowledge($knowledge_count)
           <div id="profile-menu">
             <div id="profile-link-container" class="profile-container">
               <a class="profile-menu-link" href="profile.php">Profile</a>
-              <a class="profile-menu-link" href="create-character.php">Character maker</a>
+              <a class="profile-menu-link" href="create.php">Character maker</a>
               <a class="profile-menu-link" href="scripts/logout.php">Logout</a>
             </div>
             <div id="m-link-container" class="profile-container">
@@ -184,7 +184,7 @@ function plusKnowledge($knowledge_count)
       </div>
       <div id="drb-c"><button id="dice-roller-btn"><i class="fa-solid fa-dice fa-2xl"></i></button></div>
     </div>
-    <form id="character-maker" action="create-character.php" method="post" enctype="multipart/form-data">
+    <form id="character-maker" action="create.php" method="post" enctype="multipart/form-data">
       <div id="header">
         <label for="name"><input type="text" name="name" id="name" placeholder="Karakter neve" required></label>
         <label for="nation" style="gap: 1rem">

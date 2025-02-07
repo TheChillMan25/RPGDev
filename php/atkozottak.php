@@ -35,7 +35,7 @@ if (checkLogin()) {
           <div id="mobile-link-container">
             <?php if (checkLogin()) {
               echo '<a class="navbar-link" href="profile.php">Profile</a>
-              <a class="navbar-link" href="create-character.php">Create your character</a>
+              <a class="navbar-link" href="create.php">Create your character</a>
               <a class="navbar-link" href="scripts/logout.php">Logout</a><hr>';
             } else {
               echo '<a class="navbar-link" href="login.php">Login</a><hr style="background-color: #f2c488; width: 70%; height: 0.5rem; border: none;">';
@@ -63,7 +63,7 @@ if (checkLogin()) {
         <div id="profile-menu-container">
           <div id="profile-menu">
             <a class="profile-menu-link" href="profile.php">Profile</a>
-            <a class="profile-menu-link" href="create-character.php">Character maker</a>
+            <a class="profile-menu-link" href="create.php">Character maker</a>
             <a class="profile-menu-link" href="scripts/logout.php">Logout</a>
           </div>
         </div>';

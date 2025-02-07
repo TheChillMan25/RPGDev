@@ -24,7 +24,7 @@ if ($conn->query("USE RPG_DB"))
 
 if (
   $conn->query("CREATE TABLE Items(
-  id INT(4) AUTO_INCREMENT PRIMARY KEY,
+  id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(30),
   description VARCHAR (255)
   );"
@@ -36,7 +36,7 @@ else
 
 if (
   $conn->query("CREATE TABLE Weapons(
-    id INT(4) AUTO_INCREMENT PRIMARY KEY,
+    id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30),
     dice VARCHAR(10),
     description VARCHAR (255),
@@ -50,7 +50,7 @@ else
 
 if (
   $conn->query("CREATE TABLE Armour(
-      id INT(4) AUTO_INCREMENT PRIMARY KEY,
+      id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       name VARCHAR(30),
       value INT(3),
       description VARCHAR (255),
@@ -63,8 +63,8 @@ else
 
 if (
   $conn->query("CREATE TABLE Paths(
-      id INT(1) AUTO_INCREMENT PRIMARY KEY,
-      group_id INT(1) not null,
+      id INT(2) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      group_id INT(2) UNSIGNED NOT NULL,
       name VARCHAR(30),
       description VARCHAR (255));"
   )
@@ -75,7 +75,7 @@ else
 
 if (
   $conn->query("CREATE TABLE PathGroups(
-id INT(1) AUTO_INCREMENT PRIMARY KEY,
+id INT(2) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(30),
 description VARCHAR (255));"
   )
@@ -86,7 +86,7 @@ else
 
 if (
   $conn->query("CREATE TABLE Nations(
-      id INT(4) AUTO_INCREMENT PRIMARY KEY,
+      id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       name VARCHAR(30),
       description VARCHAR (255));"
   )
@@ -98,7 +98,7 @@ else
 
 if (
   $conn->query("CREATE TABLE Skills(
-          id INT(4) AUTO_INCREMENT PRIMARY KEY,
+          id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
         description VARCHAR(100)
         );"
@@ -110,8 +110,8 @@ else
 
 if (
   $conn->query("CREATE TABLE Characters(
-    id INT(10) AUTO_INCREMENT PRIMARY KEY,
-    user_id INT(10) NOT NULL,
+    id INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(6) UNSIGNED NOT NULL,
     name VARCHAR(30),
     nation_id INT(4),
     path_id INT(4),
@@ -129,18 +129,18 @@ else
 
 if (
   $conn->query("CREATE TABLE Inventory(
-      id INT(4) AUTO_INCREMENT PRIMARY KEY,
-      character_id INT(4) NOT NULL,
-      item_1_id INT(4),
-      item_2_id INT(4),
-      item_3_id INT(4),
-      item_4_id INT(4),
-      item_5_id INT(4),
-      item_6_id INT(4),
-      item_7_id INT(4),
-      item_8_id INT(4),
-      item_9_id INT(4),
-      item_10_id INT(4),
+      id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      character_id INT(5) UNSIGNED NOT NULL,
+      item_1_id INT(4) UNSIGNED,
+      item_2_id INT(4) UNSIGNED,
+      item_3_id INT(4) UNSIGNED,
+      item_4_id INT(4) UNSIGNED,
+      item_5_id INT(4) UNSIGNED,
+      item_6_id INT(4) UNSIGNED,
+      item_7_id INT(4) UNSIGNED,
+      item_8_id INT(4) UNSIGNED,
+      item_9_id INT(4) UNSIGNED,
+      item_10_id INT(4) UNSIGNED,
       FOREIGN KEY (character_id) REFERENCES Characters(id) ON DELETE CASCADE ON UPDATE CASCADE
       );"
   )
@@ -151,11 +151,11 @@ else
 
 if (
   $conn->query("CREATE TABLE Equipment(
-        id INT(4) AUTO_INCREMENT PRIMARY KEY,
-      character_id INT(4) NOT NULL,
-      left_hand INT(4),
-      right_hand INT(4),
-      armour INT(4),
+        id INT(5) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      character_id INT(5) UNSIGNED NOT NULL,
+      left_hand INT(4) UNSIGNED,
+      right_hand INT(4) UNSIGNED,
+      armour INT(4) UNSIGNED,
       FOREIGN KEY (character_id) REFERENCES Characters(id) ON DELETE CASCADE ON UPDATE CASCADE
       );"
   )
@@ -166,18 +166,18 @@ else
 
 if (
   $conn->query("CREATE TABLE CharacterSkills(
-          id INT(4) AUTO_INCREMENT PRIMARY KEY,
-        character_id INT(4) NOT NULL,
-        skill_1_lvl INT(4),
-        skill_2_lvl INT(4),
-        skill_3_lvl INT(4),
-        skill_4_lvl INT(4),
-        skill_5_lvl INT(4),
-        skill_6_lvl INT(4),
-        skill_7_lvl INT(4),
-        skill_8_lvl INT(4),
-        skill_9_lvl INT(4),
-        skill_10_lvl INT(4),
+          id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        character_id INT(5) UNSIGNED NOT NULL,
+        skill_1_lvl INT(4) UNSIGNED,
+        skill_2_lvl INT(4) UNSIGNED,
+        skill_3_lvl INT(4) UNSIGNED,
+        skill_4_lvl INT(4) UNSIGNED,
+        skill_5_lvl INT(4) UNSIGNED,
+        skill_6_lvl INT(4) UNSIGNED,
+        skill_7_lvl INT(4) UNSIGNED,
+        skill_8_lvl INT(4) UNSIGNED,
+        skill_9_lvl INT(4) UNSIGNED,
+        skill_10_lvl INT(4) UNSIGNED,
         FOREIGN KEY (character_id) REFERENCES `Characters`(id) ON DELETE CASCADE ON UPDATE CASCADE
         );"
   )
@@ -189,16 +189,18 @@ else
 
 if (
   $conn->query("CREATE TABLE `Stats`(
-        id INT(4) AUTO_INCREMENT PRIMARY KEY,
-      character_id INT(4) NOT NULL,
-      health INT(4),
-      sanity INT(4),
-      strength INT(4),
-      dexterity INT(4),
-      endurance INT(4),
-      intelligence INT(4),
-      charisma INT(4),
-      willpower INT(4),
+        id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      character_id INT(5) UNSIGNED NOT NULL,
+      max_health INT(4) UNSIGNED,
+      max_sanity INT(4) UNSIGNED,
+      health INT(4) UNSIGNED,
+      sanity INT(4) UNSIGNED,
+      strength INT(4) UNSIGNED,
+      dexterity INT(4) UNSIGNED,
+      endurance INT(4) UNSIGNED,
+      intelligence INT(4) UNSIGNED,
+      charisma INT(4) UNSIGNED,
+      willpower INT(4) UNSIGNED,
       FOREIGN KEY (character_id) REFERENCES Characters(id) ON DELETE CASCADE ON UPDATE CASCADE
       );"
   )

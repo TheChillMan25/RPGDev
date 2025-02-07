@@ -83,7 +83,7 @@ if (checkLogin()) {
           <div id="profile-menu">
             <div id="profile-link-container" class="profile-container">
               <a class="profile-menu-link" href="profile.php">Profile</a>
-              <a class="profile-menu-link" href="create-character.php">Character maker</a>
+              <a class="profile-menu-link" href="create.php">Character maker</a>
               <a class="profile-menu-link" href="scripts/logout.php">Logout</a>
             </div>
             <div id="m-link-container" class="profile-container">
@@ -145,7 +145,7 @@ if (checkLogin()) {
         <div class="character-header character-data-container">
           <span class="name">' . $character['name'] . '</span>
           <div class="path">
-            <span class="value">' . getCharacterPath($conn, $character['path_id']) . '</span>
+            <span class="value">' . getPath($conn, $character['path_id']) . '</span>
             <span class="level value">' . $character['path_level'] . '</span>
           </div>
         </div>
@@ -167,7 +167,7 @@ if (checkLogin()) {
             </div>
           </div>
           <div class="character-footer">
-            <form action="inspect-character.php" method="post" style="display: flex; align-items: center;">
+            <form action="inspect.php" method="post" style="display: flex; align-items: center;">
               <input type="hidden" name="id" value="' . $character['id'] . '">
               <button type="submit" class="character-link" style="cursor: pointer;">About</button>
             </form>
@@ -181,7 +181,7 @@ if (checkLogin()) {
       }
       ?>
     </div>
-    <a href="create-character.php" id="add-character">+</a>
+    <a href="create.php" id="add-character">+</a>
   </div>
   <script src="../js/menus.js"></script>
 </body>
