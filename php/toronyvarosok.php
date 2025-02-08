@@ -73,31 +73,28 @@ if (checkLogin()) {
   <div class="page">
     <div class="faj-container">
       <div class="faj-img-container">
-        <img class="faj-img" src="../img/assets/nations/karaenn.png" alt="Den Karadenn" />
+        <img class="faj-img" src="../img/assets/nations/dennkaraden.png" alt="Den Karadenn" />
       </div>
       <div class="faj-txt">
         <p class="nep-nev">Den Karadenn</p>
         <hr />
         <p class="leiras">
-          A Nyugat vasökle, az északi hegységekben található kifogyhatatlan
-          fém és szén lelőhelyek az ipar igazi felhőkbe tornyosodó óriásává
-          tette ezt az amúgy kis népet. A földterület szűkösségét terraformáló
-          gépekkel, a kevés harcra képes kezet pedig sokszorosan
-          kiegyensúlyozzák a pusztító fegyvereikkel. Egyes források szerint az
-          automa faj megalkotója is karadenni származású volt. Kinézetre
-          soványak, akár alul tápláltnak is tűnhetnek és a hamu szürke bőrük
-          beolvad a városaik szerkezeteibe és kőfalaiba. Rövid, egyenes haj és
-          kevés testszőrzet jellemzi őket, az izomzatuk kétszer olyan sűrű
-          mint bármelyik másik fajnak ami a könnyű szerkezetükkel párosítva
-          emiatt tökéletes mászókká teszi őket. A kultúrájuk több forradalom
-          után elszakadt az ősi szokásoktól melyeknek csak a lenyomatai
-          maradtak meg a mindennapjaik árnyékában. Ilyen a címerükön látható
-          óriás szétnyitott, köröm nélküli keze, az ujjakon a karadenni
-          pillérek jeleivel. A ruhákat és épületeket geometriai formákkal és
-          ismétlődő mintákkal díszítik. Ahogy minden fogaskeréknek meg van a
-          maga feladata, úgy a mintáknak is. Minden ismétlés, minden szimbólum
-          és minta egy komplex egyenlet kis része amiben nincs helye az
-          egyszerű szépségnek.
+          A Nyugat vasökle, a feketét vérző város. Az északi hegységekben található kifogyhatatlan fém és ikor
+          lelőhelyek az ipar igazi felhőkbe tornyosodó óriásává tette ezt az amúgy kis népet. A toronyból folyamatosan
+          folyik a használt ikor és egész mocsarakat alkotott ragyogást vesztett fekete folyadék. A földterület
+          szűkösségét terraformáló gépekkel, a kevés harcra képes kezet pedig sokszorosan kiegyensúlyozzák a pusztító
+          fegyvereikkel. Egyes források szerint az automa faj megalkotója is karadenni származású volt. Kinézetre
+          soványak, akár alul tápláltnak is tűnhetnek. Az ikor első felfedezőiként a testük már most mutatja az anyag
+          túlzott használatának a jeleit. A végtagjaik és a hajuk vége befeketedett, mintha folyékony koromba merítették
+          volna a kezeiket. A hajuk többi része viszont vörös mint a tűz és a hajszálak lebegnek a szélben mint a
+          lángnyelvek. Egyes népek szerint a vörös haj a boszorkányok és a túlzott mágia használatának jele. beolvad a
+          városaik szerkezeteibe és kőfalaiba. Rövid, egyenes haj és kevés testszőrzet jellemzi őket, az izomzatuk
+          kétszer olyan sűrű mint bármelyik másik fajnak ami a könnyű szerkezetükkel párosítva tökéletes mászókká teszi
+          őket. A kultúrájuk több forradalom után elszakadt az ősi szokásoktól melyeknek csak a lenyomatai maradtak meg
+          a mindennapjaik árnyékában. Ilyen a címerükön látható egy óriás szétnyitott, köröm nélküli keze, az ujjakon a
+          karadenni pillérek jeleivel. A ruhákat és épületeket geometriai formákkal és ismétlődő mintákkal díszítik.
+          Ahogy minden fogaskeréknek meg van a maga feladata, úgy a mintáknak is. Minden ismétlés, minden szimbólum és
+          összekötés egy komplex egyenlet kis része amiben nincs helye a vad szépségnek.
         </p>
       </div>
     </div>

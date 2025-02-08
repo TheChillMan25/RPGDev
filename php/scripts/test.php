@@ -5,16 +5,17 @@ use function PHPSTORM_META\type;
 include 'manager.php';
 
 $conn = connectToDB();
-
+/* if ($conn->query('DROP DATABASE RPG_DB'))
+    ; */
 /* $sql = "DELETE FROM Paths";
 if ($conn->query($sql) === TRUE) {
     echo "All data deleted from Users table.\n";
 } else {
     echo "Data deletion failed.\n";
     die("Error in data deletion.\n" . $conn->error);
-}
+}*/
 $conn->close();
-
+/*
 $list['Kenyér'] = ["Alma", "Körte", "Dió"];
 $list['Tejföl'] = ["Alma", "Körte", "Dió"];
 $list['Sajt'] = ["Alma", "Körte", "Dió"];

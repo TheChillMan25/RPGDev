@@ -421,13 +421,7 @@ function getSkills($conn)
  */
 function getGear($conn, $table_name, $id)
 {
-    if ($table_name === "Armour") {
-        $stmt = $conn->prepare('SELECT name, description, value, dex_mod FROM ' . $table_name . ' WHERE id=?');
-    } else if ($table_name === "Weapons") {
-        $stmt = $conn->prepare('SELECT name, description, dice, properties FROM ' . $table_name . ' WHERE id=?');
-    } else {
-        $stmt = $conn->prepare('SELECT name, description FROM ' . $table_name . ' WHERE id=?');
-    }
+    $stmt = $conn->prepare('SELECT * FROM ' . $table_name . ' WHERE id=?');
     $stmt->bind_param('i', $id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -435,7 +429,7 @@ function getGear($conn, $table_name, $id)
         $item = $result->fetch_assoc();
         return $item;
     }
-    return ["name" => "-", "description" => "-", "dice" => "-", "properties" => "-", "value" => "0", "dex_mod" => "0"];
+    return ["name" => "-", "description" => "-", "dice" => "-", "properties" => "-", "value" => "0", "dex_mod" => "0", "type" => ""];
 }
 
 /**

@@ -14,6 +14,8 @@ if (checkLogin()) {
 
     if ($character_id) {
         $character = getCharacterData($conn, $character_id);
+        $left_hand = getGear($conn, "Weapons", $character['left_hand']);
+        $right_hand = getGear($conn, "Weapons", $character['right_hand']);
 
         if (isset($_POST['sanity_action']) || isset($_POST['health_action'])) {
             $health = $character['health'];
@@ -146,15 +148,15 @@ if (checkLogin()) {
             </div>
         </div>
         <div id="body" class="container">
-            <div id="stats">
-                <div id="throw-container" style="display: none; backdrop-filter: blur(3px)">
-                    <div id="throw">
-                        <span id="throw-title" class="title" style="font-size: larger">Dobás</span>
-                        <span id="throw-value" class="value">X</span>
-                    </div>
+            <div id="throw-container" style="display: none; backdrop-filter: blur(3px)">
+                <div id="throw">
+                    <span id="throw-title" class="title" style="font-size: larger">Dobás</span>
+                    <span id="throw-value" class="value">X</span>
                 </div>
-
-                <div id="strength" class="stat" data-value="<?php echo calculateModifier($character['strength']) ?>">
+            </div>
+            <div id="stats">
+                <div id="strength" class="stat"
+                    data-value-mod="<?php echo calculateModifier($character['strength']) ?>">
                     <span class="title">Erő</span>
                     <div class="value-mod-container">
                         <span class="value"><?php echo $character['strength'] ?></span>
@@ -163,7 +165,8 @@ if (checkLogin()) {
                         </div>
                     </div>
                 </div>
-                <div id="dexterity" class="stat" data-value="<?php echo calculateModifier($character['dexterity']) ?>">
+                <div id="dexterity" class="stat"
+                    data-value-mod="<?php echo calculateModifier($character['dexterity']) ?>">
                     <span class="title">Ügyesség</span>
                     <div class="value-mod-container">
                         <span class="value"><?php echo $character['dexterity'] ?></span>
@@ -172,7 +175,8 @@ if (checkLogin()) {
                         </div>
                     </div>
                 </div>
-                <div id="endurance" class="stat" data-value="<?php echo calculateModifier($character['endurance']) ?>">
+                <div id="endurance" class="stat"
+                    data-value-mod="<?php echo calculateModifier($character['endurance']) ?>">
                     <span class="title">Kitartás</span>
                     <div class="value-mod-container">
                         <span class="value"><?php echo $character['endurance'] ?></span>
@@ -182,7 +186,7 @@ if (checkLogin()) {
                     </div>
                 </div>
                 <div id="intelligence" class="stat"
-                    data-value="<?php echo calculateModifier($character['intelligence']) ?>">
+                    data-value-mod="<?php echo calculateModifier($character['intelligence']) ?>">
                     <span class="title">Ész</span>
                     <div class="value-mod-container">
                         <span class="value"><?php echo $character['intelligence'] ?></span>
@@ -191,7 +195,8 @@ if (checkLogin()) {
                         </div>
                     </div>
                 </div>
-                <div id="charisma" class="stat" data-value="<?php echo calculateModifier($character['charisma']) ?>">
+                <div id="charisma" class="stat"
+                    data-value-mod="<?php echo calculateModifier($character['charisma']) ?>">
                     <span class="title">Fortély</span>
                     <div class="value-mod-container">
                         <span class="value"><?php echo $character['charisma'] ?></span>
@@ -200,7 +205,8 @@ if (checkLogin()) {
                         </div>
                     </div>
                 </div>
-                <div id="willpower" class="stat" data-value="<?php echo calculateModifier($character['willpower']) ?>">
+                <div id="willpower" class="stat"
+                    data-value-mod="<?php echo calculateModifier($character['willpower']) ?>">
                     <span class="title">Akaraterő</span>
                     <div class="value-mod-container">
                         <span class="value"><?php echo $character['willpower'] ?></span>
@@ -245,19 +251,21 @@ if (checkLogin()) {
                     <div id="weapons">
                         <span class="title" style="font-size:x-large">Fegyverek</span>
                         <div id="hands">
-                            <span class="hand">
+                            <span class="hands">
                                 Bal kéz
-                                <span class="weapon">
+                                <span id="left_hand_w" class="weapon" data-dice-desc="<?php echo $left_hand['dice'] ?>"
+                                    class="hand" data-weapon-type="<?php echo $left_hand['type'] ?>">
                                     <?php
-                                    $left_hand = getGear($conn, "Weapons", $character['left_hand']);
                                     echo ucfirst($left_hand['name']);
                                     ?>
                                 </span>
-                            </span><span class="hand">
+                            </span>
+                            <span class="hands">
                                 Jobb kéz
-                                <span class="weapon">
+                                <span id="right_hand_w" class="weapon"
+                                    data-dice-desc="<?php echo $right_hand['dice'] ?>" class="hand"
+                                    data-weapon-type="<?php echo $right_hand['type'] ?>">
                                     <?php
-                                    $right_hand = getGear($conn, "Weapons", $character['right_hand']);
                                     echo ucfirst($right_hand['name']);
                                     ?>
                                 </span>
@@ -317,7 +325,7 @@ if (checkLogin()) {
         </div>
     </div>
     <script src="../js/menus.js"></script>
-    <script src="../js/statroll.js"></script>
+    <script src="../js/roll.js"></script>
 </body>
 
 </html>

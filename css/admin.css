@@ -1,0 +1,62 @@
+body {
+  background-image: url(../img/assets/backgrounds/bg.jpg);
+}
+
+.page {
+  justify-content: unset;
+  align-items: unset;
+}
+
+.container {
+  background-color: #444;
+  padding: 0 1rem;
+}
+
+/* Style the table */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 18px;
+  text-align: left;
+}
+
+/* Style the table headers */
+.user-table th,
+.user-table td {
+  padding: 1rem;
+}
+
+.header:hover {
+  background-color: #333;
+}
+
+/* Style the table rows on hover */
+.user-table tr:not(:first-child):hover {
+  background-color: #555;
+}
+
+/* Style the profile picture */
+.user-table .pfp {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+/* Style the action buttons */
+.user-table button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #222;
+}
+
+.user-table button:hover {
+  color: #f2c488;
+}
+
+/* Style the action icons */
+.user-table button i {
+  font-size: xx-large;
+}

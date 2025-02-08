@@ -4,16 +4,36 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $conn = new mysqli('localhost', 'root', '', 'RPG_DB');
+
+/* if ($conn->query("CREATE DATABASE RPG_DB"))
+  echo "Creatad database\n"; */
 if ($conn->query("USE RPG_DB"))
   echo "Using RPG_DB\n";
 
 //---Create Tables---//
 
+/* if (
+  $conn->query("CREATE TABLE Users(
+  id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(20),
+  email VARCHAR(50),
+  password VARCHAR(60),
+  pfp VARCHAR(30),
+  status VARCHAR(5)
+  );"
+  )
+)
+  echo "Created Items table\n";
+else
+  echo "Table Items creation failed " . $conn->error; */
+
+
 if (
   $conn->query("CREATE TABLE Items(
   id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(30),
-  description VARCHAR (255)
+  description VARCHAR (255),
+  enables INT(1) UNSIGNED NOT NULL COMMENT 'Display it `if` true' 
   );"
   )
 )
@@ -27,7 +47,8 @@ if (
     name VARCHAR(30),
     dice VARCHAR(10),
     description VARCHAR (255),
-    properties VARCHAR (100)
+    properties VARCHAR (100),
+    enables INT(1) UNSIGNED NOT NULL COMMENT 'Display it `if` true' 
     );"
   )
 )
@@ -41,7 +62,9 @@ if (
       name VARCHAR(30),
       value INT(3),
       description VARCHAR (255),
-      dex_mod INT(1));"
+      dex_mod INT(1),
+      enables INT(1) UNSIGNED NOT NULL COMMENT 'Display it `if` true'
+      );"
   )
 )
   echo "Created Armour table\n";
@@ -53,7 +76,9 @@ if (
       id INT(2) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       group_id INT(2) UNSIGNED NOT NULL,
       name VARCHAR(30),
-      description VARCHAR (255));"
+      description VARCHAR (255),
+      enables INT(1) UNSIGNED NOT NULL COMMENT 'Display it `if` true'
+      );"
   )
 )
   echo "Created Paths table\n";
@@ -64,7 +89,9 @@ if (
   $conn->query("CREATE TABLE PathGroups(
 id INT(2) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(30),
-description VARCHAR (255));"
+description VARCHAR (255),
+enables INT(1) UNSIGNED NOT NULL COMMENT 'Display it `if` true'
+);"
   )
 )
   echo "Created PathGroups table\n";
@@ -75,7 +102,9 @@ if (
   $conn->query("CREATE TABLE Nations(
       id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       name VARCHAR(30),
-      description VARCHAR (255));"
+      description VARCHAR (255),
+      enables INT(1) UNSIGNED NOT NULL COMMENT 'Display it `if` true'
+      );"
   )
 )
   echo "Created Nations table\n";
@@ -87,7 +116,8 @@ if (
   $conn->query("CREATE TABLE Skills(
           id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
-        description VARCHAR(100)
+        description VARCHAR(255),
+        enables INT(1) UNSIGNED NOT NULL COMMENT 'Display it `if` true' 
         );"
   )
 )
@@ -99,7 +129,8 @@ if (
   $conn->query("CREATE TABLE Backgrounds(
             id INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
           name VARCHAR(50) NOT NULL,
-          description VARCHAR(100)
+          description VARCHAR(255),
+          enables INT(1) UNSIGNED NOT NULL COMMENT 'Display it `if` true' 
           );"
   )
 )

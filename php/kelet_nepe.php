@@ -148,7 +148,7 @@ if (checkLogin()) {
     </div>
     <div class="faj-container">
       <div class="faj-img-container">
-        <img class="faj-img" src="../img/assets/nations/holtag.png" alt="Monorok" />
+        <img class="faj-img" src="../img/assets/nations/monor.png" alt="Monorok" />
       </div>
       <div class="faj-txt">
         <p class="nep-nev">Monorok</p>

@@ -169,7 +169,7 @@ if (checkLogin()) {
           <div class="character-footer">
             <form action="inspect.php" method="post" style="display: flex; align-items: center;">
               <input type="hidden" name="id" value="' . $character['id'] . '">
-              <button type="submit" class="character-link" style="cursor: pointer;">About</button>
+              <button type="submit" class="character-link" style="cursor: pointer;">View</button>
             </form>
             <form action="scripts/delete-character.php" method="post" style="display: flex; align-items: center;">
               <input type="hidden" name="id" value="' . $character['id'] . '">

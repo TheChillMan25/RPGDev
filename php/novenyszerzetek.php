@@ -73,29 +73,7 @@ if (checkLogin()) {
   <div class="page">
     <div class="faj-container">
       <div class="faj-img-container">
-        <img class="faj-img" src="../img/assets/nations/novenyszerzet.png" alt="Növényszerzetek" />
-      </div>
-      <div class="faj-txt">
-        <p class="nep-nev">Növényszerzetek</p>
-        <hr />
-        <p class="leiras">
-          A természet előbb utóbb mindent visszafogad magába. de mit tesz ez a
-          mindent elpusztító, mindent alkotó anyatermészet azokkal a mágikus
-          tárgyakkal aminek a pengéjén nem fog a rozsda, aminek a fája nem
-          korhad és nem nő. Ezek az elszórt lélekdarabok az évek során magukba
-          szívták a birtokosuk személyiségét; minden megtett utat, minden
-          féltve őrzött emléket, minden örömöt és kínt. Nem, nem fulladhatnak
-          a földbe mint egy holmi parasztszerszám. Más sors vár rájuk, hiszen
-          a természet mindent visszafogad magába. Átitatja a növényeket, a
-          mohákat, a gyökerek, levelek, és gallyakat amik átölelik ezeket az
-          elfeledett eszközöket. Napok, hónapok vagy évek de új élet születik
-          kérges karral és sövény hajjal. Növényszerzet születik.
-        </p>
-      </div>
-    </div>
-    <div class="faj-container">
-      <div class="faj-img-container">
-        <img class="faj-img" src="../img/automa.jpg" alt="Rügysze" />
+        <img class="faj-img" src="../img/assets/nations/rugysze.png" alt="Rügysze" />
       </div>
       <div class="faj-txt">
         <p class="nep-nev">Rügysze</p>
@@ -117,7 +95,7 @@ if (checkLogin()) {
     </div>
     <div class="faj-container">
       <div class="faj-img-container">
-        <img class="faj-img" src="../img/abominus.png" alt="Kérgelábak" />
+        <img class="faj-img" src="../img/assets/nations/kergelab.png" alt="Kérgelábak" />
       </div>
       <div class="faj-txt">
         <p class="nep-nev">Kérgelábak</p>
@@ -141,7 +119,7 @@ if (checkLogin()) {
     </div>
     <div class="faj-container">
       <div class="faj-img-container">
-        <img class="faj-img" src="../img/abominus.png" alt="Kalaposok" />
+        <img class="faj-img" src="../img/assets/nations/kalapos.png" alt="Kalaposok" />
       </div>
       <div class="faj-txt">
         <p class="nep-nev">Kalaposok</p>

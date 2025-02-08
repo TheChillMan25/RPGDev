@@ -22,53 +22,51 @@ if (checkLogin()) {
 
 <body>
   <div class="navbar">
-    <div id="navbar-mobile"> <a class="index-link" href="index.php"><img src="../img/assets/icons/logo.png"
-          alt="Index oldalra" /></a>
-      <p id="m-author">Ágas és Bogas</p>
-      <div id="mobile-menu">
-        <?php if (checkLogin()) {
-          echo '<div id=mobile-profile-menu class="logger-btn-mobile" style="cursor: pointer; margin-right: .5rem;">                 <img class="pfp" src="' . $user['pfp'] . '">               </div>';
-        } else {
-          echo '<i class="fa-solid fa-bars fa-2xl" style="color: #fff"></i>';
-        } ?>
-        <div id="mobile-menu-container">
-          <div id="mobile-link-container">
-            <?php if (checkLogin()) {
-              echo '<a class="navbar-link" href="profile.php">Profile</a>
-              <a class="navbar-link" href="create.php">Create your character</a>
-              <a class="navbar-link" href="scripts/logout.php">Logout</a><hr>';
-            } else {
-              echo '<a class="navbar-link" href="login.php">Login</a><hr style="background-color: #f2c488; width: 70%; height: 0.5rem; border: none;">';
-            } ?>
-            <a class="navbar-link" href="fajok.php">Fajok</a> <a class="navbar-link" href="szerepek.php">Szerepek</a> <a
-              class="navbar-link" href="terkep.php">Térkép</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="navbar-desktop">
-      <a class="index-link" href="../index.php"><img src="../img/assets/icons/logo.png" alt="Index oldalra" /></a>
+    <a class="index-link" href="../index.php"><img src="../img/assets/icons/logo.png" alt="Index oldalra" /></a>
+    <div id="link-container">
       <a class="navbar-link" href="fajok.php">Fajok</a>
       <a class="navbar-link" href="szerepek.php">Szerepek</a>
       <a class="navbar-link" href="terkep.php">Térkép</a>
     </div>
+    <p id="author">Ágas és Bogas</p>
     <?php
     if (checkLogin()) {
-      echo '<p id="author" style="position: absolute; left: 50%; transform: translateX(-50%)">Ágas és Bogas</p>';
       echo '
-        <div id=desktop-profile-menu class="logger-btn" style="cursor: pointer; margin-right: .5rem;">
+        <div id=desktop-profile-menu class="logger-btn" style="cursor: pointer;">
           <span class="username">' . $user['username'] . '</span>
           <img class="pfp" src="' . $user['pfp'] . '">
         </div>
         <div id="profile-menu-container">
           <div id="profile-menu">
-            <a class="profile-menu-link" href="profile.php">Profile</a>
-            <a class="profile-menu-link" href="create.php">Character maker</a>
-            <a class="profile-menu-link" href="scripts/logout.php">Logout</a>
+            <div id="profile-link-container" class="profile-container">
+              <a class="profile-menu-link" href="profile.php">Profile</a>
+              <a class="profile-menu-link" href="create.php">Character maker</a>
+              <a class="profile-menu-link" href="scripts/logout.php">Logout</a>
+            </div>
+            <div id="m-link-container" class="profile-container">
+              <hr class="nav-hr">
+              <a class="profile-menu-link" href="fajok.php">Fajok</a>
+              <a class="profile-menu-link" href="szerepek.php">Szerepek</a>
+              <a class="profile-menu-link" href="terkep.php">Térkép</a>
+            </div>
           </div>
         </div>';
     } else {
-      echo '<a class="logger-btn" href="login.php">Login</a><p id="author">Ágas és Bogas</p>';
+      echo '<a id="login" class="logger-btn" href="login.php" style="color:#f2c488;">Login</a>';
+      echo '<button id="m-menu"
+      style="color: whitesmoke; width:4rem; height:4rem; background-color:transparent; border: none; font-size: large"><i
+        class="fa-solid fa-bars fa-2xl"></i></button>
+        <div id="m-link-c" style="display: none; height: 100%; width:100%; position:absolute;
+       top:0; right:0rem;  z-index: 10">
+        <div id="m-link-m"
+        style="position:absolute; top:4rem; right:0rem; width:13rem; padding: .5rem; flex-direction: column; background-color: #333; z-index: 12">
+        <a class="profile-menu-link" href="login.php">Login</a>
+        <hr class="nav-hr">
+        <a class="profile-menu-link" href="fajok.php">Fajok</a>
+        <a class="profile-menu-link" href="szerepek.php">Szerepek</a>
+        <a class="profile-menu-link" href="terkep.php">Térkép</a>
+        </div>
+      </div>';
     }
     ?>
   </div>
@@ -114,7 +112,7 @@ if (checkLogin()) {
     </div>
     <div class="faj-container">
       <div class="faj-img-container">
-        <img class="faj-img" src="../img/magafol.png" alt="Vámpírok" />
+        <img class="faj-img" src="../img/assets/nations/vampir.png" alt="Vámpírok" />
       </div>
       <div class="faj-txt">
         <p class="nep-nev">Vámpírok</p>
@@ -148,6 +146,27 @@ if (checkLogin()) {
           álcádat és teljesen átadod magad az éhségnek, éjjelente portyázod a
           falvakat és városokat, a penge hosszúságú karmaiddal védtelen
           embereket gyilkolsz és begyűjtöd a kincseiket.
+        </p>
+      </div>
+    </div>
+    <div class="faj-container">
+      <div class="faj-img-container">
+        <img class="faj-img" src="../img/assets/nations/eloholt.png" alt="Vámpírok" />
+      </div>
+      <div class="faj-txt">
+        <p class="nep-nev">Élőholtak</p>
+        <hr />
+        <p class="leiras"></p>
+      </div>
+    </div>
+    <div class="faj-container">
+      <div class="faj-img-container">
+        <img class="faj-img" src="../img/assets/nations/teriantrop.png" alt="Vámpírok" />
+      </div>
+      <div class="faj-txt">
+        <p class="nep-nev">Teriantrópok</p>
+        <hr />
+        <p class="leiras">
         </p>
       </div>
     </div>

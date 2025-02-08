@@ -1,10 +1,15 @@
 <?php
 include 'scripts/manager.php';
-session_start();
-if (checkLogin()) {
-  $conn = connectToDB();
-  $user = getUserData($conn, $_SESSION['username']);
-}
+$conn = connectToDB();
+$users = getTableData($conn, "Users");
+$nations = getTableData($conn, table: "Nations");
+$nations = getTableData($conn, table: "Backgrounds");
+$weapons = getTableData($conn, table: "Weapons");
+$armour = getTableData($conn, table: "Armour");
+$nations = getTableData($conn, table: "Skills");
+$nations = getTableData($conn, table: "Paths");
+$nations = getTableData($conn, table: "PathGroups");
+
 ?>
 
 <!DOCTYPE html>
@@ -13,10 +18,10 @@ if (checkLogin()) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ágas és Bogas | Fajok</title>
+  <title>Fajok | Admin</title>
   <link rel="icon" href="../img/assets/icons/icon.png" />
   <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="../css/faj-menu.css" />
+  <link rel="stylesheet" href="../css/admin.css" />
   <script src="https://kit.fontawesome.com/62786e1e62.js" crossorigin="anonymous"></script>
 </head>
 
@@ -71,74 +76,39 @@ if (checkLogin()) {
     ?>
   </div>
   <div class="page">
-    <div id="folyokoz" class="faj-container">
-      <a href="folyokoz.php">
-        <div class="faj-header">
-          <img class="faj-img" src="../img/assets/regions/folyokoz.jpg" alt="Folyóköz" />
-        </div>
-        <div class="faj-footer">
-          <span class="cim">Folyóköz</span>
-
-        </div>
-      </a>
+    <div id="users" class="container">
+      <?php
+      echo '<table class="user-table">';
+      echo '<tr>';
+      echo '<th>Profile Picture</th>';
+      echo '<th>Username</th>';
+      echo '<th>Email</th>';
+      echo '<th>Actions</th>';
+      echo '</tr>';
+      foreach ($users as $user) {
+        echo '<tr>';
+        echo '<td><img class="pfp" src="' . $user['pfp'] . '" alt="' . $user['username'] . '_pfp"></td>';
+        echo '<td>' . $user['username'] . '</td>';
+        echo '<td>' . $user['email'] . '</td>';
+        echo '<td>
+              <form action="manage_user.php" style="display:inline-block;">
+            <input type="hidden" name="user_id" value="' . $user['id'] . '">
+            <button type="submit" name="action" value="edit"><i class="fa-solid fa-gear fa-2xl"></i></button>
+              </form>
+              <form action="manage_user.php" style="display:inline-block;">
+            <input type="hidden" name="user_id" value="' . $user['id'] . '">
+            <button type="submit" name="action" value="delete"><i class="fa-solid fa-trash fa-2xl"></i></button>
+              </form>
+            </td>';
+        echo '</tr>';
+      }
+      echo '</table>';
+      ?>
     </div>
-    <div id="toronyvarosok" class="faj-container">
-      <a href="toronyvarosok.php">
-        <div class="faj-header">
-          <img class="faj-img" src="../img/assets/regions/nuygatitorony.png" alt="Toronyvárosok" />
-        </div>
-        <div class="faj-footer">
-          <span class="cim">Toronyvárosok</span>
+    <div id="other">
 
-        </div>
-      </a>
-    </div>
-    <div id="kelet_nepe" class="faj-container">
-      <a href="kelet_nepe.php">
-        <div class="faj-header">
-          <img class="faj-img" src="../img/assets/regions/keletnepe.png" alt="Kelet Népe" />
-        </div>
-        <div class="faj-footer">
-          <span class="cim">Kelet Népe</span>
-
-        </div>
-      </a>
-    </div>
-    <div id="novenyszerzetek" class="faj-container">
-      <a href="novenyszerzetek.php">
-        <div class="faj-header">
-          <img class="faj-img" src="../img/assets/regions/novenyszerzet.png" alt="Növényszerzetek fajok" />
-        </div>
-        <div class="faj-footer">
-          <span class="cim">Növényszerzetek</span>
-
-        </div>
-      </a>
-    </div>
-    <div id="gepszulottek" class="faj-container">
-      <a href="gepszulottek.php">
-        <div class="faj-header">
-          <img class="faj-img" src="../img/assets/regions/gepszulottek.png" alt="Gépszülöttek" />
-        </div>
-        <div class="faj-footer">
-          <span class="cim">Gépszülöttek</span>
-
-        </div>
-      </a>
-    </div>
-    <div id="atkozottak" class="faj-container">
-      <a href="atkozottak.php">
-        <div class="faj-header">
-          <img class="faj-img" src="../img/assets/regions/atkozottak.png" alt="Átkozottak" />
-        </div>
-        <div class="faj-footer">
-          <span class="cim">Átkozottak</span>
-
-        </div>
-      </a>
     </div>
   </div>
-  <script src="../js/menus.js"></script>
 </body>
 
 </html>
