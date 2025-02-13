@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="password" name="password" id="password" required />
         <label for="c-password">Jelszó megerősítése</label>
         <input type="password" name="c-password" id="c-password" required />
-        <input type="submit" id="register_btn" value="Regisztráció" />
+        <input type="submit" class="button" value="Regisztráció" />
       </form>
     </div>
     <a href="login.php" id="to-index">Van már fiókom</a>

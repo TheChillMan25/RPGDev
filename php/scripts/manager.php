@@ -343,30 +343,49 @@ function getCharacterData($conn, $character_id)
  * Get character path
  * @param mysqli $conn 
  * @param int $path_id Id of path to get.
- * @return string|bool|null
+ * @return array|bool|null
  */
 function getPath($conn, $path_id)
 {
-    $stmt = $conn->prepare("SELECT name, description FROM Paths WHERE id=?");
+    $stmt = $conn->prepare("SELECT * FROM Paths WHERE id=?");
     $stmt->bind_param("i", $path_id);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $path = $result->fetch_assoc();
         $stmt->close();
-        return $path['name'];
+        return $path;
     } else {
         return null;
     }
 }
 
 /**
- * Get character nation
+ * Get name of PathGroup of given id
+ * @param int $group_id Id of the PathGroup
+ * @return string the name of the PathGroup
+ */
+function getPathGroup($group_id)
+{
+    $conn = connectToDB();
+    $stmt = $conn->prepare('SELECT * FROM PathGroups WHERE id=?');
+    $stmt->bind_param("i", $group_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $stmt->close();
+        $name = $result->fetch_assoc();
+        return $name;
+    }
+}
+
+/**
+ * Get nation of given id
  * @param mysqli $conn
  * @param int $nation_id Id of nation to get
  * @return string|bool|null
  */
-function getCharacterNation($conn, $nation_id)
+function getNation($conn, $nation_id)
 {
     $stmt = $conn->prepare("SELECT name, description FROM Nations WHERE id=?");
     $stmt->bind_param("i", $nation_id);
@@ -375,7 +394,7 @@ function getCharacterNation($conn, $nation_id)
     if ($result->num_rows > 0) {
         $nation = $result->fetch_assoc();
         $stmt->close();
-        return $nation['name'];
+        return $nation;
     } else {
         return null;
     }
@@ -386,7 +405,7 @@ function getCharacterNation($conn, $nation_id)
  * @param int $background_id Id of background wished to be gotten
  * @return array|bool|null
  */
-function getCharacterBackground($conn, $background_id)
+function getBackground($conn, $background_id)
 {
     $stmt = $conn->prepare('SELECT name, description FROM Backgrounds WHERE id=?');
     $stmt->bind_param('i', $background_id);
@@ -411,7 +430,6 @@ function getSkills($conn)
         $skills[] = $row;
     }
     return $skills;
-
 }
 /**
  * Get items and gear
@@ -572,4 +590,3 @@ function createOptgroupSelect($name, $list, $text = "", $required = false)
     }
     echo '</select>';
 }
-?>

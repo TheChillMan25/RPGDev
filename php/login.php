@@ -21,7 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: ../index.php");
     exit();
   }
-
 }
 ?>
 <!DOCTYPE html>
@@ -46,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="username" id="username" placeholder="Username123" required />
         <label for="password">Jelszó</label>
         <input type="password" name="password" id="password" required />
-        <input type="submit" id="register_btn" value="Bejelentkezés" />
+        <input type="submit" class="button" value="Bejelentkezés" />
       </form>
     </div>
     <a href="register.php" id="to-index">Nincs még fiókom</a>

@@ -266,8 +266,10 @@ label {
 
   .container {
     gap: 1rem;
-    height: 31rem;
+    max-height: 65%;
     width: 75%;
+    overflow-y: auto;
+    scrollbar-width: none;
   }
 
   #profile-container {

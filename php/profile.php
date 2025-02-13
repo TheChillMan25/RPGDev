@@ -1,6 +1,7 @@
 <?php
 include 'scripts/manager.php';
 session_start();
+
 if (checkLogin()) {
   $conn = connectToDB();
   $user = getUserData($conn, $_SESSION['username']);
@@ -152,7 +153,7 @@ if (checkLogin()) {
         <div class="character-body character-data-container">
           <span class="race character-data">
             Nemzet:
-            <span class="race-name value">' . getCharacterNation($conn, $character['nation_id']) . '</span>
+            <span class="race-name value">' . getNation($conn, $character['nation_id'])['name'] . '</span>
           </span>
           <div class="stats character-data">
             <span class="stat-title">Tulajdonságok</span>
@@ -168,11 +169,11 @@ if (checkLogin()) {
           </div>
           <div class="character-footer">
             <form action="inspect.php" method="post" style="display: flex; align-items: center;">
-              <input type="hidden" name="id" value="' . $character['id'] . '">
+              <input type="hidden" name="character_id" value="' . $character['id'] . '">
               <button type="submit" class="character-link" style="cursor: pointer;">View</button>
             </form>
             <form action="scripts/delete-character.php" method="post" style="display: flex; align-items: center;">
-              <input type="hidden" name="id" value="' . $character['id'] . '">
+              <input type="hidden" name="character_id" value="' . $character['id'] . '">
               <button type="submit" class="delete-character" style="cursor: pointer;"><i class="fa-solid fa-trash fa-2xl"></i></button>
             </form>
           </div>

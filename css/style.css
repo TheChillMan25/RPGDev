@@ -205,7 +205,7 @@ a {
 
 input[type="text"],
 input[type="password"],
-input[type="email"] {
+input[type="email"],textarea {
   font-family: "Modern Antiqua", sans-serif;
   padding: 0.5rem;
   font-size: large;
@@ -214,6 +214,7 @@ input[type="email"] {
   background-color: #444;
   border: 0.2rem solid #222;
   color: whitesmoke;
+  scrollbar-width: none;
 }
 
 ::placeholder {
@@ -235,6 +236,25 @@ input[type="email"] {
   transform: translate(-50%, 0);
 }
 
+.button {
+  font-family: "Modern Antiqua", sans-serif;
+  width: 50%;
+  align-self: center;
+  padding: 0.5rem;
+  font-size: large;
+  line-height: 1.5;
+  border-radius: 0.7rem;
+  background-color: #444;
+  border: 0.2rem solid #222;
+  cursor: pointer;
+  transition: 0.5s ease;
+}
+
+.button:hover {
+  border: 0.2rem solid #f2c488;
+  color: #f2c488;
+  transition: 0.5s ease;
+}
 @media screen and (orientation: portrait) and (max-width: 768px) {
   .navbar {
     justify-content: space-between;
@@ -280,6 +300,12 @@ input[type="email"] {
     width: 70%;
     height: 0.15rem;
     border: none;
+  }
+
+  .button {
+    color: #f2c488;
+    border-color: #f2c488;
+    width: 85%;
   }
 }
 

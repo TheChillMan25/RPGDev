@@ -42,25 +42,7 @@ form {
   width: 100%;
 }
 
-#register_btn {
-  font-family: "Modern Antiqua", sans-serif;
-  width: 50%;
-  align-self: center;
-  padding: 0.5rem;
-  font-size: large;
-  line-height: 1.5;
-  border-radius: 0.7rem;
-  background-color: #444;
-  border: 0.2rem solid #222;
-  cursor: pointer;
-  transition: 0.5s ease;
-}
 
-#register_btn:hover {
-  border: 0.2rem solid #f2c488;
-  color: #f2c488;
-  transition: 0.5s ease;
-}
 
 #to-index {
   text-decoration: none;
@@ -76,11 +58,5 @@ form {
   #container {
     width: auto;
     padding: 2rem;
-  }
-
-  #register_btn {
-    color: #f2c488;
-    border-color: #f2c488;
-    width: 85%;
   }
 }

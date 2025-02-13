@@ -29,7 +29,7 @@ function showRoll(title, value) {
 
 function rollCheck(modifier, checkName) {
   let checkValue = Math.floor(Math.random() * 20) + 1;
-  if (checkValue <= 1) {
+  if (checkValue + modifier <= 1) {
     checkValue = 1;
   } else {
     checkValue += modifier;

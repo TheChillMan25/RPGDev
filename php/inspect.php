@@ -6,8 +6,8 @@ if (checkLogin()) {
     $conn = connectToDB();
     $user = getUserData($conn, $_SESSION["username"]);
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
-        $_SESSION['character_id'] = $_POST['id'];
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['character_id'])) {
+        $_SESSION['character_id'] = $_POST['character_id'];
     }
 
     $character_id = $_SESSION['character_id'] ?? null;
@@ -142,9 +142,9 @@ if (checkLogin()) {
         <div id="header" class="container">
             <span id="name"><?php echo $character['name'] ?></span>
             <div id="header-container">
-                <span id="nation"><?php echo getCharacterNation($conn, $character['nation_id']) ?></span>
+                <span id="nation"><?php echo getNation($conn, $character['nation_id'])['name'] ?></span>
                 <span id="background">
-                    <?php echo getCharacterBackground($conn, $character['background_id'])['name'] ?></span>
+                    <?php echo getBackground($conn, $character['background_id'])['name'] ?></span>
             </div>
         </div>
         <div id="body" class="container">
