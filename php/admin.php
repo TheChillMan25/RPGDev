@@ -328,7 +328,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div id="add-nation" class="container">
           <span class="title">Nép létrehozása</span>
-          <form class="add-form" action="add.php" method="post">
+          <form class="add-form" action="scripts/db_manage/add_record.php" method="post">
             <label for="nation-name">Nép neve
               <input type="text" name="nation-name" id="nation-name" maxlength="30" required></label>
             <label for="nation-desc" style="width: 90%;">Nép leírása
@@ -382,7 +382,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div id="add-background" class="container">
           <span class="title">Háttér létrehozása</span>
-          <form class="add-form" action="add.php" method="post">
+          <form class="add-form" action="scripts/db_manage/add_record.php" method="post">
             <label for="background-name">Háttér neve
               <input type="text" name="background-name" id="background-name" maxlength="30" required></label>
             <label for="background-desc" style="width: 90%;">Háttér leírása
@@ -476,15 +476,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div id="add-path" class="container" style="width: 50%;">
           <span class="title">Út/Csoport létrehozása</span>
-          <form class="add-form" action="add.php" method="post">
+          <form class="add-form" action="scripts/db_manage/add_record.php" method="post">
             <div id="type" style="display: flex; gap: 1rem;">
               <label for="path-type">Út<input type="radio" name="type" id="path-type" value="path" checked></label>
               <label for="group-type">Csoport<input type="radio" name="type" id="group-type" value="group"></label>
             </div>
-            <label for="nation-name">Út/Csoport neve
-              <input type="text" name="nation-name" id="nation-name" maxlength="30" required></label>
-            <label for="nation-desc" style="width: 90%;">Út/Csoport leírása
-              <textarea name="nation-desc" id="nation-desc" maxlength="5000"></textarea></label>
+            <label for="path-name">Út/Csoport neve
+              <input type="text" name="path-name" id="path-name" maxlength="30" required></label>
+            <?php createListSelect('pathgroup', $pathgroup_n, $pathgroup_ids) ?>
+            <label for="path-desc" style="width: 90%;">Út/Csoport leírása
+              <textarea name="path-desc" id="path-desc" maxlength="5000"></textarea></label>
             <button class="button" name="action" value="add-path" type="submit">
               Mentés
             </button>
@@ -534,7 +535,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div id="add-skill" class="container">
           <span class="title">Ismeret létrehozása</span>
-          <form class="add-form" action="add.php" method="post">
+          <form class="add-form" action="scripts/db_manage/add_record.php" method="post">
             <label for="skill-name">Ismeret neve
               <input type="text" name="skill-name" id="skill-name" maxlength="30" required></label>
             <label for="skill-desc" style="width: 90%;">Ismeret leírása
@@ -645,11 +646,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               echo '<form action="scripts/db_manage/edit_records.php" method="post">
                     <input type="hidden" name="id" value="' . $weapon['id'] . '">
                     <span class="title">Fegyver szerkesztése</span>
-                    <label for="weapon_edit_name">Fegyver neve<input type="text" name="weapon_edit_name" id="weapon_edit_name" value="' . $weapon['name'] . '" required ></label>
+                    <label for="weapon-edit-name">Fegyver neve<input type="text" name="weapon-edit-name" id="weapon-edit-name" value="' . $weapon['name'] . '" required ></label>
                     <label for="weapon_edit_type">Fegyver típusa';
               createListSelect('weapon_edit_type', ['melee', 'ranged'], ['melee', 'ranged'], true, $weapon['type'], $weapon['type']);
               echo '</label>
-                    <label for="edit_dice_num"><input type="number" name="edit_dice_num" id="edit_dice_num" value="' . $dice['dice_num'] . '" required ></label>
+                    <label for="edit-dice-num"><input type="number" name="edit-dice-num" id="edit-dice-num" value="' . $dice['dice_num'] . '" required ></label>
                     <label for="edit-dice-type">';
               createListSelect('edit-dice-type', ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'], ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'], true, $dice['dice_type'], $dice['dice_type']);
               echo '</label>
@@ -662,10 +663,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
           <div id="add-weapon" class="container">
             <span class="title">Fegyver létrehozása</span>
-            <form class="add-form" action="add.php" method="post">
+            <form class="add-form" action="scripts/db_manage/add_record.php" method="post">
               <label for="weapon-name">Fegyver neve
                 <input type="text" name="weapon-name" id="weapon-name" maxlength="30" required></label>
-              <label for="weapon-name">Fegyver típusa
+              <label for="weapon-type">Fegyver típusa
                 <?php createListSelect('weapon-type', ['melee', 'ranged'], ['melee', 'ranged'], true, 'Fegyver típusa') ?></label>
               <div id="dice-data">
                 <label for="dice-num">Kocka darab száma
@@ -673,8 +674,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="dice-type">
                   <?php createListSelect('dice-type', ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'], ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'], true, 'Kocka típusa') ?></label>
               </div>
-              <label for="weapon-name">Fegyver tulajdonságai
-                <input type="text" name="weapon-name" id="weapon-properties" maxlength="100" /></label>
+              <label for="weapon-properties">Fegyver tulajdonságai
+                <input type="text" name="weapon-properties" id="weapon-properties" maxlength="100" /></label>
               <label for="weapon-desc" style="width: 90%;">Fegyver leírása
                 <textarea name="weapon-desc" id="weapon-desc" maxlength="5000"></textarea></label>
               <button class="button" name="action" value="add-weapon" type="submit">
@@ -703,13 +704,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
           <div id="add-armour" class="container">
             <span class="title">Páncél létrehozása</span>
-            <form class="add-form" action="add.php" method="post">
+            <form class="add-form" action="scripts/db_manage/add_record.php" method="post">
               <label for="armour-name">Páncél neve
                 <input type="text" name="armour-name" id="armour-name" maxlength="30" required></label>
               <label for="armour-value">Páncél értéke
                 <input type="number" name="armour-value" id="armour-value" min="0" required></label>
               <label for="armour-dexmod">Páncél ügyesség módosító
-                <input type="number" name="armour-dexmod" id="armour-dexmod" min="0" required></label>
+                <input type="number" name="armour-dexmod" id="armour-dexmod" required></label>
               <label for="armour-desc" style="width: 90%;">Páncél leírása
                 <textarea name="armour-desc" id="armour-desc" maxlength="5000"></textarea></label>
               <button class="button" name="action" value="add-armour" type="submit">
@@ -733,9 +734,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             ?>
           </div>
-          <div id="add_item" class="container">
+          <div id="add-item" class="container">
             <span class="title">Tárgy létrehozása</span>
-            <form class="add-form" action="add.php" method="post">
+            <form class="add-form" action="scripts/db_manage/add_record.php" method="post">
               <label for="item-name">Tárgy neve
                 <input type="text" name="item-name" id="item-name" maxlength="30" required></label>
               <label for="item-desc" style="width: 90%;">Tárgy leírása

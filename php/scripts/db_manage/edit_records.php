@@ -39,9 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $stmt->close();
             break;
         case 'edit-weapon':
-            $dice = $_POST['edit_dice_num'] . $_POST['edit-dice-type'];
+            $dice = $_POST['edit-dice-num'] . $_POST['edit-dice-type'];
             $stmt = $conn->prepare("UPDATE Weapons SET name=?, type=?, dice=?, description=?, properties=? WHERE id=?");
-            $stmt->bind_param("sssssi", $_POST['weapon_edit_name'], $_POST['weapon_edit_type'], $dice, $_POST['weapon_edit_desc'], $_POST['weapon_edit_properties'], $_POST['id']);
+            $stmt->bind_param("sssssi", $_POST['weapon-edit-name'], $_POST['weapon_edit_type'], $dice, $_POST['weapon_edit_desc'], $_POST['weapon_edit_properties'], $_POST['id']);
             $stmt->execute();
             $stmt->close();
             break;
