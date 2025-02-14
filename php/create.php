@@ -186,7 +186,7 @@ if (checkLogin()) {
         <label for="nation" style="gap: 1rem">
           Nemzet
           <?php
-          $nations = getTableData($conn, 'Nations');
+          $nations = getTableData('Nations');
           echo '<select name="nation" id="nation" style="width: auto;" required>';
           echo '<option value="' . null . '">Válassz</option>';
           for ($i = 0; $i < sizeof($nations); $i++) {
@@ -198,7 +198,7 @@ if (checkLogin()) {
         <label for="background" style="gap: 1rem">
           Háttér
           <?php
-          $backgrounds = getTableData($conn, 'Backgrounds');
+          $backgrounds = getTableData('Backgrounds');
           echo '<select name="background" id="background" style="width: auto;" required>';
           echo '<option value="' . null . '">Válassz</option>';
           for ($i = 0; $i < sizeof($backgrounds); $i++) {
@@ -265,8 +265,8 @@ if (checkLogin()) {
         <label for="path">
           Út
           <?php
-          $paths = getTableData($conn, "Paths");
-          $pathGroups = getTableData($conn, "PathGroups");
+          $paths = getTableData("Paths");
+          $pathGroups = getTableData("PathGroups");
           echo '<select name="path" id="path" style="width: auto;" required>';
           echo '<option value="' . null . '">Válassz utat</option>';
           for ($i = 0, $j = 0; $i < sizeof($paths); $i++) {
@@ -292,7 +292,7 @@ if (checkLogin()) {
         <div id="knowledge">
           Imseretek
           <?php
-          $skills = getTableData($conn, "Skills");
+          $skills = getTableData("Skills");
           for ($i = 0; $i < sizeof($skills); $i++) {
             echo '<div class="skill-container"><label for="skill_' . $i + 1 . '" class="knowledge">' . $skills[$i]['name'] . '</label>';
             createStatSelect('skill_' . $i + 1, 0);
@@ -305,7 +305,7 @@ if (checkLogin()) {
             <label for="left_hand">
               Bal kéz
               <?php
-              $weapons = getTableData($conn, 'Weapons');
+              $weapons = getTableData('Weapons');
               echo '<select name="left_hand" id="left_hand" style="width: auto;">';
               echo '<option value="0">Fegyver</option>';
               for ($i = 0; $i < sizeof($weapons); $i++) {
@@ -317,7 +317,7 @@ if (checkLogin()) {
             <label for="right_hand">
               Jobb kéz
               <?php
-              $weapons = getTableData($conn, 'Weapons');
+              $weapons = getTableData('Weapons');
               echo '<select name="right_hand" id="right_hand" style="width: auto;">';
               echo '<option value="0">Fegyver</option>';
               for ($i = 0; $i < sizeof($weapons); $i++) {
@@ -330,7 +330,7 @@ if (checkLogin()) {
           <label for="armour">
             Páncél
             <?php
-            $armour = getTableData($conn, 'Armour');
+            $armour = getTableData('Armour');
             echo '<select name="armour" id="armour" style="width: auto;">';
             echo '<option value="0">Páncél</option>';
             for ($i = 0; $i < sizeof($armour); $i++) {
@@ -350,7 +350,7 @@ if (checkLogin()) {
               ';
             } */
 
-            $items = getTableData($conn, 'Items');
+            $items = getTableData('Items');
             for ($i = 1; $i <= 10; $i++) {
               echo '
                 <label class="inventory-slot" for="item_' . $i . '">

@@ -146,14 +146,14 @@ if (checkLogin()) {
         <div class="character-header character-data-container">
           <span class="name">' . $character['name'] . '</span>
           <div class="path">
-            <span class="value">' . getPath($conn, $character['path_id']) . '</span>
+            <span class="value">' . getRecord('Paths', $character['path_id'])['name'] . '</span>
             <span class="level value">' . $character['path_level'] . '</span>
           </div>
         </div>
         <div class="character-body character-data-container">
           <span class="race character-data">
             Nemzet:
-            <span class="race-name value">' . getNation($conn, $character['nation_id'])['name'] . '</span>
+            <span class="race-name value">' . getRecord('Nations', $character['nation_id'])['name'] . '</span>
           </span>
           <div class="stats character-data">
             <span class="stat-title">Tulajdonságok</span>

@@ -14,8 +14,8 @@ if (checkLogin()) {
 
     if ($character_id) {
         $character = getCharacterData($conn, $character_id);
-        $left_hand = getGear($conn, "Weapons", $character['left_hand']);
-        $right_hand = getGear($conn, "Weapons", $character['right_hand']);
+        $left_hand = getGear("Weapons", $character['left_hand']);
+        $right_hand = getGear("Weapons", $character['right_hand']);
 
         if (isset($_POST['sanity_action']) || isset($_POST['health_action'])) {
             $health = $character['health'];
@@ -142,9 +142,9 @@ if (checkLogin()) {
         <div id="header" class="container">
             <span id="name"><?php echo $character['name'] ?></span>
             <div id="header-container">
-                <span id="nation"><?php echo getNation($conn, $character['nation_id'])['name'] ?></span>
+                <span id="nation"><?php echo getRecord('Nations', $character['nation_id'])['name'] ?></span>
                 <span id="background">
-                    <?php echo getBackground($conn, $character['background_id'])['name'] ?></span>
+                    <?php echo getRecord('Backgrounds',  $character['background_id'])['name'] ?></span>
             </div>
         </div>
         <div id="body" class="container">
@@ -276,7 +276,7 @@ if (checkLogin()) {
                         <span class="title" style="font-size: x-large">Páncél</span>
                         <span class="shield">
                             <?php
-                            $armour = getGear($conn, "Armour", $character['armour']);
+                            $armour = getGear("Armour", $character['armour']);
                             /* foreach ($armour as $key => $value) {
                                 echo $key . ' - ' . $value . '<br>';
                             } */
@@ -295,7 +295,7 @@ if (checkLogin()) {
                 <div id="knowledge" class="body-container">
                     <span class="title" style="font-size: x-large">Ismeretek</span>
                     <span id="path">
-                        <?php echo getPath($conn, $character['path_id']) ?>
+                        <?php echo getRecord('Paths', $character['path_id'])['name'] ?>
                         <?php echo $character['path_level'] ?></span>
                     <div id="knowledge-container" class="body-item-container">
                         <?php
@@ -311,7 +311,7 @@ if (checkLogin()) {
                     <div id="item-container" class="body-item-container">
                         <?php
                         for ($i = 1; $i <= 10; $i++) {
-                            $item = getGear($conn, "Items", $character['item_' . $i . '_id']);
+                            $item = getGear("Items", $character['item_' . $i . '_id']);
                             echo '<span class="body-container-item item">
                         ' . $item['name'] . '
                         <!--<span class="item-desc" style="display: none">' . $item['description'] . '</span>-->

@@ -77,21 +77,6 @@ function checkPsw($conn, $username, $password)
 }
 
 /**
- * Reset the ID counter of the database.
- * @param $conn the connection to the database
- */
-function resetIDCounter($conn)
-{
-    $sql = 'ALTER TABLE Users AUTO_INCREMENT = 1;';
-    $result = $conn->query($sql);
-    if ($result) {
-        echo "Resetted id counter.\n";
-    } else {
-        echo "ID counter reset failed: " . $conn->error . "\n";
-    }
-}
-
-/**
  * Insert data into the database.
  * @param $conn the connection to the database
  * @param $username the username of the user
@@ -157,11 +142,6 @@ function updateUserData($conn, $new_name, $new_email)
         }
     }
     die("User data update failed!\n");
-}
-
-function updateSession($username)
-{
-    $_SESSION['username'] = $username;
 }
 
 /**
@@ -338,77 +318,17 @@ function getCharacterData($conn, $character_id)
     }
     return $character;
 }
-
 /**
- * Get character path
- * @param mysqli $conn 
- * @param int $path_id Id of path to get.
- * @return array|bool|null
+ * Get a record from a table by id
+ * @param string $table Name of the table
+ * @param int $id Id of the needed record
+ * @return array|false|null
  */
-function getPath($conn, $path_id)
-{
-    $stmt = $conn->prepare("SELECT * FROM Paths WHERE id=?");
-    $stmt->bind_param("i", $path_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        $path = $result->fetch_assoc();
-        $stmt->close();
-        return $path;
-    } else {
-        return null;
-    }
-}
-
-/**
- * Get name of PathGroup of given id
- * @param int $group_id Id of the PathGroup
- * @return string the name of the PathGroup
- */
-function getPathGroup($group_id)
+function getRecord($table, $id)
 {
     $conn = connectToDB();
-    $stmt = $conn->prepare('SELECT * FROM PathGroups WHERE id=?');
-    $stmt->bind_param("i", $group_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        $stmt->close();
-        $name = $result->fetch_assoc();
-        return $name;
-    }
-}
-
-/**
- * Get nation of given id
- * @param mysqli $conn
- * @param int $nation_id Id of nation to get
- * @return string|bool|null
- */
-function getNation($conn, $nation_id)
-{
-    $stmt = $conn->prepare("SELECT name, description FROM Nations WHERE id=?");
-    $stmt->bind_param("i", $nation_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        $nation = $result->fetch_assoc();
-        $stmt->close();
-        return $nation;
-    } else {
-        return null;
-    }
-}
-/**
- * Get character background
- * @param mysqli $conn
- * @param int $background_id Id of background wished to be gotten
- * @return array|bool|null
- */
-function getBackground($conn, $background_id)
-{
-    $stmt = $conn->prepare('SELECT name, description FROM Backgrounds WHERE id=?');
-    $stmt->bind_param('i', $background_id);
+    $stmt = $conn->prepare('SELECT * FROM ' . $table . ' WHERE id=?');
+    $stmt->bind_param('i', $id);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
@@ -423,8 +343,9 @@ function getBackground($conn, $background_id)
  * @param mixed $conn
  * @return array|null
  */
-function getSkills($conn)
+function getSkills()
 {
+    $conn = connectToDB();
     $result = $conn->query('SELECT name, description FROM Skills');
     while ($row = $result->fetch_assoc()) {
         $skills[] = $row;
@@ -433,12 +354,12 @@ function getSkills($conn)
 }
 /**
  * Get items and gear
- * @param mysqli $conn
  * @param string $table_name Name of the table the gear should be gotten from
  * @param int $id Id of the item
  */
-function getGear($conn, $table_name, $id)
+function getGear($table_name, $id)
 {
+    $conn = connectToDB();
     $stmt = $conn->prepare('SELECT * FROM ' . $table_name . ' WHERE id=?');
     $stmt->bind_param('i', $id);
     $stmt->execute();
@@ -520,8 +441,9 @@ function calculateModifier($value)
  * @param $table the table the data is returned (Nations, Weapons, etc)
  * @return array|null the whole table in an associate array, null otherwise
  */
-function getTableData($conn, $table)
+function getTableData($table)
 {
+    $conn = connectToDB();
     $sql = "SELECT * FROM " . $table;
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {

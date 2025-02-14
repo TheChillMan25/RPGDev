@@ -5,15 +5,19 @@
   session_start();
   include 'scripts/manager.php';
   $conn = connectToDB();
-  $users = getTableData($conn, "Users");
-  $nations = getTableData($conn, "Nations");
-  $backgrounds = getTableData($conn, "Backgrounds");
-  $pathgroups = getTableData($conn, "PathGroups");
+  $users = getTableData("Users");
+  $nations = getTableData("Nations");
+  $backgrounds = getTableData("Backgrounds");
+  $pathgroups = getTableData("PathGroups");
   $pathgroup_n = [];
   foreach ($pathgroups as $pathgroup) {
     array_push($pathgroup_n, $pathgroup['name']);
   }
-  $paths = getTableData($conn, "Paths");
+  $paths = getTableData("Paths");
+  $skills = getTableData("Skills");
+  $weapons = getTableData("Weapons");
+  $armours = getTableData('Armour');
+  $items = getTableData('Items');
 
   if (!isset($_SESSION['active_menu'])) $_SESSION['active_menu'] = 'user-menu';
   if (!isset($_SESSION['USER_ID'])) $_SESSION['USER_ID'] = 0;
@@ -21,6 +25,10 @@
   if (!isset($_SESSION['BACKGROUND_ID'])) $_SESSION['BACKGROUND_ID'] = 0;
   if (!isset($_SESSION['PATHGROUP_ID'])) $_SESSION['PATHGROUP_ID'] = 0;
   if (!isset($_SESSION['PATH_ID'])) $_SESSION['PATH_ID'] = 0;
+  if (!isset($_SESSION['SKILL_ID'])) $_SESSION['SKILL_ID'] = 0;
+  if (!isset($_SESSION['WEAPON_ID'])) $_SESSION['WEAPON_ID'] = 0;
+  if (!isset($_SESSION['ARMOUR_ID'])) $_SESSION['ARMOUR_ID'] = 0;
+  if (!isset($_SESSION['ITEM_ID'])) $_SESSION['ITEM_ID'] = 0;
 
   if (checkLogin()) {
     $user = getUserData($conn, $_SESSION['username']);
@@ -61,6 +69,35 @@
           else $_SESSION['PATHGROUP_ID'] = 0;
           $_SESSION['PATH_ID'] = 0;
         }
+        break;
+
+      case 'show-skills':
+        $_SESSION['active_menu'] = 'skill-menu';
+        if ($_SESSION['SKILL_ID'] !== $_POST['skill_id']) $_SESSION['SKILL_ID'] = $_POST['skill_id'];
+        else $_SESSION['SKILL_ID'] = 0;
+
+      case 'show-weapon':
+        $_SESSION['active_menu'] = 'eq-inv-menu';
+        if ($_SESSION['WEAPON_ID'] !== $_POST['weapon_id']) $_SESSION['WEAPON_ID'] = $_POST['weapon_id'];
+        else $_SESSION['WEAPON_ID'] = 0;
+        $_SESSION['ARMOUR_ID'] = 0;
+        $_SESSION['ITEM_ID'] = 0;
+        break;
+
+      case 'show-armour':
+        $_SESSION['active_menu'] = 'eq-inv-menu';
+        if ($_SESSION['ARMOUR_ID'] !== $_POST['armour_id']) $_SESSION['ARMOUR_ID'] = $_POST['armour_id'];
+        else $_SESSION['ARMOUR_ID'] = 0;
+        $_SESSION['WEAPON_ID'] = 0;
+        $_SESSION['ITEM_ID'] = 0;
+        break;
+
+      case 'show-item':
+        $_SESSION['active_menu'] = 'eq-inv-menu';
+        if ($_SESSION['ITEM_ID'] !== $_POST['item_id']) $_SESSION['ITEM_ID'] = $_POST['item_id'];
+        else $_SESSION['ITEM_ID'] = 0;
+        $_SESSION['ARMOUR_ID'] = 0;
+        $_SESSION['WEAPON_ID'] = 0;
         break;
 
       default:
@@ -232,11 +269,11 @@
           <div id="edit-nation" class="container" style="display: <?php echo $_SESSION['NATION_ID'] !== 0 ? 'flex' : 'none'; ?>">
             <?php
             if (isset($_SESSION['NATION_ID'])) {
-              $nation = getNation($conn, $_SESSION['NATION_ID']);
+              $nation = getRecord('Nations', $_SESSION['NATION_ID']);
               echo '<form action="admin.php" method="post">
                       <span class="title">Nép szerkesztése</span>
                       <label for="nation_edit_name">Nép neve<input type="text" name="nation_edit_name" id="nation_edit_name" value="' . $nation['name'] . '" ></label>
-                      <label for="nation_edit_desc">Nép leírása<textarea name="nation_edit_desc" id="nation_edit_desc" value="' . $nation['description'] . '"></textarea></label>
+                      <label for="nation_edit_desc" style="width: 90%;">Nép leírása<textarea name="nation_edit_desc" id="nation_edit_desc">' . $nation['description'] . '</textarea></label>
                       <button class="button" name="action" value="edit-nation" type="submit">Mentés</button>
                     </form>';
             }
@@ -247,11 +284,11 @@
             <form class="add-form" action="add.php" method="post">
               <label for="nation-name">Nép neve
                 <input type="text" name="nation-name" id="nation-name" maxlength="30"></label>
-              <label for="nation-desc">Nép leírása
-                <textarea name="nation-desc" id="nation-desc" maxlength="5000"></textarea>
-                <button class="button" name="action" value="add-nation" type="submit">
-                  Mentés
-                </button>
+              <label for="nation-desc" style="width: 90%;">Nép leírása
+                <textarea name="nation-desc" id="nation-desc" maxlength="5000"></textarea></label>
+              <button class="button" name="action" value="add-nation" type="submit">
+                Mentés
+              </button>
             </form>
           </div>
         </div>
@@ -280,11 +317,11 @@
           <div id="edit-background" class="container" style="display: <?php echo $_SESSION['BACKGROUND_ID'] !== 0 ? 'flex' : 'none'; ?>">
             <?php
             if (isset($_SESSION['BACKGROUND_ID'])) {
-              $background = getBackground($conn, $_SESSION['BACKGROUND_ID']);
+              $background = getRecord('Backgrounds',  $_SESSION['BACKGROUND_ID']);
               echo '<form action="admin.php" method="post">
                       <span class="title">Háttér szerkesztése</span>
                       <label for="edit-background-name">Háttér neve<input type="text" name="edit-background-name" id="edit-background-name" value="' . $background['name'] . '" ></label>
-                      <label for="edit-background-desc">Háttér leírása<textarea name="edit-background-desc" id="edit-background-desc" value="' . $background['description'] . '"></textarea></label>
+                      <label for="edit-background-desc" style="width: 90%;">Háttér leírása<textarea name="edit-background-desc" id="edit-background-desc">' . $background['description'] . '</textarea></label>
                       <button class="button" name="action" value="edit-background" type="submit">Mentés</button>
                     </form>';
             }
@@ -295,11 +332,11 @@
             <form class="add-form" action="add.php" method="post">
               <label for="background-name">Háttér neve
                 <input type="text" name="background-name" id="background-name" maxlength="30"></label>
-              <label for="background-desc">Háttér leírása
-                <textarea name="background-desc" id="background-desc" maxlength="5000"></textarea>
-                <button class="button" name="action" value="add-background" type="submit">
-                  Mentés
-                </button>
+              <label for="background-desc" style="width: 90%;">Háttér leírása
+                <textarea name="background-desc" id="background-desc" maxlength="5000"></textarea></label>
+              <button class="button" name="action" value="add-background" type="submit">
+                Mentés
+              </button>
             </form>
           </div>
         </div>
@@ -337,7 +374,7 @@
                 foreach ($paths as $path) {
                   echo '<tr ' . ($_SESSION['PATH_ID'] === $path['id'] ? 'style="background-color: #333"' : '') . '>';
                   echo '<td>' . $path['name'] . '</td>';
-                  echo '<td>' . getPathGroup($path['group_id'])['name'] . '</td>';
+                  echo '<td>' . getRecord('PathGroups', $path['group_id'])['name'] . '</td>';
                   echo '<td>
                         <form action="admin.php" method="post">
                           <input type="hidden" name="path_id" value="' . $path['id'] . '">
@@ -350,24 +387,24 @@
               </table>
             </div>
           </div>
-          <div id="edit-path-container" class="container" style="display: <?php echo $_SESSION['PATHGROUP_ID'] !== 0 || $_SESSION['PATH_ID'] ? 'flex' : 'none'; ?>">
+          <div id="edit-path-container" class="container" style="display: <?php echo $_SESSION['PATHGROUP_ID'] !== 0 || $_SESSION['PATH_ID'] !== 0 ? 'flex' : 'none'; ?>">
             <?php if ($_SESSION['PATH_ID'] !== 0) {
-              $path = getPath($conn, $_SESSION['PATH_ID']);
+              $path = getRecord('Paths', $_SESSION['PATH_ID']);
               echo '<form action="admin.php" method="post">
                       <span class="title">Út szerkesztése</span>
                       <label for="edit-path-name">Út neve<input type="text" name="edit-path-name" id="edit-path-name" value="' . $path['name'] . '"></label>
                       <label for="edit-path-pathgroup">Csoport';
               createListSelect('edit-path-pathgroup', $pathgroup_n, true);
               echo '  </label>
-                      <label for="edit-path-desc">Út leírása<textarea name="edit-path-desc" id="edit-path-desc" value="' . $path['description'] . '"></textarea></label>
+                      <label for="edit-path-desc" style="width: 90%;">Út leírása<textarea name="edit-path-desc" id="edit-path-desc">' . $path['description'] . '</textarea></label>
                       <button class="button" name="action" value="edit-path" type="submit">Mentés</button>
                     </form>';
             } else if ($_SESSION['PATHGROUP_ID'] !== 0) {
-              $group = getPathGroup($_SESSION['PATHGROUP_ID']);
+              $group = getRecord('PathGroups', $_SESSION['PATHGROUP_ID']);
               echo '<form action="admin.php" method="post">
                       <span class="title">Csoport szerkesztése</span>
                       <label for="edit-group-name">Csoport neve<input type="text" name="edit-group-name" id="edit-group-name" value="' . $group['name'] . '"></label>
-                      <label for="edit-group-desc">Út leírása<textarea name="edit-group-desc" id="edit-group-desc" value="' . $group['description'] . '"></textarea></label>
+                      <label for="edit-group-desc" style="width: 90%;">Csoport leírása<textarea name="edit-group-desc" id="edit-group-desc">' . $group['description'] . '</textarea></label>
                       <button class="button" name="action" value="edit-path" type="submit">Mentés</button>
                     </from>';
             }
@@ -376,22 +413,243 @@
           <div id="add-path" class="container" style="width: 50%;">
             <span class="title">Út/Csoport létrehozása</span>
             <form class="add-form" action="add.php" method="post">
-              <div id="path-type" style="display: flex; gap: 1rem;">
-                <label>Út<input type="radio" name="path-type" id="type-path" value="path" checked></label>
-                <label>Csoport<input type="radio" name="path-type" id="type-pathgroup" value="pathgroup"></label>
+              <div id="type" style="display: flex; gap: 1rem;">
+                <label for="path-type">Út<input type="radio" name="type" id="path-type" value="path"></label>
+                <label for="group-type">Csoport<input type="radio" name="type" id="group-type" value="group"></label>
               </div>
               <label for="nation-name">Út/Csoport neve
                 <input type="text" name="nation-name" id="nation-name" maxlength="30"></label>
-              <label for="nation-desc">Út/Csoport leírása
-                <textarea name="nation-desc" id="nation-desc" maxlength="5000"></textarea>
-                <button class="button" name="action" value="add-nation" type="submit">
-                  Mentés
-                </button>
+              <label for="nation-desc" style="width: 90%;">Út/Csoport leírása
+                <textarea name="nation-desc" id="nation-desc" maxlength="5000"></textarea></label>
+              <button class="button" name="action" value="add-nation" type="submit">
+                Mentés
+              </button>
             </form>
           </div>
         </div>
-        <div id="skill-menu" class="menu"></div>
-        <div id="eq-inv-menu" class="menu"></div>
+        <div id="skill-menu" class="menu">
+          <div id="nations" class="container">
+            <table>
+              <tr>
+                <th>Skill name</th>
+                <th>Actions</th>
+              </tr>
+              <?php
+              foreach ($skills as $skill) {
+                echo '<tr ' . ($_SESSION['SKILL_ID'] === $skill['id'] ? 'style="background-color: #333"' : '') . '>';
+                echo '<td>' . $skill['name'] . '</td>';
+                echo '<td>
+                        <form action="admin.php" method="post">
+                          <input type="hidden" name="skill_id" value="' . $skill['id'] . '">
+                          <button type="submit" name="action" value="show-skills"><i class="fa-solid fa-gear fa-2xl"></i></button>
+                        </form>
+                      </td>';
+                echo '</tr>';
+              }
+              ?>
+            </table>
+          </div>
+          <div id="edit-nation" class="container" style="display: <?php echo $_SESSION['SKILL_ID'] !== 0 ? 'flex' : 'none'; ?>">
+            <?php
+            if (isset($_SESSION['SKILL_ID'])) {
+              $skill = getRecord('Skills', $_SESSION['SKILL_ID']);
+              echo '<form action="admin.php" method="post">
+                      <span class="title">Ismeret szerkesztése</span>
+                      <label for="skill_edit_name">Ismeret neve<input type="text" name="skill_edit_name" id="skill_edit_name" value="' . $skill['name'] . '" ></label>
+                      <label for="skill_edit_desc" style="width: 90%;">Ismeret leírása<textarea name="skill_edit_desc" id="skill_edit_desc">' . $skill['description'] . '</textarea></label>
+                      <button class="button" name="action" value="edit-skill" type="submit">Mentés</button>
+                    </form>';
+            }
+            ?>
+          </div>
+          <div id="add-nation" class="container">
+            <span class="title">Ismeret létrehozása</span>
+            <form class="add-form" action="add.php" method="post">
+              <label for="nation-name">Ismeret neve
+                <input type="text" name="nation-name" id="nation-name" maxlength="30"></label>
+              <label for="nation-desc" style="width: 90%;">Ismeret leírása
+                <textarea name="nation-desc" id="nation-desc" maxlength="5000"></textarea></label>
+              <button class="button" name="action" value="add-nation" type="submit">
+                Mentés
+              </button>
+            </form>
+          </div>
+        </div>
+        <div id="eq-inv-menu" class="menu">
+
+          <div id="weapons" class="container" style=" display: <?php echo ($_SESSION['ARMOUR_ID'] === 0 && $_SESSION['ITEM_ID'] === 0) ? 'flex;' : 'none;' ?> width: auto">
+            <table>
+              <tr>
+                <th>Weapon name</th>
+                <th>Type</th>
+                <th>Dice</th>
+                <th>Properties</th>
+                <th>Actions</th>
+              </tr>
+              <?php
+              foreach ($weapons as $weapon) {
+                echo '<tr ' . ($_SESSION['WEAPON_ID'] === $weapon['id'] ? 'style="background-color: #333"' : '') . '>';
+                echo '<td>' . $weapon['name'] . '</td>
+                      <td>' . $weapon['type'] . '</td>
+                      <td>' . $weapon['dice'] . '</td>
+                      <td>' . $weapon['properties'] . '</td>';
+                echo '<td>
+                        <form action="admin.php" method="post">
+                          <input type="hidden" name="weapon_id" value="' . $weapon['id'] . '">
+                          <button type="submit" name="action" value="show-weapon"><i class="fa-solid fa-gear fa-2xl"></i></button>
+                        </form>
+                      </td>';
+                echo '</tr>';
+              }
+              ?>
+            </table>
+          </div>
+          <div id="armour" class="container" style="<?php echo ($_SESSION['WEAPON_ID'] === 0 && $_SESSION['ITEM_ID'] === 0) ? 'display:flex;' : 'display:none;' ?>width: auto">
+            <table>
+              <tr>
+                <th>Armour name</th>
+                <th>Armour value</th>
+                <th>Dexterity mod</th>
+                <th>Actions</th>
+              </tr>
+              <?php
+              foreach ($armours as $armour) {
+                echo '<tr ' . ($_SESSION['ARMOUR_ID'] === $armour['id'] ? 'style="background-color: #333"' : '') . '>';
+                echo '<td>' . $armour['name'] . '</td>
+                      <td>' . $armour['value'] . '</td>
+                      <td>' . $armour['dex_mod'] . '</td>';
+                echo '<td>
+                        <form action="admin.php" method="post">
+                          <input type="hidden" name="armour_id" value="' . $armour['id'] . '">
+                          <button type="submit" name="action" value="show-armour"><i class="fa-solid fa-gear fa-2xl"></i></button>
+                        </form>
+                      </td>';
+                echo '</tr>';
+              }
+              ?>
+            </table>
+          </div>
+          <div id="items" class="container" style="<?php echo ($_SESSION['ARMOUR_ID'] === 0 && $_SESSION['WEAPON_ID'] === 0) ? 'display:flex;' : 'display:none;' ?>width: auto">
+            <table>
+              <tr>
+                <th>Item name</th>
+                <th>Actions</th>
+              </tr>
+              <?php
+              foreach ($items as $item) {
+                echo '<tr ' . ($_SESSION['ITEM_ID'] === $item['id'] ? 'style="background-color: #333"' : '') . '>';
+                echo '<td>' . $item['name'] . '</td>';
+                echo '<td>
+                        <form action="admin.php" method="post">
+                          <input type="hidden" name="item_id" value="' . $item['id'] . '">
+                          <button type="submit" name="action" value="show-item"><i class="fa-solid fa-gear fa-2xl"></i></button>
+                        </form>
+                      </td>';
+                echo '</tr>';
+              }
+              ?>
+            </table>
+          </div>
+          <div id="show-weapon" class="show" style="display: <?php echo $_SESSION['WEAPON_ID'] !== 0 ? 'flex' : 'none' ?>;">
+            <div id="edit-weapon" class="container">
+              <?php
+              if (isset($_SESSION['WEAPON_ID'])) {
+                $weapon = getRecord('Weapons', $_SESSION['WEAPON_ID']);
+                echo '<form action="admin.php" method="post">
+                      <span class="title">Fegyver szerkesztése</span>
+                      <label for="weapon_edit_name">Fegyver neve<input type="text" name="weapon_edit_name" id="weapon_edit_name" value="' . $weapon['name'] . '" ></label>
+                      <label for="weapon_edit_type">Fegyver típusa<input type="text" name="weapon_edit_type" id="weapon_edit_type" value="' . $weapon['type'] . '" ></label>
+                      <label for="weapon_edit_dice">Fegyver kocka<input type="text" name="weapon_edit_dice" id="weapon_edit_dice" value="' . $weapon['dice'] . '" ></label>
+                      <label for="weapon_edit_properties">Fegyver tulajdonságok<input type="text" name="weapon_edit_properties" id="weapon_edit_properties" value="' . $weapon['properties'] . '" ></label>
+                      <label for="weapon_edit_desc" style="width: 90%;">Fegyver leírása<textarea name="weapon_edit_desc" id="weapon_edit_desc">' . $weapon['description'] . '</textarea></label>
+                      <button class="button" name="action" value="edit-weapon" type="submit">Mentés</button>
+                    </form>';
+              }
+              ?>
+            </div>
+            <div id="add-weapon" class="container">
+              <span class="title">Fegyver létrehozása</span>
+              <form class="add-form" action="add.php" method="post">
+                <label for="weapon-name">Fegyver neve
+                  <input type="text" name="weapon-name" id="weapon-name" maxlength="30"></label>
+                <label for="weapon-name">Fegyver típusa
+                  <?php createListSelect('weapon-type', ['meele', 'ranged'], true, 'Fegyver típusa') ?></label>
+                <label>Fegyver kocka
+                  <div id="dice-data">
+                    <label for="dice-num">Kocka darab száma
+                      <input type="number" name="dice-num" id="dice-num" min="1"></label>
+                    <label for="dice-type">
+                      <?php createListSelect('dice-type', ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'], true, 'Kocka típusa') ?></label>
+                  </div>
+                </label>
+                <label for="weapon-desc" style="width: 90%;">Fegyver leírása
+                  <textarea name="weapon-desc" id="weapon-desc" maxlength="5000"></textarea></label>
+                <button class="button" name="action" value="add-weapon" type="submit">
+                  Mentés
+                </button>
+              </form>
+            </div>
+          </div>
+          <div id="show-armour" class="show" style="display: <?php echo $_SESSION['ARMOUR_ID'] !== 0 ? 'flex' : 'none' ?>;">
+            <div id="edit-armour" class="container">
+              <?php
+              if (isset($_SESSION['ARMOUR_ID'])) {
+                $armour = getRecord('Armour', $_SESSION['ARMOUR_ID']);
+                echo '<form action="admin.php" method="post">
+                      <span class="title">Páncél szerkesztése</span>
+                      <label for="armour_edit_name">Páncél neve<input type="text" name="armour_edit_name" id="armour_edit_name" value="' . $armour['name'] . '" ></label>
+                      <label for="armour_edit_value">Páncél értéke<input type="text" name="armour_edit_value" id="armour_edit_value" value="' . $armour['value'] . '" ></label>
+                      <label for="armour_edit_dexmod">Páncél ügyesség módosító<input type="text" name="armour_edit_dexmod" id="armour_edit_dexmod" value="' . $armour['dex_mod'] . '" ></label>
+                      <label for="armour_edit_desc" style="width: 90%;">Páncél leírása<textarea name="armour_edit_desc" id="armour_edit_desc">' . $armour['description'] . '</textarea></label>
+                      <button class="button" name="action" value="edit-armour" type="submit">Mentés</button>
+                    </form>';
+              }
+              ?></div>
+            <div id="add-armour" class="container">
+              <span class="title">Páncél létrehozása</span>
+              <form class="add-form" action="add.php" method="post">
+                <label for="armour-name">Páncél neve
+                  <input type="text" name="armour-name" id="armour-name" maxlength="30"></label>
+                <label for="armour-value">Páncél értéke
+                  <input type="number" name="armour-value" id="armour-value" min="0"></label>
+                <label for="armour-dexmod">Páncél ügyesség módosító
+                  <input type="number" name="armour-dexmod" id="armour-dexmod" min="0"></label>
+                <label for="armour-desc" style="width: 90%;">Páncél leírása
+                  <textarea name="armour-desc" id="armour-desc" maxlength="5000"></textarea></label>
+                <button class="button" name="action" value="add-armour" type="submit">
+                  Mentés
+                </button>
+              </form>
+            </div>
+          </div>
+          <div id="show-item" class="show" style="display: <?php echo $_SESSION['ITEM_ID'] !== 0 ? 'flex' : 'none' ?>;">
+            <div id="edit_item" class="container">
+              <?php
+              if (isset($_SESSION['ITEM_ID'])) {
+                $item = getRecord('Items', $_SESSION['ITEM_ID']);
+                echo '<form action="admin.php" method="post">
+                      <span class="title">Tárgy szerkesztése</span>
+                      <label for="item_edit_name">Tárgy neve<input type="text" name="item_edit_name" id="item_edit_name" value="' . $item['name'] . '" ></label>
+                      <label for="item_edit_desc" style="width: 90%;">Tárgy leírása<textarea name="item_edit_desc" id="item_edit_desc">' . $item['description'] . '</textarea></label>
+                      <button class="button" name="action" value="edit-item" type="submit">Mentés</button>
+                    </form>';
+              }
+              ?>
+            </div>
+            <div id="add_item" class="container">
+              <span class="title">Páncél létrehozása</span>
+              <form class="add-form" action="add.php" method="post">
+                <label for="item-name">Páncél neve
+                  <input type="text" name="item-name" id="item-name" maxlength="30"></label>
+                <label for="item-desc" style="width: 90%;">Páncél leírása
+                  <textarea name="item-desc" id="item-desc" maxlength="5000"></textarea></label>
+                <button class="button" name="action" value="add-item" type="submit">
+                  Mentés
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <script src="../js/menus.js"></script>
