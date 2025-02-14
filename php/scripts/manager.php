@@ -1,4 +1,7 @@
 <?php
+
+use function PHPSTORM_META\type;
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -74,6 +77,25 @@ function checkPsw($conn, $username, $password)
         return password_verify($password, $row['password']);
     }
     die("Error in password check.\n");
+}
+/**
+ * Checks if user is admin
+ * @param string $username Username to be checked
+ * @return bool|null
+ */
+function isAdmin($username)
+{
+    $conn = connectToDB();
+    $stmt = $conn->prepare("SELECT * FROM Users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $stmt->close();
+        return $row['status'] === 'admin';
+    }
+    return null;
 }
 
 /**
@@ -337,21 +359,6 @@ function getRecord($table, $id)
         return $background;
     }
 }
-
-/**
- * Lits all skills from table Skills
- * @param mixed $conn
- * @return array|null
- */
-function getSkills()
-{
-    $conn = connectToDB();
-    $result = $conn->query('SELECT name, description FROM Skills');
-    while ($row = $result->fetch_assoc()) {
-        $skills[] = $row;
-    }
-    return $skills;
-}
 /**
  * Get items and gear
  * @param string $table_name Name of the table the gear should be gotten from
@@ -369,6 +376,27 @@ function getGear($table_name, $id)
         return $item;
     }
     return ["name" => "-", "description" => "-", "dice" => "-", "properties" => "-", "value" => "0", "dex_mod" => "0", "type" => ""];
+}
+/**
+ * Extracts dice data into an array
+ * @param string $dice
+ * @return array{dice_num: float|int|string, dice_type: float|int|string|array{dice_num: string, dice_type: string}}
+ */
+function getWeaponDiceData($dice)
+{
+    $dice_num = '';
+    $dice_type = '';
+    $type = false;
+    for ($i = 0; $i < strlen($dice); $i++) {
+        if ($dice[$i] === 'd')
+            $type = true;
+        if ($dice[$i] !== 'd' && $type !== true) {
+            $dice_num .= $dice[$i];
+        } else {
+            $dice_type .= $dice[$i];
+        }
+    }
+    return ['dice_num' => $dice_num, 'dice_type' => $dice_type];
 }
 
 /**
@@ -477,38 +505,20 @@ function createStatSelect($name, $min = 1, $max = 6, $required = false)
  * Create Select from a list
  * @param string $name Name of the selection
  * @param array|list $list List with the values
+ * @param array|list $values Values for the elements of the $list
  * @param bool $required If true, the select block will be required
- * @param string $text Test to print as title of the select
+ * @param string $text Text to print as title of the select
+ * @oaran string $text_value Value of the $text element
  * @return void
  */
-function createListSelect($name, $list, $required = false, $text = '')
+function createListSelect($name, $list, $values, $required = false, $text = '', $text_value = null)
 {
     echo '<select name="' . $name . '" id="' . $name . '" style="width: auto;" ' . ($required ? 'required' : '') . '>';
-    echo '<option class="string" value="' . null . '">' . $text . '</option>';
+    echo '<option class="string" value="' . $text_value . '">' . ucfirst($text) . '</option>';
     for ($i = 0; $i < sizeof($list); $i++) {
-        echo '<option class="string" value="' . $list[$i] . '">' . ucfirst($list[$i]) . '</option>';
-    }
-    echo '</select>';
-}
-
-/**
- * Create select with option groups
- * @param string $name Name of the selection applies to name and id property
- * @param list $list Key Value pairs, where $key is optgroup name, $value is the options for the optgroups
- * @param string $text Text to be printed as the selection default value
- * @param bool $required If the selection is required
- * @return void
- */
-function createOptgroupSelect($name, $list, $text = "", $required = false)
-{
-    echo '<select name="' . $name . '" id="' . $name . '" style="width: auto;"' . ($required ? 'required' : '') . '>';
-    echo '<option value="' . null . '">' . $text . '</option>';
-    foreach ($list as $key => $value) {
-        echo '<optgroup label="' . $key . '">';
-        for ($i = 0; $i < count($value); $i++) {
-            echo '<option value="' . $value[$i] . '" style="text-align: left">' . $value[$i] . '</option>';
+        if ($list[$i] !== $text) {
+            echo '<option class="string" value="' . $values[$i] . '">' . ucfirst($list[$i]) . '</option>';
         }
-        echo '</optgroup>';
     }
     echo '</select>';
 }

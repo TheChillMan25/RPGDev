@@ -144,7 +144,7 @@ if (checkLogin()) {
             <div id="header-container">
                 <span id="nation"><?php echo getRecord('Nations', $character['nation_id'])['name'] ?></span>
                 <span id="background">
-                    <?php echo getRecord('Backgrounds',  $character['background_id'])['name'] ?></span>
+                    <?php echo getRecord('Backgrounds', $character['background_id'])['name'] ?></span>
             </div>
         </div>
         <div id="body" class="container">
@@ -299,7 +299,7 @@ if (checkLogin()) {
                         <?php echo $character['path_level'] ?></span>
                     <div id="knowledge-container" class="body-item-container">
                         <?php
-                        $skills = getSkills($conn);
+                        $skills = getTableData('Skills');
                         for ($i = 1; $i <= 10; $i++) {
                             echo '<span class="body-container-item knowledge">' . $skills[$i - 1]['name'] . '<span class="knowledge_lvl" style="color: whitesmoke">' . $character['skill_' . $i . '_lvl'] . '</span></span>';
                         }

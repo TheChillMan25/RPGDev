@@ -11,17 +11,17 @@ body {
 .index-text {
   color: black;
   display: flex;
-  width: 50%;
+  width: 80%;
   flex-direction: column;
   justify-content: center;
   color: whitesmoke;
-  text-shadow: 0.15rem 0.15rem 0.15rem black;
-  font-size: x-large;
+  text-shadow: 0.2rem 0.2rem 0.2rem black;
+  font-size: 1.7rem;
 }
 
 #cim {
   align-self: center;
-  font-size: xx-large;
+  font-size: 4rem;
 }
 
 #text {
@@ -30,10 +30,13 @@ body {
 }
 
 @media (max-width: 425px) {
+  #cim {
+    font-size: x-large;
+  }
+
   .index-text {
     line-height: 1.8;
     font-size: medium;
-    width: 80%;
     height: auto;
   }
 }
@@ -43,6 +46,5 @@ body {
     line-height: 1.8;
     font-size: medium;
     height: auto;
-    width: 80%;
   }
 }
