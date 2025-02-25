@@ -6,6 +6,12 @@ session_start();
 include 'scripts/manager.php';
 $conn = connectToDB();
 
+if (checkLogin()) {
+  $user = getUserData($conn, $_SESSION['username']);
+} else {
+  header('Location: login.php');
+}
+
 if (!isAdmin($_SESSION['username']))
   header('Location: /index.php');
 
@@ -47,10 +53,6 @@ if (!isset($_SESSION['ARMOUR_ID']))
   $_SESSION['ARMOUR_ID'] = 0;
 if (!isset($_SESSION['ITEM_ID']))
   $_SESSION['ITEM_ID'] = 0;
-
-if (checkLogin()) {
-  $user = getUserData($conn, $_SESSION['username']);
-}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   switch ($_POST['action']) {
 

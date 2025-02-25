@@ -72,23 +72,35 @@ label {
   align-items: center;
 }
 
-#save-btn {
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   align-self: center;
+  gap: .5rem;
   font-size: large;
   font-family: "Modern Antiqua", sans-serif;
-  height: 3rem;
-  width: 5rem;
+  padding: 1rem;
   border-radius: 0.7rem;
   border: 0.2rem solid #999;
   cursor: pointer;
   background-color: #444;
   color: #999;
+  text-decoration: none;
   transition: 0.5s ease;
 }
 
-#save-btn:hover {
+.btn:hover {
   color: #f2c488;
   border: 0.2rem solid #f2c488;
+}
+
+.btn i{
+  transition: .5s ease;
+}
+
+.btn:hover i{
+  transform: rotate(180deg);
 }
 
 #data-container {
@@ -322,6 +334,10 @@ label {
   #save-btn {
     color: #f2c488;
     border-color: #f2c488;
+  }
+
+  #admin-link{
+    display: none;
   }
 
   input[type="file"]::file-selector-button {

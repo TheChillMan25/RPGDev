@@ -134,8 +134,9 @@ if (checkLogin()) {
           Email cím:
           <input id="email" name="email" class="edit-profile" type="text" value="<?php echo $user['email'] ?>">
         </label>
-        <input type="submit" name="save" id="save-btn" value="Save">
+        <input type="submit" name="save" id="save-btn" class="btn" value="Save">
       </div>
+      <a href="admin.php" id="admin-link" class="btn">Manage<i class="fa-solid fa-gear fa-2xl"></i></a>
     </form>
 
     <div id="character-container" class="container">
